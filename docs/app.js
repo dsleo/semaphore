@@ -32,6 +32,7 @@ const UI = {
     srcCols: ["Source", "Nature et zone", "État", "Dernier succès", "Mise à jour attendue", "Licence"], srcOk: "à jour", srcLate: "en retard", srcKo: "indisponible", every: m => m >= 1440 ? `${Math.round(m / 1440)} j` : m >= 60 ? `${Math.round(m / 60)} h` : `${m} min`, histNone: "Aucun changement de niveau enregistré.", histCols: ["Date", "Risque", "Changement"],
     ctx: "Contexte (non noté)", enso: e => `ENSO : ${e.phase} ${e.strength} (indice ONI ${e.anom > 0 ? "+" : ""}${e.anom}, ${e.season}). Influence lente sur les prix alimentaires et le climat mondial, pas un danger direct à Paris.`,
     repo: "Code et historique",
+    emerg: "Urgence :",
     disclaimer: "Ce site est un outil citoyen indépendant. Il n'émet pas d'alerte officielle : en cas d'urgence, suivez FR-Alert, la radio et la préfecture.",
     trPage: "Tendances sur 2 semaines", trHelp: "Touchez, survolez ou sélectionnez au clavier une barre pour voir le détail du jour.", trTable: "Voir les valeurs jour par jour", trUp: "En hausse", trDown: "En baisse", trSame: "Stable", trNo: "Pas assez de données",
     trCalm: n => `${n} jours calmes d'affilée`, unusual: "inhabituel par rapport à l'historique", baseNote: n => `La mention « inhabituel » demande 60 jours d'historique (${n} pour l'instant).`, trNote: "Barres pâles : jours reconstitués à partir d'archives publiques (estimation prudente, jamais plus rassurante que le réel). Barres pleines : mesurées en direct. Point gris : pas de donnée.", noData: "pas de donnée", recon: "reconstitué",
@@ -73,6 +74,7 @@ const UI = {
     srcCols: ["Source", "Nature and area", "Status", "Last success", "Expected refresh", "Licence"], srcOk: "current", srcLate: "late", srcKo: "unavailable", every: m => m >= 1440 ? `${Math.round(m / 1440)} d` : m >= 60 ? `${Math.round(m / 60)} h` : `${m} min`, histNone: "No level change recorded.", histCols: ["Date", "Risk", "Change"],
     ctx: "Context (not scored)", enso: e => `ENSO: ${e.phase} ${e.strength} (ONI ${e.anom > 0 ? "+" : ""}${e.anom}, ${e.season}). Slow influence on food prices and global climate, not a direct danger in Paris.`,
     repo: "Code and history",
+    emerg: "Emergency:",
     disclaimer: "This is an independent citizen tool. It issues no official alert: in an emergency follow FR-Alert, the radio and the préfecture.",
     trPage: "Trends over 2 weeks", trHelp: "Tap, hover or select a bar with the keyboard to see that day.", trTable: "Show day-by-day values", trUp: "Rising", trDown: "Easing", trSame: "Stable", trNo: "Not enough data",
     trCalm: n => `${n} calm days in a row`, unusual: "unusual compared with history", baseNote: n => `The “unusual” label needs 60 days of history (${n} so far).`, trNote: "Pale bars: days reconstructed from public archives (a cautious estimate, never more reassuring than reality). Solid bars: measured live. Grey dot: no data.", noData: "no data", recon: "reconstructed",
@@ -183,7 +185,7 @@ function today() {
     <ol class="scale" aria-hidden="true">${M.levels[lang].map((x, i) => `<li class="${i === cur ? "on" : ""}${n && i === 0 ? " off" : ""}">${esc(x)}</li>`).join("")}</ol></div>
     ${alertsBlock()}${localBlock()}${newsBlock()}
     ${col(u().sRisks, `<p class="muted">${u().riskNote}</p><div class="grid">${cls.map(tile).join("")}</div>`)}
-    ${cc ? detailPanel(cc) : `<p class="muted">${u().tapRisk}</p>`}
+    ${cc ? detailPanel(cc) : ""}
     ${unk.length ? `<p class="muted">${esc(u().missing(unk.join(", ")))}</p>` : ""}`;
 }
 
@@ -286,7 +288,7 @@ function render() {
   $("#view").innerHTML = tab === "today" ? today() : tab === "prep" ? prepare() : tab === "trend" ? trends() : more();
   const t = (k, l) => `<button class="tab" ${tab === k ? 'aria-current="page"' : ""} data-t="${k}">${l}</button>`;
   $("#nav").innerHTML = t("today", u().tToday) + t("prep", u().tPrep) + t("trend", u().tTrend) + t("more", u().tMore);
-  $("#foot").innerHTML = `<p>${u().updated(age(S.generated))} · ${fmt(S.generated)}</p><div class="emerg"><p>${u().disclaimer}</p><div class="nums" role="list" aria-label="112, 15, 17, 18">${["112", "15", "17", "18"].map(n => `<span role="listitem">${n}</span>`).join("")}</div></div>`;
+  $("#foot").innerHTML = `<details class="emerg"><summary>${u().emerg} 112 · 15 · 17 · 18</summary><p>${u().disclaimer}</p></details><p class="upd">${u().updated(age(S.generated))}</p>`;
   const go = (k, s) => { tab = k; sec = s || null; render(); window.scrollTo(0, 0); if (s) document.getElementById("s-" + s)?.scrollIntoView(); else { const h = document.querySelector("#view h1"); if (h) { h.tabIndex = -1; h.focus({ preventScroll: true }); } } };
   document.querySelectorAll("[data-t]").forEach(b => b.onclick = () => go(b.dataset.t));
   document.querySelectorAll("[data-go]").forEach(b => b.onclick = e => { e.preventDefault(); go(b.dataset.go, b.dataset.sec); });
@@ -310,4 +312,4 @@ setInterval(() => {
   if (!S) return;
   j("state.json").then(n => { if (n.generated !== S.generated) { S = n; const y = scrollY; render(); scrollTo(0, y); } }).catch(() => { });
 }, 3e5);
-setInterval(() => { if (S && M) { const f = $("#foot p"); if (f) f.textContent = `${u().updated(age(S.generated))} · ${fmt(S.generated)}`; } }, 6e4);
+setInterval(() => { if (S && M) { const f = $("#foot .upd"); if (f) f.textContent = u().updated(age(S.generated)); } }, 6e4);
