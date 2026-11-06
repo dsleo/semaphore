@@ -1,7 +1,7 @@
 // No framework, no tracking, no LLM. Renders docs/data/*.json.
 const UI = {
   fr: {
-    title: "Vigie", tag: "Service citoyen indépendant, non officiel",
+    title: "Semaphore", tag: "Service citoyen indépendant, non officiel",
     tToday: "Aujourd'hui", tPrep: "Se préparer", tTrend: "Tendances", tMore: "Détails",
     ok: "Aucune alerte prioritaire détectée", lede0: t => `Dans les sources que nous surveillons, à ${t}.`, calm: n => `${n} jours calmes d'affilée.`,
     ledeN: n => n === 1 ? "Un point demande votre attention aujourd'hui." : `${n} points demandent votre attention aujourd'hui.`,
@@ -43,7 +43,7 @@ const UI = {
     local: "Vos cases sont enregistrées uniquement sur cet appareil.", optional: "si besoin", pn: "Sources officielles", srcGuide: "Source"
   },
   en: {
-    title: "Vigie", tag: "Independent citizen service, not official",
+    title: "Semaphore", tag: "Independent citizen service, not official",
     tToday: "Today", tPrep: "Get ready", tTrend: "Trends", tMore: "Details",
     ok: "No priority alert detected", lede0: t => `In the sources we monitor, as of ${t}.`, calm: n => `${n} calm days in a row.`,
     ledeN: n => n === 1 ? "One thing needs your attention today." : `${n} things need your attention today.`,
@@ -164,7 +164,7 @@ function trafficBody() {
   const T = S.paris && S.context && S.context.traffic;
   if (!T) return "";
   const rows = (tmore ? T.items : T.items.slice(0, 6)).map(x => `<li><b>${esc(x.street)}</b>${x.closed ? ` <span class="badge b1">${u().closed}</span>` : ""}<br><span class="muted">${esc(x.what)} · ${u().until} ${fmt(x.until)}</span></li>`).join("");
-  return `<h4>${u().trafficT}</h4>${T.n ? `<p>${u().localN(T.n, T.closed)}</p><ul class="meas">${rows}</ul>${T.items.length > 6 ? `<p><button class="btn sec" id="moreT" aria-expanded="${tmore}">${tmore ? "−" : u().moreTraffic}</button></p>` : ""}` : `<p>${u().localNone}</p>`}
+  return `${T.n ? `<p>${u().localN(T.n, T.closed)}</p><ul class="meas">${rows}</ul>${T.items.length > 6 ? `<p><button class="btn sec" id="moreT" aria-expanded="${tmore}">${tmore ? "−" : u().moreTraffic}</button></p>` : ""}` : `<p>${u().localNone}</p>`}
     <p class="muted">${u().localNote} ${link(S.sources.traffic.name, T.link)}</p>`;
 }
 const why = id => { const i = S.hazards[id].indicators.filter(x => x.kind !== "context").sort((a, b) => b.s - a.s)[0]; return i ? `${tx(i.label)} : ${tx(i.value)}` : ""; };
