@@ -44,8 +44,17 @@ def T(fr, en):
 
 def get(url, timeout=25):
     req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept-Encoding": "gzip"})
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        b = r.read()
+    for attempt in (1, 2):  # one retry for transient network errors (DNS blip, timeout); HTTP errors are not retried
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                b = r.read()
+            break
+        except urllib.error.HTTPError:
+            raise
+        except (urllib.error.URLError, TimeoutError, ConnectionError):
+            if attempt == 2:
+                raise
+            time.sleep(2)
     if b[:2] == b"\x1f\x8b":
         b = gzip.decompress(b)
     return b.decode("utf-8", "replace"), hashlib.sha256(b).hexdigest()[:16]
@@ -425,7 +434,7 @@ FEEDS = [("franceinfo", "franceinfo", "https://www.francetvinfo.fr/titres.rss"),
 # theme -> (label fr, label en, regex). Plain keyword rules; nothing is inferred or summarised.
 THEMES = {
     "transport": (T("Transports et mobilisation", "Transport and strikes"),
-                  r"gr[eè]ve|perturbations?|trafic (perturb|interromp)|ratp|sncf|m[ée]tro|\brer\b|transilien|a[ée]roport"),
+                  r"gr[eè]ve|perturbations?|trafic (perturb|interromp)|ratp|sncf|m[ée]tro\b|\brer\b|transilien|a[ée]roport"),
     "power": (T("Électricité", "Power"), r"coupure[s]? (de courant|d.[ée]lectricit)|panne [ée]lectrique|blackout|d[ée]lestage|enedis|\brte\b|ecowatt|black-out"),
     "fuel": (T("Carburant", "Fuel"), r"p[ée]nurie (de )?(carburant|essence|diesel|gazole)|stations?[- ]service[s]? (à sec|ferm)|raffiner|rationnement"),
     "water": (T("Eau et crue", "Water and flood"), r"inondation|crue|vigilance (orange|rouge) (pluie|crue|inond)|s[ée]cheresse|restrictions? d.eau|eau potable|rupture de canalisation"),

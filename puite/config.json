@@ -1,5 +1,5 @@
 {
- "repo": "https://github.com/dsleo/vigie",
+ "repo": "https://github.com/dsleo/semaphore",
  "shadow": false,
  "hazards": {
   "heat": {

@@ -1,4 +1,4 @@
-# Vigie
+# Semaphore
 
 A free, zero-account early-warning page for Paris citizens. It answers one question, "Is anything going wrong in Paris right now, and what should I do?", using only public open data and fixed, readable rules.
 
@@ -7,6 +7,17 @@ A free, zero-account early-warning page for Paris citizens. It answers one quest
 - **Static**: a Python script writes JSON, a static page displays it. No server to run in production.
 
 Further design docs: [SPEC.md](SPEC.md) (product and safety design) · [RISK_REGISTER.md](RISK_REGISTER.md) (hazards and data map).
+
+## Any commune in France
+
+The first screen is a commune picker (autocomplete on `geo.api.gouv.fr`, postcode, or geolocation) and a map of France coloured by Météo-France vigilance per département. The choice lives in the URL (`?c=<INSEE code>`), so it can be shared.
+
+- **Paris** (75056) is served exactly as before from the Action-built `state.json`: all 16 sources, trends, traffic, cooling places.
+- **Any other commune**: `docs/local.js` fetches the local sources live in the browser (Open-Meteo forecast at the commune's coordinates, Météo-France vigilance for its département, VigiEau at its coordinates, fuel stockouts in its département) and scores them with a port of `puite/score.py` (same noisy-OR, impact, official floors, fuel cap). National hazards (power, cyber, digital, supply) come from `state.json`. Not available outside Paris: traffic events, cooling places, trends for local hazards, level-change history, Seine gauge. Unavailable sources show as "indisponible", never as "all clear".
+- **Local layers** (any commune, including Paris), built by the Action in `puite/local.py` as static JSON and filtered in the browser: `news-local.json` (France 3 régions, ici and regional dailies, crisis keywords in the title, matched to commune / département / region), `roads.json` (Bison Futé DATEX II events within 25 km, national non-conceded network only), `transit.json` (GTFS-RT service alerts from ~75 networks on transport.data.gouv.fr, matched by commune, EPCI, département or region; a network that is not read is never shown as "no disruption"). The browser also calls Géorisques live for the commune's risk profile (Se préparer tab).
+- **Power outages**: Enedis publishes no current-outage open data, so Semaphore shows the national Ecowatt/eco2mix signal plus a link and the département breakdown line, and says so.
+- Local levels have no persistence/hysteresis (no per-visitor history). The heat threshold outside Île-de-France is an approximate national one (34/20 °C); the official canicule vigilance has the exact values.
+- `scripts/build_map.py` regenerates `docs/data/france-map.json` from a départements GeoJSON. `node tests/local.test.js` checks the scoring port.
 
 ## What the user sees
 

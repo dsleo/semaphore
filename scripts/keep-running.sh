@@ -1,5 +1,5 @@
 #!/bin/bash
-# Serves Vigie on http://localhost:8000 and refreshes the data every 10 minutes, so the page never reaches "Statut inconnu". Ctrl-C to stop.
+# Serves Semaphore on http://localhost:8000 and refreshes the data every 10 minutes, so the page never reaches "Statut inconnu". Ctrl-C to stop.
 cd "$(dirname "$0")/.." || exit 1
 caffeinate -i -w $$ &                      # macOS: keep the Mac from idle-sleeping while this runs
 python3 -m http.server 8000 --directory docs >/dev/null 2>&1 &
