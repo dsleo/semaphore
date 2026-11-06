@@ -139,14 +139,13 @@ footer p{margin:.4em 0}
 .chip:hover{border-color:var(--blue)}
 .mapbox{margin-top:20px}
 #fmap svg{width:100%;max-height:70vh;display:block}
-.dep{fill:var(--bg2);stroke:var(--line2);stroke-width:.6;cursor:pointer}
-.dep:hover,.dep:focus-visible{stroke:var(--blue);stroke-width:2;outline:none}
-.dep.m1,.sw.m1{fill:#c8e6c0;background:#c8e6c0}
-.dep.m2,.sw.m2{fill:#f6d33f;background:#f6d33f}
-.dep.m3,.sw.m3{fill:#f08a24;background:#f08a24}
-.dep.m4,.sw.m4{fill:#d4281f;background:#d4281f}
-.legend{list-style:none;display:flex;flex-wrap:wrap;gap:4px 16px;margin:8px 0;padding:0;font-size:.875rem}
-.sw{display:inline-block;width:14px;height:14px;margin-right:6px;vertical-align:-2px;border:1px solid var(--line2)}
+.dep{fill:var(--blue2);stroke:var(--bg);stroke-width:.8;cursor:pointer;outline:none;-webkit-tap-highlight-color:transparent}
+.dep:hover,.dep:focus-visible{fill:var(--blue);stroke:var(--blue);stroke-width:1.5}
+#deptcity{border:1px solid var(--line2);background:var(--bg);color:var(--ink);padding:0;max-width:min(520px,92vw);width:100%}
+#deptcity::backdrop{background:rgba(0,0,0,.55)}
+.dlg{padding:20px 20px 12px;position:relative}.dlg h2{margin:0 0 .8em;font-size:1.15rem;padding-right:32px}
+.x{position:absolute;top:8px;right:8px;background:none;border:0;font-size:1.6rem;line-height:1;cursor:pointer;padding:4px 10px}
+#home{color:inherit;text-decoration:none}
 @media print{.hd,.btn,.persons{display:none}body{background:#fff;color:#000}.panel{border:0;padding:0}}
 .spark rect:not(.col){pointer-events:none}
 

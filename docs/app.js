@@ -326,7 +326,8 @@ async function pickCommune(code, push = true) {
   render(); scrollTo(0, 0);
 }
 const fromUrl = () => { const c = new URLSearchParams(location.search).get("c"); if (c) pickCommune(c, false); else { C = null; S = null; render(); } };
-$("#city").onclick = () => { history.pushState({}, "", location.pathname); C = null; S = null; render(); scrollTo(0, 0); };
+const goHome = e => { e && e.preventDefault(); if (!C && !location.search) return; history.pushState({}, "", location.pathname); C = null; S = null; render(); scrollTo(0, 0); };
+$("#city").onclick = $("#home").onclick = goHome;
 addEventListener("popstate", fromUrl);
 Promise.all([j("state.json"), j("messages.json"), j("prepare.json"), j("history.json").catch(() => []), j("places.json").catch(() => null)]).then(([s, m, p, h, pl]) => { N = s; M = m; P = p; H = h; PL = pl; fromUrl(); }).catch(() => { $("#view").innerHTML = `<p>${u().err}</p>`; });
 // every 5 min: fetch fresh national data; rebuild the local view if it changed or is 15 min old

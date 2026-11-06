@@ -163,20 +163,20 @@ const lHn = id => id === "flood" && S && !S.paris ? ({ fr: "Crues et inondations
 // ---- landing: autocomplete + France map coloured by Météo-France vigilance
 const LU = {
   fr: { h: "Quels risques près de chez vous ?", lede: "Choisissez votre commune : Vigie affiche la vigilance météo, l'eau, le carburant, l'électricité et le numérique, avec des sources vérifiables.", lab: "Votre commune ou code postal", ph: "Ex. Lyon ou 33000", here: "Ma position", resume: n => `Reprendre : ${n}`, none: "Aucune commune trouvée.", loc: "Position introuvable.", load: "Chargement de la commune…", fail: "Impossible de charger cette commune.",
-    map: "Vigilance Météo-France aujourd'hui et demain, par département. Touchez un département pour voir ses villes.", cap: "France métropolitaine, vigilance par département", main: n => `Villes principales : ${n}`, lv: ["pas de donnée", "vert", "jaune", "orange", "rouge"], leg: "Vigilance", noMap: "Carte indisponible.", back: "Changer de ville", dom: "Les départements d'outre-mer sont disponibles via la recherche de commune." },
+    map: "Vigilance Météo-France aujourd'hui et demain, par département. Touchez un département pour voir ses villes.", cap: "France métropolitaine, vigilance par département", main: n => `Villes principales : ${n}`, close: "Fermer", lv: ["pas de donnée", "vert", "jaune", "orange", "rouge"], leg: "Vigilance", noMap: "Carte indisponible.", back: "Changer de ville", dom: "Les départements d'outre-mer sont disponibles via la recherche de commune." },
   en: { h: "What risks are near you?", lede: "Pick your commune: Vigie shows weather vigilance, water, fuel, power and digital risks, with verifiable sources.", lab: "Your commune or postcode", ph: "E.g. Lyon or 33000", here: "My location", resume: n => `Resume: ${n}`, none: "No commune found.", loc: "Location not found.", load: "Loading the commune…", fail: "Could not load this commune.",
-    map: "Météo-France vigilance today and tomorrow, by département. Tap a département to see its towns.", cap: "Metropolitan France, vigilance by département", main: n => `Main towns: ${n}`, lv: ["no data", "green", "yellow", "orange", "red"], leg: "Vigilance", noMap: "Map unavailable.", back: "Change city", dom: "Overseas départements are available through the commune search." }
+    map: "Météo-France vigilance today and tomorrow, by département. Tap a département to see its towns.", cap: "Metropolitan France, vigilance by département", main: n => `Main towns: ${n}`, close: "Close", lv: ["no data", "green", "yellow", "orange", "red"], leg: "Vigilance", noMap: "Map unavailable.", back: "Change city", dom: "Overseas départements are available through the commune search." }
 };
 const lu = () => LU[lang];
-let LMAP = null, LLV = {};
+let LMAP = null;
 function lLanding() {
   const t = lu(), last = (() => { try { return JSON.parse(localStorage.getItem("commune")); } catch { return null; } })();
   return `<h1>${t.h}</h1><p>${t.lede}</p>
   <div class="pick"><label for="q"><b>${t.lab}</b></label>
   <div class="pickrow"><input id="q" type="search" list="qs" autocomplete="off" spellcheck="false" placeholder="${esc(t.ph)}"><datalist id="qs"></datalist><button class="btn sec" id="here" type="button">${t.here}</button></div>
   <p class="muted" id="pickmsg" role="status"></p>${last ? `<p><button class="chip" data-code="${esc(last.code)}">${esc(t.resume(last.nom))}</button></p>` : ""}</div>
-  <section class="mapbox"><p class="muted">${t.map}</p><div id="fmap" role="group" aria-label="${esc(t.cap)}"><p class="muted">…</p></div>
-  <ul class="legend" aria-label="${t.leg}">${[1, 2, 3, 4].map(k => `<li><i class="sw m${k}"></i>${t.lv[k]}</li>`).join("")}</ul><div id="deptcity" aria-live="polite"></div><p class="muted">${t.dom}</p></section>`;
+  <section class="mapbox"><div id="fmap" role="group" aria-label="${esc(t.cap)}"><p class="muted">…</p></div><p class="muted">${t.dom}</p></section>
+  <dialog id="deptcity" aria-labelledby="dtitle"></dialog>`;
 }
 async function lBindLanding(pick) {
   const t = lu(), q = $("#q"), msg = $("#pickmsg"); let hits = {}, timer;
@@ -199,20 +199,22 @@ async function lBindLanding(pick) {
     () => { msg.textContent = t.loc; }) : (msg.textContent = t.loc);
   try {
     LMAP = LMAP || await lget("data/france-map.json", 20000);
-    if (!Object.keys(LLV).length) lget("https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/weatherref-france-vigilance-meteo-departement/records?" + new URLSearchParams({ select: "domain_id,max(color_id) as c", group_by: "domain_id", limit: 150 }))
-      .then(d => { LLV = Object.fromEntries(d.results.map(r => [r.domain_id, r.c])); drawMap(); }).catch(() => { });
     drawMap();
   } catch { $("#fmap").innerHTML = `<p class="muted">${t.noMap}</p>`; }
   function drawMap() {
     const host = $("#fmap"); if (!host || !LMAP) return;
-    host.innerHTML = `<svg viewBox="0 0 ${LMAP.w} ${LMAP.h}" role="presentation">${LMAP.deps.map(d => `<path class="dep m${LLV[d.c] || 0}" d="${d.d}" data-c="${d.c}" tabindex="0" role="button" aria-label="${esc(d.n)}, ${t.leg} ${t.lv[LLV[d.c] || 0]}"><title>${esc(d.n)} · ${t.lv[LLV[d.c] || 0]}</title></path>`).join("")}</svg>`;
+    host.innerHTML = `<svg viewBox="0 0 ${LMAP.w} ${LMAP.h}" role="presentation">${LMAP.deps.map(d => `<path class="dep" d="${d.d}" data-c="${d.c}" tabindex="0" role="button" aria-label="${esc(d.n)}"><title>${esc(d.n)}</title></path>`).join("")}</svg>`;
+    const dlg = $("#deptcity");
+    dlg.onclick = e => { if (e.target === dlg || e.target.closest("[data-close]")) dlg.close(); };
     const open = async el => {
-      const d = LMAP.deps.find(x => x.c === el.dataset.c), box = $("#deptcity"); box.innerHTML = `<p class="muted">…</p>`;
+      const d = LMAP.deps.find(x => x.c === el.dataset.c);
+      dlg.innerHTML = `<div class="dlg"><button class="x" data-close type="button" aria-label="${esc(t.close)}">×</button><h2 id="dtitle">${esc(t.main(d.n))}</h2><div id="dbody"><p class="muted">…</p></div></div>`;
+      dlg.showModal();
       try {
         const rows = (await lget(`${LGEO}/departements/${d.c}/communes?fields=nom,code,population`)).sort((a, b) => (b.population || 0) - (a.population || 0)).slice(0, 12);
-        box.innerHTML = `<h2>${esc(t.main(d.n))}</h2><p>${rows.map(r => `<button class="chip" data-code="${esc(r.code)}">${esc(r.nom)}</button>`).join(" ")}</p>`;
-        box.querySelectorAll("[data-code]").forEach(b => b.onclick = () => pick(b.dataset.code));
-      } catch { box.innerHTML = `<p class="muted">${t.fail}</p>`; }
+        $("#dbody").innerHTML = rows.map(r => `<button class="chip" data-code="${esc(r.code)}">${esc(r.nom)}</button>`).join(" ");
+        $("#dbody").querySelectorAll("[data-code]").forEach(b => b.onclick = () => { dlg.close(); pick(b.dataset.code); });
+      } catch { $("#dbody").innerHTML = `<p class="muted">${t.fail}</p>`; }
     };
     host.querySelectorAll(".dep").forEach(p => { p.onclick = () => open(p); p.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(p); } }; });
   }
