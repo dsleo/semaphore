@@ -290,6 +290,7 @@ function lLocalBlock() {
   const t = lu(), L = S.loc; if (!L) return "";
   const parts = [];
   if (L.roads) parts.push(`<h3>${t.roadsT}</h3>${L.roads.length ? `<ul class="meas">${L.roads.map(i => `<li><b>${esc(i.road || i.town || "")}</b>${i.x ? ` <span class="badge b1">${t.closed}</span>` : ""} <span class="muted">· ${esc(t.kind[i.k] || i.k)} · ${t.km} ${Math.round(i.km)} km${i.town ? " · " + esc(i.town) : ""}</span><br><span class="muted">${esc(i.t)}</span></li>`).join("")}</ul>` : `<p>${t.roadsNone}</p>`}<p class="muted">${t.roadsNote}</p>`);
+  if (S.paris) parts.push(trafficBody());
   if (L.transit) {
     const tn = L.transit, body = tn.nets.map(n => `<li><b>${link(n.name, n.link)}</b> <span class="muted">(${n.n})</span><ul class="plainl">${n.alerts.map(a => `<li>${a.e ? `<span class="badge b1">${esc(t.eff[a.e])}</span> ` : ""}${esc(a.t)}</li>`).join("")}</ul></li>`).join("");
     parts.push(`<h3>${t.transitT}</h3>${tn.nets.length ? `<ul class="meas">${body}</ul>` : tn.followed.length ? `<p>${t.transitNone(esc(tn.followed.join(", ")))}</p>` : `<p>${t.transitNo}</p>`}

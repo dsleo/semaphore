@@ -15,7 +15,7 @@ const UI = {
     held: "Niveau maintenu pour éviter les fausses alertes : le changement doit être confirmé.", systemic: "Plusieurs domaines sont touchés en même temps.", shadow: "Version d'essai : les niveaux viennent de règles simples, pas encore ajustées. En cas de doute, suivez les sources officielles.",
     cov: c => `${c.ok} source${c.ok > 1 ? "s" : ""} sur ${c.total} à jour` + (c.late ? `, ${c.late} en retard` : "") + (c.down ? `, ${c.down} indisponible${c.down > 1 ? "s" : ""}` : ""),
     sAlerts: "Alertes officielles en cours", noAlerts: "Aucune alerte officielle détectée dans les sources surveillées (Météo-France, Vigicrues, Écowatt, VigiEau). Les alertes FR-Alert et celles de la préfecture ne sont pas lisibles automatiquement : consultez-les directement.",
-    sLocal: "Perturbations locales à Paris", localNone: "Aucune perturbation de circulation en cours dans les données de la Ville de Paris.", localN: (n, k) => `${n} chantiers ou événements en cours, dont ${k} avec fermeture de voie.`, localNote: "Données de la Ville de Paris, mises à jour toutes les 5 minutes. Ce sont surtout des travaux et des événements prévus, pas des incidents. Aucune carte pour l'instant : liste par rue.", until: "jusqu'au", closed: "voie fermée", moreTraffic: "Voir plus", noTransit: "Les perturbations de transports (RATP, SNCF) ne sont pas encore lues : consultez les sites des exploitants.",
+    trafficT: "Chantiers et événements (Ville de Paris)", localNone: "Aucune perturbation de circulation en cours dans les données de la Ville de Paris.", localN: (n, k) => `${n} chantiers ou événements en cours, dont ${k} avec fermeture de voie.`, localNote: "Données de la Ville de Paris, mises à jour toutes les 5 minutes. Ce sont surtout des travaux et des événements prévus, pas des incidents. Aucune carte pour l'instant : liste par rue.", until: "jusqu'au", closed: "voie fermée", moreTraffic: "Voir plus", noTransit: "Les perturbations de transports (RATP, SNCF) ne sont pas encore lues : consultez les sites des exploitants.",
     sRisks: "Indices de risque", riskNote: "Indice calculé par des règles publiques à partir des mesures ci-dessous. Ce n'est ni une probabilité, ni une alerte officielle, ni une prévision de danger personnel.",
     sCtx: "Se préparer et contexte", goPrep: "Votre kit d'urgence, FR-Alert, numéros utiles", goCool: "Où se rafraîchir et boire à Paris",
     partial: "données partielles", kinds: { observed: "Mesuré", official: "Alerte officielle", forecast: "Prévision", reported: "Rapporté, non confirmé", context: "Contexte, non noté" }, areas: { paris: "Paris", commune: "Commune", dept: "Département", idf: "Île-de-France", france: "France", world: "Monde", single: "un seul point de mesure" }, pubd: "publié", fetchd: "", ctxBadge: "Contexte",
@@ -57,7 +57,7 @@ const UI = {
     held: "Level held to avoid false alarms: the change must be confirmed.", systemic: "Several areas are affected at the same time.", shadow: "Trial version: levels come from simple rules that are not yet tuned. When in doubt, follow the official sources.",
     cov: c => `${c.ok} of ${c.total} sources current` + (c.late ? `, ${c.late} late` : "") + (c.down ? `, ${c.down} unavailable` : ""),
     sAlerts: "Official alerts now", noAlerts: "No official alert detected in the monitored sources (Météo-France, Vigicrues, Ecowatt, VigiEau). FR-Alert and préfecture alerts cannot be read automatically: check them directly.",
-    sLocal: "Local disruptions in Paris", localNone: "No traffic disruption currently listed in the City of Paris data.", localN: (n, k) => `${n} works or events under way, ${k} with a road closed.`, localNote: "City of Paris data, updated every 5 minutes. Mostly planned works and events, not incidents. No map yet: a street list.", until: "until", closed: "road closed", moreTraffic: "Show more", noTransit: "Transit disruptions (RATP, SNCF) are not read yet: check the operators' sites.",
+    trafficT: "Works and events (City of Paris)", localNone: "No traffic disruption currently listed in the City of Paris data.", localN: (n, k) => `${n} works or events under way, ${k} with a road closed.`, localNote: "City of Paris data, updated every 5 minutes. Mostly planned works and events, not incidents. No map yet: a street list.", until: "until", closed: "road closed", moreTraffic: "Show more", noTransit: "Transit disruptions (RATP, SNCF) are not read yet: check the operators' sites.",
     sRisks: "Risk indices", riskNote: "An index computed by public rules from the measurements below. It is not a probability, an official alert, or a forecast of personal danger.",
     sCtx: "Get ready and context", goPrep: "Your emergency kit, FR-Alert, useful numbers", goCool: "Where to cool down and drink in Paris",
     partial: "partial data", kinds: { observed: "Measured", official: "Official alert", forecast: "Forecast", reported: "Reported, unconfirmed", context: "Context, not scored" }, areas: { paris: "Paris", commune: "Commune", dept: "Département", idf: "Île-de-France", france: "France", world: "World", single: "single vantage point" }, pubd: "published", fetchd: "", ctxBadge: "Context",
@@ -159,13 +159,13 @@ function alertsBlock() {
   const body = A.length ? `<ul class="meas">${A.map(a => `<li><div class="mh"><b>${esc(tx(a.label))}</b>${stBadge(a.s)}</div><div>${esc(tx(a.value))}</div><div class="muted">${link(S.sources[a.source].name, a.link)} · ${u().areas[a.area]} · ${a.pub ? `${u().pubd} ${esc(String(a.pub).length > 10 ? fmt(a.pub) : a.pub)}` : `${u().fetchd} ${fmt(a.fetched)}`}</div></li>`).join("")}</ul>` : `<p>${u().noAlerts}</p>`;
   return col(u().sAlerts, body);
 }
-function localBlock() {
-  if (!S.paris) return "";
-  const T = S.context && S.context.traffic;
-  if (!T) return col(u().sLocal, `<p class="muted">${u().noTransit}</p>`);
+// City of Paris works and events: now a sub-part of the "Perturbations autour de vous" section (see lLocalBlock in local.js)
+function trafficBody() {
+  const T = S.paris && S.context && S.context.traffic;
+  if (!T) return "";
   const rows = (tmore ? T.items : T.items.slice(0, 6)).map(x => `<li><b>${esc(x.street)}</b>${x.closed ? ` <span class="badge b1">${u().closed}</span>` : ""}<br><span class="muted">${esc(x.what)} · ${u().until} ${fmt(x.until)}</span></li>`).join("");
-  return col(u().sLocal, `${T.n ? `<p>${u().localN(T.n, T.closed)}</p><ul class="meas">${rows}</ul>${T.items.length > 6 ? `<p><button class="btn sec" id="moreT" aria-expanded="${tmore}">${tmore ? "−" : u().moreTraffic}</button></p>` : ""}` : `<p>${u().localNone}</p>`}
-    <p class="muted">${u().localNote} ${link(S.sources.traffic.name, T.link)}</p><p class="muted">${u().noTransit}</p>`);
+  return `<h4>${u().trafficT}</h4>${T.n ? `<p>${u().localN(T.n, T.closed)}</p><ul class="meas">${rows}</ul>${T.items.length > 6 ? `<p><button class="btn sec" id="moreT" aria-expanded="${tmore}">${tmore ? "−" : u().moreTraffic}</button></p>` : ""}` : `<p>${u().localNone}</p>`}
+    <p class="muted">${u().localNote} ${link(S.sources.traffic.name, T.link)}</p>`;
 }
 const why = id => { const i = S.hazards[id].indicators.filter(x => x.kind !== "context").sort((a, b) => b.s - a.s)[0]; return i ? `${tx(i.label)} : ${tx(i.value)}` : ""; };
 function today() {
@@ -185,7 +185,7 @@ function today() {
     ${n ? `<ul class="plainl">${Object.keys(S.hazards).filter(id => S.hazards[id].level >= 1).sort((a, b) => S.hazards[b].level - S.hazards[a].level).map(id => `<li><b>${esc(hn(id))}</b> : ${esc(why(id))}</li>`).join("")}</ul>` : ""}
     ${cv.late || cv.down ? `<p class="muted">${esc(u().cov(cv))} · <a href="#" data-go="more" data-sec="src">${u().dSrc}</a></p>` : ""}
     <ol class="scale" aria-hidden="true">${M.levels[lang].map((x, i) => `<li class="${i === cur ? "on" : ""}${n && i === 0 ? " off" : ""}">${esc(x)}</li>`).join("")}</ol></div>
-    ${alertsBlock()}${localBlock()}${lLocalBlock()}${S.paris ? newsBlock() : lNewsBlock()}
+    ${alertsBlock()}${lLocalBlock()}${S.paris ? newsBlock() : lNewsBlock()}
     ${col(u().sRisks, `<p class="muted">${u().riskNote}</p><div class="grid">${cls.map(tile).join("")}</div>`)}
     ${cc ? detailPanel(cc) : ""}
     ${unk.length ? `<p class="muted">${esc(u().missing(unk.join(", ")))}</p>` : ""}`;
