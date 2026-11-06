@@ -1,0 +1,631 @@
+{
+ "levels": {
+  "fr": [
+   "Aucune alerte détectée",
+   "À surveiller",
+   "Préparez-vous",
+   "Agissez maintenant"
+  ],
+  "en": [
+   "No alert detected",
+   "Be aware",
+   "Prepare",
+   "Act now"
+  ]
+ },
+ "minutes": {
+  "1": 5,
+  "2": 20,
+  "3": 30
+ },
+ "domains": {
+  "power": {
+   "fr": "Électricité",
+   "en": "Power"
+  },
+  "fuel": {
+   "fr": "Carburant",
+   "en": "Fuel"
+  },
+  "weather": {
+   "fr": "Météo et climat",
+   "en": "Weather and climate"
+  },
+  "digital": {
+   "fr": "Numérique et paiements",
+   "en": "Digital and payments"
+  },
+  "supply": {
+   "fr": "Alimentation et approvisionnement",
+   "en": "Food and supply"
+  }
+ },
+ "hazards": {
+  "heat": {
+   "fr": {
+    "title": "Chaleur extrême",
+    "what": "Des températures très élevées de jour comme de nuit sont prévues à Paris. Les logements sous les toits, les personnes âgées, les bébés et les malades sont les plus exposés.",
+    "do": {
+     "1": [
+      "Repérez une pièce fraîche et prévenez un proche isolé."
+     ],
+     "2": [
+      "Fermez volets et fenêtres le jour, aérez la nuit.",
+      "Buvez régulièrement sans attendre la soif ; gardez des bouteilles d'eau au frais.",
+      "Appelez les voisins et proches âgés ou fragiles chaque jour.",
+      "Évitez les efforts entre 12 h et 16 h."
+     ],
+     "3": [
+      "Restez dans la pièce la plus fraîche ; mouillez-vous la peau, ventilez.",
+      "Vérifiez chaque jour les personnes fragiles autour de vous.",
+      "Maux de tête, vertiges, nausées, fièvre élevée, confusion : appelez le 15."
+     ]
+    },
+    "dont": [
+     "Ne laissez jamais un enfant ou un animal dans un véhicule.",
+     "Pas d'alcool ni d'effort intense aux heures chaudes."
+    ],
+    "refs": [
+     {
+      "t": "Vigilance Météo-France",
+      "u": "https://vigilance.meteofrance.fr"
+     },
+     {
+      "t": "Risques : conduites à tenir (gouvernement)",
+      "u": "https://www.info.gouv.fr/risques"
+     }
+    ]
+   },
+   "en": {
+    "title": "Extreme heat",
+    "what": "Very high temperatures, day and night, are forecast for Paris. Top-floor flats, older people, babies and people with health conditions are most at risk.",
+    "do": {
+     "1": [
+      "Identify a cool room and check in with someone who lives alone."
+     ],
+     "2": [
+      "Close shutters and windows by day, ventilate at night.",
+      "Drink regularly before you feel thirsty; keep water bottles cool.",
+      "Phone elderly or fragile neighbours and relatives every day.",
+      "Avoid effort between noon and 4 pm."
+     ],
+     "3": [
+      "Stay in the coolest room; wet your skin and use a fan.",
+      "Check on fragile people around you every day.",
+      "Headache, dizziness, nausea, high fever or confusion: call 15 (or 112)."
+     ]
+    },
+    "dont": [
+     "Never leave a child or pet in a vehicle.",
+     "No alcohol or intense effort in the hot hours."
+    ],
+    "refs": [
+     {
+      "t": "Météo-France vigilance",
+      "u": "https://vigilance.meteofrance.fr"
+     },
+     {
+      "t": "Risks: what to do (French government)",
+      "u": "https://www.info.gouv.fr/risques"
+     }
+    ]
+   }
+  },
+  "weather": {
+   "fr": {
+    "title": "Météo dangereuse (froid, vent, pluie)",
+    "what": "Un épisode de froid, de vent fort ou de pluie intense est annoncé et peut perturber transports, chauffage et rues.",
+    "do": {
+     "1": [
+      "Consultez la météo avant de sortir."
+     ],
+     "2": [
+      "Limitez les déplacements non essentiels.",
+      "Rentrez ce qui peut s'envoler sur balcon et terrasse.",
+      "Ne stationnez pas sous arbres, échafaudages ou grues."
+     ],
+     "3": [
+      "Restez chez vous si possible.",
+      "Évitez sous-sols, parkings souterrains et passages inondables.",
+      "Suivez les consignes de la préfecture."
+     ]
+    },
+    "dont": [
+     "N'utilisez jamais barbecue, brasero ou chauffage d'appoint à combustion à l'intérieur (monoxyde de carbone)."
+    ],
+    "refs": [
+     {
+      "t": "Vigilance Météo-France",
+      "u": "https://vigilance.meteofrance.fr"
+     },
+     {
+      "t": "Risques : conduites à tenir (gouvernement)",
+      "u": "https://www.info.gouv.fr/risques"
+     }
+    ]
+   },
+   "en": {
+    "title": "Dangerous weather (cold, wind, rain)",
+    "what": "A cold snap, strong wind or heavy rain is forecast and may disrupt transport, heating and streets.",
+    "do": {
+     "1": [
+      "Check the forecast before going out."
+     ],
+     "2": [
+      "Limit non-essential trips.",
+      "Bring in anything that can blow away from balconies and terraces.",
+      "Do not park under trees, scaffolding or cranes."
+     ],
+     "3": [
+      "Stay home if you can.",
+      "Avoid basements, underground car parks and flood-prone underpasses.",
+      "Follow the préfecture's instructions."
+     ]
+    },
+    "dont": [
+     "Never use a barbecue, brazier or combustion space heater indoors (carbon monoxide)."
+    ],
+    "refs": [
+     {
+      "t": "Météo-France vigilance",
+      "u": "https://vigilance.meteofrance.fr"
+     },
+     {
+      "t": "Risks: what to do (French government)",
+      "u": "https://www.info.gouv.fr/risques"
+     }
+    ]
+   }
+  },
+  "power": {
+   "fr": {
+    "title": "Tension sur l'électricité",
+    "what": "Le réseau électrique est sous tension ou présente une anomalie. Des coupures sont possibles dans les cas les plus graves.",
+    "do": {
+     "1": [
+      "Chargez téléphone et batterie externe ; vérifiez lampe et radio à piles."
+     ],
+     "2": [
+      "Réduisez votre consommation aux heures de pointe (en hiver 8 h-13 h et 18 h-20 h).",
+      "Chargez tous vos appareils et batteries.",
+      "Ayez de l'eau en réserve, une lampe, une radio à piles et vos numéros importants sur papier."
+     ],
+     "3": [
+      "Coupures possibles : débranchez les appareils sensibles.",
+      "Gardez le réfrigérateur fermé (≈ 4 h) et le congélateur (≈ 48 h).",
+      "Évitez les ascenseurs ; suivez l'information à la radio."
+     ]
+    },
+    "dont": [
+     "N'utilisez jamais groupe électrogène ou réchaud à l'intérieur.",
+     "N'appelez pas les secours (15, 17, 18, 112) pour signaler une simple coupure."
+    ],
+    "refs": [
+     {
+      "t": "Écowatt (RTE)",
+      "u": "https://www.monecowatt.fr"
+     },
+     {
+      "t": "Enedis : coupures et conseils",
+      "u": "https://www.enedis.fr"
+     }
+    ]
+   },
+   "en": {
+    "title": "Pressure on the electricity grid",
+    "what": "The power grid is under strain or showing an anomaly. In the worst cases, outages are possible.",
+    "do": {
+     "1": [
+      "Charge your phone and power bank; check your torch and battery radio."
+     ],
+     "2": [
+      "Cut consumption at peak times (in winter 8-13h and 18-20h).",
+      "Charge all devices and batteries.",
+      "Keep water in reserve, a torch, a battery radio and key numbers on paper."
+     ],
+     "3": [
+      "Outages possible: unplug sensitive devices.",
+      "Keep the fridge shut (≈ 4 h) and the freezer (≈ 48 h).",
+      "Avoid lifts; follow updates on the radio."
+     ]
+    },
+    "dont": [
+     "Never run a generator or camping stove indoors.",
+     "Do not call emergency services (15, 17, 18, 112) just to report an outage."
+    ],
+    "refs": [
+     {
+      "t": "Ecowatt (RTE)",
+      "u": "https://www.monecowatt.fr"
+     },
+     {
+      "t": "Enedis: outages and advice",
+      "u": "https://www.enedis.fr"
+     }
+    ]
+   }
+  },
+  "fuel": {
+   "fr": {
+    "title": "Tensions sur le carburant",
+    "what": "Une part inhabituelle de stations d'Île-de-France signale une rupture. Certaines stations peuvent être à sec, mais le carburant n'est pas épuisé.",
+    "do": {
+     "1": [
+      "Rien de particulier : faites le plein normalement."
+     ],
+     "2": [
+      "Faites le plein normalement quand votre réservoir passe sous le quart ; ne le remplissez pas « au cas où ».",
+      "Cherchez une station ouverte sur prix-carburants.gouv.fr.",
+      "Regroupez ou évitez les trajets non essentiels ; privilégiez transports et vélo."
+     ],
+     "3": [
+      "Réservez la voiture aux trajets essentiels ; prévoyez un plan B de mobilité.",
+      "Suivez les consignes officielles de rationnement s'il y en a."
+     ]
+    },
+    "dont": [
+     "Ne faites pas la queue pour remplir plusieurs fois : cela aggrave la pénurie.",
+     "Ne stockez jamais d'essence en bidons chez vous (incendie)."
+    ],
+    "refs": [
+     {
+      "t": "Prix et stations (carburants.gouv)",
+      "u": "https://www.prix-carburants.gouv.fr"
+     },
+     {
+      "t": "Risques : conduites à tenir (gouvernement)",
+      "u": "https://www.info.gouv.fr/risques"
+     }
+    ]
+   },
+   "en": {
+    "title": "Fuel supply strain",
+    "what": "An unusual share of Île-de-France stations report being out of stock. Some stations may be dry, but fuel has not run out.",
+    "do": {
+     "1": [
+      "Nothing special: fill up as usual."
+     ],
+     "2": [
+      "Fill up as usual when your tank drops under a quarter; do not top up “just in case”.",
+      "Find an open station on prix-carburants.gouv.fr.",
+      "Combine or skip non-essential trips; favour public transport and bikes."
+     ],
+     "3": [
+      "Keep the car for essential trips; line up a plan B for getting around.",
+      "Follow official rationing instructions if any."
+     ]
+    },
+    "dont": [
+     "Do not queue repeatedly to fill up: that makes shortages worse.",
+     "Never store petrol in cans at home (fire risk)."
+    ],
+    "refs": [
+     {
+      "t": "Prices and stations (government)",
+      "u": "https://www.prix-carburants.gouv.fr"
+     },
+     {
+      "t": "Risks: what to do (French government)",
+      "u": "https://www.info.gouv.fr/risques"
+     }
+    ]
+   }
+  },
+  "flood": {
+   "fr": {
+    "title": "Montée de la Seine",
+    "what": "Le niveau de la Seine à Paris est élevé ou monte vite. Quais, caves, parkings souterrains et certaines lignes de RER peuvent être touchés.",
+    "do": {
+     "1": [
+      "Consultez Vigicrues avant de longer les quais."
+     ],
+     "2": [
+      "Éloignez-vous des berges et des quais bas.",
+      "Montez objets de valeur et documents hors des caves et parkings souterrains.",
+      "Sortez votre voiture des parkings souterrains."
+     ],
+     "3": [
+      "Suivez les ordres d'évacuation de la préfecture.",
+      "Coupez l'électricité d'un sous-sol touché avant tout contact avec l'eau.",
+      "Préparez un sac (documents, médicaments, chargeur, eau)."
+     ]
+    },
+    "dont": [
+     "Ne traversez jamais une zone inondée, à pied ou en voiture.",
+     "Ne descendez pas en cave ou parking souterrain."
+    ],
+    "refs": [
+     {
+      "t": "Vigicrues",
+      "u": "https://www.vigicrues.gouv.fr"
+     },
+     {
+      "t": "Risques : conduites à tenir (gouvernement)",
+      "u": "https://www.info.gouv.fr/risques"
+     }
+    ]
+   },
+   "en": {
+    "title": "Seine rising",
+    "what": "The Seine in Paris is high or rising fast. Quays, cellars, underground car parks and some RER lines may be affected.",
+    "do": {
+     "1": [
+      "Check Vigicrues before walking along the quays."
+     ],
+     "2": [
+      "Stay away from riverbanks and low quays.",
+      "Move valuables and documents out of cellars and underground car parks.",
+      "Take your car out of underground car parks."
+     ],
+     "3": [
+      "Follow the préfecture's evacuation orders.",
+      "Cut power to an affected basement before any contact with water.",
+      "Prepare a bag (documents, medication, charger, water)."
+     ]
+    },
+    "dont": [
+     "Never cross a flooded area, on foot or by car.",
+     "Do not go down into a cellar or underground car park."
+    ],
+    "refs": [
+     {
+      "t": "Vigicrues",
+      "u": "https://www.vigicrues.gouv.fr"
+     },
+     {
+      "t": "Risks: what to do (French government)",
+      "u": "https://www.info.gouv.fr/risques"
+     }
+    ]
+   }
+  },
+  "drought": {
+   "fr": {
+    "title": "Restrictions d'eau (sécheresse)",
+    "what": "Des restrictions d'usage de l'eau sont en vigueur ou se préparent pour la zone de Paris.",
+    "do": {
+     "1": [
+      "Consultez les usages restreints de votre zone."
+     ],
+     "2": [
+      "Évitez arrosage, lavage de voiture et remplissage de piscine.",
+      "Privilégiez douches courtes et appareils pleins."
+     ],
+     "3": [
+      "Appliquez strictement les interdictions de l'arrêté préfectoral.",
+      "Stockez un peu d'eau potable pour 3 jours."
+     ]
+    },
+    "dont": [
+     "N'ignorez pas les arrêtés : des amendes existent."
+    ],
+    "refs": [
+     {
+      "t": "VigiEau : restrictions par adresse",
+      "u": "https://vigieau.gouv.fr"
+     }
+    ]
+   },
+   "en": {
+    "title": "Water restrictions (drought)",
+    "what": "Water-use restrictions are in force or being prepared for the Paris area.",
+    "do": {
+     "1": [
+      "Check which uses are restricted in your zone."
+     ],
+     "2": [
+      "Avoid watering, car washing and filling pools.",
+      "Prefer short showers and full machine loads."
+     ],
+     "3": [
+      "Strictly follow the préfectoral order's bans.",
+      "Store about 3 days of drinking water."
+     ]
+    },
+    "dont": [
+     "Do not ignore the orders: fines apply."
+    ],
+    "refs": [
+     {
+      "t": "VigiEau: restrictions by address",
+      "u": "https://vigieau.gouv.fr"
+     }
+    ]
+   }
+  },
+  "cyber": {
+   "fr": {
+    "title": "Menace cyber élevée",
+    "what": "Beaucoup de failles activement exploitées ou des alertes officielles récentes : le risque d'attaques informatiques est plus élevé que d'habitude. Aucune panne n'est confirmée.",
+    "do": {
+     "1": [
+      "Mettez à jour téléphone, ordinateur et box ; activez la double authentification."
+     ],
+     "2": [
+      "Faites une sauvegarde hors ligne de vos documents importants.",
+      "Gardez un peu d'espèces en petites coupures.",
+      "Ne cliquez pas sur les liens reçus par SMS ou courriel inattendus."
+     ],
+     "3": [
+      "Utilisez des moyens hors ligne (espèces, papier, radio) si un service tombe.",
+      "Signalez toute fraude sur cybermalveillance.gouv.fr."
+     ]
+    },
+    "dont": [
+     "Ne payez jamais une rançon et ne rappelez pas un numéro reçu par message."
+    ],
+    "refs": [
+     {
+      "t": "Cybermalveillance.gouv.fr",
+      "u": "https://www.cybermalveillance.gouv.fr"
+     },
+     {
+      "t": "Alertes CERT-FR (ANSSI)",
+      "u": "https://www.cert.ssi.gouv.fr/alerte/"
+     }
+    ]
+   },
+   "en": {
+    "title": "Elevated cyber threat",
+    "what": "Many actively exploited flaws or recent official alerts: the risk of cyberattacks is higher than usual. No outage is confirmed.",
+    "do": {
+     "1": [
+      "Update your phone, computer and router; enable two-factor authentication."
+     ],
+     "2": [
+      "Keep an offline backup of important documents.",
+      "Keep some cash in small notes.",
+      "Do not click links in unexpected texts or emails."
+     ],
+     "3": [
+      "Use offline means (cash, paper, radio) if a service goes down.",
+      "Report fraud on cybermalveillance.gouv.fr."
+     ]
+    },
+    "dont": [
+     "Never pay a ransom or call back a number from a message."
+    ],
+    "refs": [
+     {
+      "t": "Cybermalveillance.gouv.fr",
+      "u": "https://www.cybermalveillance.gouv.fr"
+     },
+     {
+      "t": "CERT-FR alerts (ANSSI)",
+      "u": "https://www.cert.ssi.gouv.fr/alerte/"
+     }
+    ]
+   }
+  },
+  "digital": {
+   "fr": {
+    "title": "Panne Internet ou de services en ligne",
+    "what": "Des pannes d'Internet ou de services (banques, télécoms, transports, administrations, cloud) sont détectées.",
+    "do": {
+     "1": [
+      "Si un service ne répond pas, testez avec un autre réseau (4G/5G ou Wi-Fi) avant de conclure à une panne."
+     ],
+     "2": [
+      "Ayez des espèces en petites coupures.",
+      "Téléchargez billets, cartes et contacts importants hors ligne.",
+      "Convenez d'un point de rencontre avec vos proches."
+     ],
+     "3": [
+      "Utilisez les SMS plutôt que les appels pour libérer le réseau.",
+      "Écoutez la radio pour les consignes officielles.",
+      "Retrouvez vos proches aux points convenus."
+     ]
+    },
+    "dont": [
+     "Ne relayez pas de rumeurs non confirmées.",
+     "N'appelez pas le 112 pour une simple panne de service."
+    ],
+    "refs": [
+     {
+      "t": "Cybermalveillance.gouv.fr",
+      "u": "https://www.cybermalveillance.gouv.fr"
+     },
+     {
+      "t": "Risques : conduites à tenir (gouvernement)",
+      "u": "https://www.info.gouv.fr/risques"
+     }
+    ]
+   },
+   "en": {
+    "title": "Internet or online service outage",
+    "what": "Outages of the Internet or of services (banks, telecoms, transport, administration, cloud) are being detected.",
+    "do": {
+     "1": [
+      "If a service is unreachable, try another network (4G/5G or Wi-Fi) before assuming an outage."
+     ],
+     "2": [
+      "Keep cash in small notes.",
+      "Download tickets, maps and key contacts for offline use.",
+      "Agree a meeting point with your family."
+     ],
+     "3": [
+      "Use texts rather than calls to ease the network.",
+      "Listen to the radio for official instructions.",
+      "Meet your family at agreed points."
+     ]
+    },
+    "dont": [
+     "Do not share unconfirmed rumours.",
+     "Do not call 112 just because a service is down."
+    ],
+    "refs": [
+     {
+      "t": "Cybermalveillance.gouv.fr",
+      "u": "https://www.cybermalveillance.gouv.fr"
+     },
+     {
+      "t": "Risks: what to do (French government)",
+      "u": "https://www.info.gouv.fr/risques"
+     }
+    ]
+   }
+  },
+  "supply": {
+   "fr": {
+    "title": "Tensions possibles sur l'approvisionnement",
+    "what": "Des signaux (cyberattaques de transporteurs ou distributeurs, sites de supermarchés inaccessibles) peuvent précéder des rayons moins garnis. Rien n'est encore constaté en magasin.",
+    "do": {
+     "1": [
+      "Rien de particulier : achetez normalement."
+     ],
+     "2": [
+      "Complétez peu à peu vos réserves avec ce que vous consommez déjà (3 jours).",
+      "Vérifiez les dates de péremption et les produits rappelés."
+     ],
+     "3": [
+      "Privilégiez les produits non périssables ; appliquez les règles du froid (frigo fermé ≈ 4 h, congélateur plein ≈ 48 h).",
+      "Suivez les consignes officielles."
+     ]
+    },
+    "dont": [
+     "N'achetez pas en masse : cela vide les rayons pour les autres, y compris les plus fragiles."
+    ],
+    "refs": [
+     {
+      "t": "Produits rappelés (RappelConso)",
+      "u": "https://rappel.conso.gouv.fr"
+     },
+     {
+      "t": "Risques : conduites à tenir (gouvernement)",
+      "u": "https://www.info.gouv.fr/risques"
+     }
+    ]
+   },
+   "en": {
+    "title": "Possible supply strain",
+    "what": "Signals (cyberattacks on carriers or retailers, supermarket sites unreachable) can precede emptier shelves. Nothing has been seen in stores yet.",
+    "do": {
+     "1": [
+      "Nothing special: shop as usual."
+     ],
+     "2": [
+      "Build your reserve gradually with what you already eat (3 days).",
+      "Check expiry dates and recalled products."
+     ],
+     "3": [
+      "Favour non-perishables; apply cold-chain rules (closed fridge ≈ 4 h, full freezer ≈ 48 h).",
+      "Follow official instructions."
+     ]
+    },
+    "dont": [
+     "Do not panic-buy: it empties shelves for others, including the most vulnerable."
+    ],
+    "refs": [
+     {
+      "t": "Product recalls (RappelConso)",
+      "u": "https://rappel.conso.gouv.fr"
+     },
+     {
+      "t": "Risks: what to do (French government)",
+      "u": "https://www.info.gouv.fr/risques"
+     }
+    ]
+   }
+  }
+ }
+}

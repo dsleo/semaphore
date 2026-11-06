@@ -1,0 +1,64 @@
+{
+  "source": {
+    "t": {"fr": "Guide « Tous responsables » (SGDSN, gouvernement)", "en": "“Tous responsables” guide (SGDSN, French government)"},
+    "u": "https://www.ecologie.gouv.fr/sites/default/files/documents/SGDSN_Guide_Tous%20responsables.pdf"
+  },
+  "links": [
+    {"t": {"fr": "Affiche officielle « Votre kit d'urgence 72 h » (Géorisques)", "en": "Official “72 h emergency kit” poster (Géorisques)"}, "u": "https://www.georisques.gouv.fr/sites/default/files/2022-08/KIT%2072H_A4-HD.pdf"},
+    {"t": {"fr": "Guide complet « Tous responsables » (PDF)", "en": "Full “Tous responsables” guide (PDF)"}, "u": "https://www.ecologie.gouv.fr/sites/default/files/documents/SGDSN_Guide_Tous%20responsables.pdf"},
+    {"t": {"fr": "Cybermalveillance.gouv.fr (hygiène numérique)", "en": "Cybermalveillance.gouv.fr (digital hygiene)"}, "u": "https://www.cybermalveillance.gouv.fr"},
+    {"t": {"fr": "17Cyber : aide si vous êtes victime", "en": "17Cyber: help if you are a victim"}, "u": "https://www.17cyber.gouv.fr"}
+  ],
+  "groups": [
+    {"id": "water", "t": {"fr": "Eau et nourriture", "en": "Water and food"}, "items": [
+      {"id": "water", "water": true, "t": {"fr": "Eau potable en bouteilles", "en": "Drinking water in bottles"}},
+      {"id": "cans", "t": {"fr": "Conserves", "en": "Canned food"}},
+      {"id": "nocook", "t": {"fr": "Nourriture non périssable, sans cuisson (café, thé…)", "en": "Non-perishable food needing no cooking (coffee, tea…)"}},
+      {"id": "baby", "t": {"fr": "Petits pots et lait infantile 1er âge liquide, si bébé", "en": "Baby food and ready-to-use infant milk, if you have a baby"}, "opt": true},
+      {"id": "pet", "t": {"fr": "Nourriture pour animaux, si animaux", "en": "Pet food, if you have pets"}, "opt": true},
+      {"id": "tabs", "t": {"fr": "Pastilles de décontamination de l'eau (dernier recours)", "en": "Water purification tablets (last resort)"}}
+    ]},
+    {"id": "base", "t": {"fr": "Matériel de base", "en": "Basic equipment"}, "items": [
+      {"id": "radio", "t": {"fr": "Radio à piles + piles de rechange", "en": "Battery radio + spare batteries"}, "why": {"fr": "Pour suivre les consignes des autorités si internet ou le courant sont coupés.", "en": "To follow official instructions if internet or power is down."}},
+      {"id": "bank", "t": {"fr": "Batterie externe et chargeur de téléphone", "en": "Power bank and phone charger"}},
+      {"id": "knife", "t": {"fr": "Couteau multifonctions", "en": "Multi-tool knife"}},
+      {"id": "opener", "t": {"fr": "Ouvre-boîte", "en": "Can opener"}},
+      {"id": "stove", "t": {"fr": "Réchaud", "en": "Camping stove"}},
+      {"id": "soap", "t": {"fr": "Savon", "en": "Soap"}}
+    ]},
+    {"id": "warm", "t": {"fr": "Rester au chaud et s'éclairer", "en": "Staying warm and having light"}, "items": [
+      {"id": "torch", "t": {"fr": "Lampe de poche + piles de rechange", "en": "Torch + spare batteries"}},
+      {"id": "candle", "t": {"fr": "Bougies", "en": "Candles"}},
+      {"id": "lighter", "t": {"fr": "Briquet ou allumettes", "en": "Lighter or matches"}},
+      {"id": "clothes", "t": {"fr": "Vêtements chauds", "en": "Warm clothes"}},
+      {"id": "blanket", "t": {"fr": "Couverture de survie", "en": "Emergency blanket"}}
+    ]},
+    {"id": "health", "t": {"fr": "Médicaments et premiers secours", "en": "Medication and first aid"}, "items": [
+      {"id": "meds", "t": {"fr": "Médicaments du quotidien (traitement habituel et de secours)", "en": "Everyday medication (regular treatment and emergency drugs)"}},
+      {"id": "glasses", "t": {"fr": "Lunettes de vue (paire de secours)", "en": "Spare glasses"}},
+      {"id": "aid", "t": {"fr": "Trousse de premiers secours : alcool ou gel hydroalcoolique, pansements, compresses", "en": "First-aid kit: alcohol or hand gel, plasters, compresses"}},
+      {"id": "masks", "t": {"fr": "Masques", "en": "Masks"}}
+    ]},
+    {"id": "docs", "t": {"fr": "Documents essentiels et clés", "en": "Essential documents and keys"}, "items": [
+      {"id": "keys", "t": {"fr": "Double des clés de la maison et de la voiture", "en": "Spare house and car keys"}},
+      {"id": "ids", "t": {"fr": "Photocopies des papiers d'identité (pochette étanche)", "en": "Photocopies of ID (waterproof pouch)"}},
+      {"id": "rx", "t": {"fr": "Ordonnances", "en": "Prescriptions"}},
+      {"id": "cash", "t": {"fr": "Argent liquide", "en": "Cash"}, "why": {"fr": "Les distributeurs et les terminaux de paiement peuvent ne plus fonctionner.", "en": "Cash machines and card terminals may stop working."}}
+    ]},
+    {"id": "time", "t": {"fr": "De quoi passer le temps", "en": "Something to pass the time"}, "items": [
+      {"id": "games", "t": {"fr": "Jeux et livres", "en": "Games and books"}}
+    ]}
+  ],
+  "know": {
+    "t": {"fr": "Savoir quoi faire quand ça arrive", "en": "Knowing what to do when it happens"},
+    "items": [
+      {"fr": "Écoutez la radio et la télévision : les autorités publient sur les canaux officiels du gouvernement, de la préfecture et de la mairie.", "en": "Listen to radio and TV: authorities publish on the official channels of the government, the préfecture and the town hall."},
+      {"fr": "Ne téléphonez pas inutilement : laissez les lignes libres pour les secours.", "en": "Do not phone needlessly: keep lines free for rescue services."},
+      {"fr": "FR-Alert : en zone de danger imminent, votre téléphone reçoit une notification avec un signal sonore et les consignes.", "en": "FR-Alert: in an imminent-danger area your phone gets a notification with a sound and instructions."},
+      {"fr": "Sirènes : testées le 1er mercredi de chaque mois. Alerte = 3 séquences d'1 min 41 s séparées de 5 s de silence. Fin d'alerte = signal continu de 30 s.", "en": "Sirens: tested on the first Wednesday of each month. Alert = 3 sequences of 1 min 41 s separated by 5 s of silence. End of alert = one continuous 30 s tone."},
+      {"fr": "Urgences : 112 (européen), 15 (SAMU), 17 (police), 18 (pompiers).", "en": "Emergencies: 112 (European), 15 (medical), 17 (police), 18 (fire)."},
+      {"fr": "Avant de relayer une information, demandez-vous : qui l'envoie ? la source est-elle officielle ? un grand média national la publie-t-il ? quel est son but ?", "en": "Before sharing information, ask: who sent it? is the source official? is a major national outlet publishing it? what is its purpose?"},
+      {"fr": "Si internet ne fonctionne plus, rendez-vous au commissariat, en gendarmerie ou en mairie.", "en": "If internet is down, go to a police station, gendarmerie or town hall."}
+    ]
+  }
+}

@@ -1,0 +1,91 @@
+{
+ "repo": "https://github.com/dsleo/vigie",
+ "shadow": false,
+ "hazards": {
+  "heat": {
+   "domain": "weather",
+   "impact": 5,
+   "persist": 2,
+   "sources": [
+    "weather",
+    "vigilance"
+   ]
+  },
+  "weather": {
+   "domain": "weather",
+   "impact": 2,
+   "persist": 2,
+   "sources": [
+    "weather",
+    "vigilance"
+   ]
+  },
+  "power": {
+   "domain": "power",
+   "impact": 4,
+   "persist": 2,
+   "sources": [
+    "ecowatt",
+    "eco2mix"
+   ]
+  },
+  "fuel": {
+   "domain": "fuel",
+   "impact": 3,
+   "persist": 2,
+   "demand_sensitive": true,
+   "sources": [
+    "fuel"
+   ]
+  },
+  "flood": {
+   "domain": "weather",
+   "impact": 4,
+   "persist": 2,
+   "sources": [
+    "seine",
+    "vigilance",
+    "vigicrues"
+   ]
+  },
+  "drought": {
+   "domain": "weather",
+   "impact": 2,
+   "persist": 1,
+   "sources": [
+    "vigieau"
+   ]
+  },
+  "cyber": {
+   "domain": "digital",
+   "impact": 3,
+   "persist": 2,
+   "sources": [
+    "kev",
+    "certfr",
+    "news"
+   ]
+  },
+  "digital": {
+   "domain": "digital",
+   "impact": 3,
+   "persist": 2,
+   "sources": [
+    "ioda",
+    "probes",
+    "news"
+   ]
+  },
+  "supply": {
+   "domain": "supply",
+   "impact": 3,
+   "persist": 2,
+   "demand_sensitive": true,
+   "sources": [
+    "ransomlook",
+    "probes",
+    "news"
+   ]
+  }
+ }
+}

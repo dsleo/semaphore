@@ -1,0 +1,24 @@
+name: update
+on:
+  schedule:
+    - cron: "*/15 * * * *"   # GitHub may delay or skip runs under load
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: update
+  cancel-in-progress: false
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m unittest -q          # stdlib only, no installs
+      - run: python3 -m puite                # writes docs/data/*.json
+      - name: Commit data (each commit = a timestamped, auditable snapshot)
+        run: |
+          git config user.name "puite-bot"
+          git config user.email "puite-bot@users.noreply.github.com"
+          git add docs/data/state.json docs/data/history.json docs/data/memory.json docs/data/places.json
+          git diff --cached --quiet || { git commit -m "data $(date -u +%FT%TZ)"; git push; }
