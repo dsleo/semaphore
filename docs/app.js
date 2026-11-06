@@ -185,7 +185,7 @@ function today() {
     ${n ? `<ul class="plainl">${Object.keys(S.hazards).filter(id => S.hazards[id].level >= 1).sort((a, b) => S.hazards[b].level - S.hazards[a].level).map(id => `<li><b>${esc(hn(id))}</b> : ${esc(why(id))}</li>`).join("")}</ul>` : ""}
     ${cv.late || cv.down ? `<p class="muted">${esc(u().cov(cv))} · <a href="#" data-go="more" data-sec="src">${u().dSrc}</a></p>` : ""}
     <ol class="scale" aria-hidden="true">${M.levels[lang].map((x, i) => `<li class="${i === cur ? "on" : ""}${n && i === 0 ? " off" : ""}">${esc(x)}</li>`).join("")}</ol></div>
-    ${alertsBlock()}${localBlock()}${newsBlock()}
+    ${alertsBlock()}${localBlock()}${lLocalBlock()}${S.paris ? newsBlock() : lNewsBlock()}
     ${col(u().sRisks, `<p class="muted">${u().riskNote}</p><div class="grid">${cls.map(tile).join("")}</div>`)}
     ${cc ? detailPanel(cc) : ""}
     ${unk.length ? `<p class="muted">${esc(u().missing(unk.join(", ")))}</p>` : ""}`;
@@ -210,7 +210,7 @@ function prepare() {
   <div class="bar"><b style="width:${Math.min(100, Math.round(100 * d / t))}%"></b></div><p class="muted" style="margin:0">${u().items(d, t)}</p>
   <p class="muted">${u().verified} : <b>${esc(kit.at ? fmt(kit.at) : u().never)}</b>. ${u().verifyDue}</p>
   <p><button class="btn" id="verify">${u().verifyNow}</button> <button class="btn sec" onclick="print()">${u().print}</button></p><p class="muted">${u().local}</p>`)}
-  ${groups}
+  ${lGeoBlock()}${groups}
   ${col(esc(tx(P.know.t)), `<ul class="plainl">${P.know.items.map(x => `<li>${esc(tx(x))}</li>`).join("")}</ul>`)}
   <div class="accs">${coolBlock()}</div><h2>${u().pn}</h2><ul class="links">${P.links.map(l => `<li>${link(tx(l.t), l.u)}</li>`).join("")}</ul>`;
 }
@@ -314,7 +314,10 @@ $("#lang").onclick = () => { lang = lang === "fr" ? "en" : "fr"; try { localStor
 const j = f => fetch(`data/${f}?t=${Date.now()}`, { cache: "no-store" }).then(r => { if (!r.ok) throw 0; return r.json(); });
 // ---- commune selection: C = chosen commune, N = national state.json, S = state shown (Paris: N itself; else local build)
 let N, C = null, builtAt = 0;
-async function refreshState() { S = C.code === LPARIS ? { ...N, paris: true } : await lBuild(C, N); builtAt = Date.now(); }
+async function refreshState() {
+  const [st, loc] = await Promise.all([C.code === LPARIS ? { ...N, paris: true } : lBuild(C, N), lLocal(C)]);
+  S = { ...st, loc, sources: { ...st.sources, ...loc.sources } }; builtAt = Date.now();
+}
 async function pickCommune(code, push = true) {
   S = null; tab = "today"; sel = null; sec = null;
   try {

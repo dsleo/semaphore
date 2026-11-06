@@ -134,7 +134,13 @@ footer p{margin:.4em 0}
 #city{background:none;border:1px solid var(--line2);padding:4px 12px;font-size:.8rem;font-weight:700;cursor:pointer;margin-left:auto;max-width:48vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #city[hidden]{display:none}
 .pickrow{display:flex;gap:8px;margin-top:6px}
-#q{flex:1;min-width:0;font:inherit;padding:10px 12px;border:1px solid var(--line2);border-bottom:2px solid var(--ink);background:var(--bg2);color:var(--ink);border-radius:0}
+.combo{position:relative;flex:1;min-width:0}
+#qs{position:absolute;left:0;right:0;top:100%;z-index:20;margin:0;padding:0;list-style:none;background:var(--bg);border:1px solid var(--line2);border-top:0;max-height:280px;overflow:auto;box-shadow:0 6px 16px rgba(0,0,0,.25)}
+#qs[hidden]{display:none}
+#qs li{padding:10px 12px;cursor:pointer;border-bottom:1px solid var(--line)}
+#qs li:last-child{border-bottom:0}
+#qs li:hover,#qs li[aria-selected=true]{background:var(--blue2)}
+#q{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line2);border-bottom:2px solid var(--ink);background:var(--bg2);color:var(--ink);border-radius:0}
 .chip{font:inherit;font-size:.875rem;background:var(--blue2);color:var(--blue);border:1px solid transparent;padding:4px 12px;margin:0 6px 6px 0;cursor:pointer;border-radius:16px}
 .chip:hover{border-color:var(--blue)}
 .mapbox{margin-top:20px}

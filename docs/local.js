@@ -3,7 +3,7 @@
 // browser, from CORS-open public APIs, combined with the national hazards already in state.json.
 // ponytail: no persistence/hysteresis for local hazards (no per-visitor history); add a localStorage replay if flapping shows.
 const LGEO = "https://geo.api.gouv.fr", LPARIS = "75056";
-const LF = "fields=nom,code,codesPostaux,centre,population,departement";
+const LF = "fields=nom,code,codesPostaux,centre,population,departement,region,codeEpci";
 const lget = (u, ms = 15000) => fetch(u, { signal: AbortSignal.timeout(ms) }).then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); });
 const lclamp = (x, lo = 0, hi = 1) => Math.max(lo, Math.min(hi, x));
 const linterp = (x, p) => { if (x <= p[0][0]) return p[0][1]; for (let i = 1; i < p.length; i++) if (x <= p[i][0]) return p[i - 1][1] + (p[i][1] - p[i - 1][1]) * (x - p[i - 1][0]) / (p[i][0] - p[i - 1][0]); return p[p.length - 1][1]; };
@@ -145,7 +145,7 @@ async function lBuild(c, N) {
   };
 }
 const lResolve = code => lget(`${LGEO}/communes/${encodeURIComponent(code)}?${LF}`).then(lNorm);
-const lNorm = r => ({ code: r.code, nom: r.nom, dep: r.departement.code, depNom: r.departement.nom, cp: (r.codesPostaux || [])[0], pop: r.population, lon: r.centre.coordinates[0], lat: r.centre.coordinates[1] });
+const lNorm = r => ({ code: r.code, nom: r.nom, dep: r.departement.code, depNom: r.departement.nom, reg: r.region && r.region.code, epci: r.codeEpci, cp: (r.codesPostaux || [])[0], pop: r.population, lon: r.centre.coordinates[0], lat: r.centre.coordinates[1] });
 
 // ---- wording that names Paris/Seine/IdF in messages.json, made generic for other communes
 const LMSG = {
@@ -160,12 +160,26 @@ function lMsg(m, id) {
 }
 const lHn = id => id === "flood" && S && !S.paris ? ({ fr: "Crues et inondations", en: "Floods" })[lang] : u().hnames[id];
 
-// ---- landing: autocomplete + France map coloured by Météo-France vigilance
+// ---- landing: autocomplete + France map
 const LU = {
-  fr: { h: "Quels risques près de chez vous ?", lede: "Choisissez votre commune : Vigie affiche la vigilance météo, l'eau, le carburant, l'électricité et le numérique, avec des sources vérifiables.", lab: "Votre commune ou code postal", ph: "Ex. Lyon ou 33000", here: "Ma position", resume: n => `Reprendre : ${n}`, none: "Aucune commune trouvée.", loc: "Position introuvable.", load: "Chargement de la commune…", fail: "Impossible de charger cette commune.",
-    map: "Vigilance Météo-France aujourd'hui et demain, par département. Touchez un département pour voir ses villes.", cap: "France métropolitaine, vigilance par département", main: n => `Villes principales : ${n}`, close: "Fermer", lv: ["pas de donnée", "vert", "jaune", "orange", "rouge"], leg: "Vigilance", noMap: "Carte indisponible.", back: "Changer de ville", dom: "Les départements d'outre-mer sont disponibles via la recherche de commune." },
-  en: { h: "What risks are near you?", lede: "Pick your commune: Vigie shows weather vigilance, water, fuel, power and digital risks, with verifiable sources.", lab: "Your commune or postcode", ph: "E.g. Lyon or 33000", here: "My location", resume: n => `Resume: ${n}`, none: "No commune found.", loc: "Location not found.", load: "Loading the commune…", fail: "Could not load this commune.",
-    map: "Météo-France vigilance today and tomorrow, by département. Tap a département to see its towns.", cap: "Metropolitan France, vigilance by département", main: n => `Main towns: ${n}`, close: "Close", lv: ["no data", "green", "yellow", "orange", "red"], leg: "Vigilance", noMap: "Map unavailable.", back: "Change city", dom: "Overseas départements are available through the commune search." }
+  fr: { h: "Quels risques près de chez vous ?", lede: "Choisissez votre commune : Vigie affiche la vigilance météo, l'eau, le carburant, l'électricité, les routes, les transports et le numérique, avec des sources vérifiables.", lab: "Votre commune ou code postal", ph: "Ex. Lyon ou 33000", here: "Ma position", resume: n => `Reprendre : ${n}`, none: "Aucune commune trouvée.", loc: "Position introuvable.", load: "Chargement de la commune…", fail: "Impossible de charger cette commune.",
+    cap: "Carte de la France métropolitaine par département", main: n => `Villes principales : ${n}`, close: "Fermer", noMap: "Carte indisponible.", dom: "Les départements d'outre-mer sont disponibles via la recherche de commune.",
+    sNews: "Actualité locale surveillée", newsNote: "Titres de la presse régionale et locale (France 3 régions, ici, quotidiens régionaux), repérés par mot-clé de crise dans les 36 dernières heures, tels que publiés. Non vérifiés par nous, sans effet sur les niveaux.", newsNone: "Aucun titre de crise concernant votre commune ou votre région ces dernières 36 h.", scope: { commune: "Votre commune", dept: "Votre département", region: "Votre région" }, trigger: "mot repéré",
+    sLocal: "Perturbations autour de vous", roadsT: "Routes", roadsNone: "Aucun événement sur le réseau routier national à moins de 25 km.", roadsNote: "Bison Futé : réseau routier national non concédé (nationales). Les autoroutes concédées et les routes départementales ne sont pas toutes couvertes.", km: "à", closed: "route coupée",
+    transitT: "Transports en commun", transitNone: n => `Aucune alerte en cours sur : ${n}.`, transitNo: "Aucun réseau de votre commune n'est suivi automatiquement : consultez le site de votre opérateur.", transitNote: "Alertes temps réel publiées par les réseaux sur transport.data.gouv.fr. Un réseau absent n'est pas « sans perturbation » : il n'est simplement pas lu.", transitNat: "Alertes SNCF citant votre commune",
+    eff: { no_service: "service interrompu", reduced: "service réduit", delays: "retards importants", detour: "déviation", modified: "service modifié", stop_moved: "arrêt déplacé" },
+    kind: { Accident: "Accident", AbnormalTraffic: "Circulation dense", VehicleObstruction: "Véhicule ou obstacle", RoadOrCarriagewayOrLaneManagement: "Restriction de circulation", GeneralObstruction: "Obstacle sur la route", WeatherRelatedRoadConditions: "Conditions météo", EnvironmentalObstruction: "Obstacle naturel", InfrastructureDamageObstruction: "Chaussée endommagée", AnimalPresenceObstruction: "Animaux sur la route", GeneralNetworkManagement: "Gestion du réseau" },
+    powerT: "Électricité", powerNote: "Enedis ne publie pas ses coupures en cours en données ouvertes : Vigie ne peut pas les lire. Le signal national (Écowatt, RTE) est suivi dans « Électricité ».", powerTel: n => `Dépannage Enedis de votre département : 09 72 67 50 ${n} (24 h/24, appel non surtaxé)`, powerLink: "Site d'Enedis",
+    geoT: "Risques naturels et technologiques de votre commune", geoNote: "Profil permanent publié par l'État (Géorisques / GASPAR), pas une alerte : il dit à quoi votre commune est exposée, pas ce qui se passe maintenant.", geoNone: "Aucun risque recensé.", seismic: "Zone sismique", catnat: n => `${n} arrêté${n > 1 ? "s" : ""} de catastrophe naturelle depuis 1982`, geoLink: "Fiche complète sur Géorisques", geoFail: "Géorisques est indisponible pour le moment." },
+  en: { h: "What risks are near you?", lede: "Pick your commune: Vigie shows weather vigilance, water, fuel, power, roads, transit and digital risks, with verifiable sources.", lab: "Your commune or postcode", ph: "E.g. Lyon or 33000", here: "My location", resume: n => `Resume: ${n}`, none: "No commune found.", loc: "Location not found.", load: "Loading the commune…", fail: "Could not load this commune.",
+    cap: "Map of metropolitan France by département", main: n => `Main towns: ${n}`, close: "Close", noMap: "Map unavailable.", dom: "Overseas départements are available through the commune search.",
+    sNews: "Local news monitored", newsNote: "Headlines from regional and local press (France 3 regions, ici, regional dailies), picked up by crisis keyword in the last 36 hours, as published. Not verified by us, no effect on levels.", newsNone: "No crisis headline about your commune or region in the last 36 h.", scope: { commune: "Your commune", dept: "Your département", region: "Your region" }, trigger: "trigger word",
+    sLocal: "Disruptions around you", roadsT: "Roads", roadsNone: "No event on the national road network within 25 km.", roadsNote: "Bison Futé: the non-conceded national road network. Conceded motorways and departmental roads are not all covered.", km: "at", closed: "road closed",
+    transitT: "Public transport", transitNone: n => `No current alert on: ${n}.`, transitNo: "No network serving your commune is read automatically: check your operator's site.", transitNote: "Real-time alerts published by networks on transport.data.gouv.fr. A missing network is not “no disruption”: it is simply not read.", transitNat: "SNCF alerts naming your commune",
+    eff: { no_service: "no service", reduced: "reduced service", delays: "major delays", detour: "detour", modified: "modified service", stop_moved: "stop moved" },
+    kind: { Accident: "Accident", AbnormalTraffic: "Heavy traffic", VehicleObstruction: "Vehicle or obstacle", RoadOrCarriagewayOrLaneManagement: "Traffic restriction", GeneralObstruction: "Obstacle on the road", WeatherRelatedRoadConditions: "Weather conditions", EnvironmentalObstruction: "Natural obstacle", InfrastructureDamageObstruction: "Damaged road", AnimalPresenceObstruction: "Animals on the road", GeneralNetworkManagement: "Network management" },
+    powerT: "Power", powerNote: "Enedis does not publish its current outages as open data, so Vigie cannot read them. The national signal (Ecowatt, RTE) is tracked under “Power”.", powerTel: n => `Enedis breakdown line for your département: 09 72 67 50 ${n} (24/7, standard rate)`, powerLink: "Enedis website",
+    geoT: "Natural and technological risks in your commune", geoNote: "A permanent profile published by the State (Géorisques / GASPAR), not an alert: it says what your commune is exposed to, not what is happening now.", geoNone: "No risk listed.", seismic: "Seismic zone", catnat: n => `${n} natural-disaster decree${n > 1 ? "s" : ""} since 1982`, geoLink: "Full report on Géorisques", geoFail: "Géorisques is unavailable right now." }
 };
 const lu = () => LU[lang];
 let LMAP = null;
@@ -173,27 +187,37 @@ function lLanding() {
   const t = lu(), last = (() => { try { return JSON.parse(localStorage.getItem("commune")); } catch { return null; } })();
   return `<h1>${t.h}</h1><p>${t.lede}</p>
   <div class="pick"><label for="q"><b>${t.lab}</b></label>
-  <div class="pickrow"><input id="q" type="search" list="qs" autocomplete="off" spellcheck="false" placeholder="${esc(t.ph)}"><datalist id="qs"></datalist><button class="btn sec" id="here" type="button">${t.here}</button></div>
+  <div class="pickrow"><div class="combo"><input id="q" type="search" role="combobox" aria-expanded="false" aria-controls="qs" aria-autocomplete="list" autocomplete="off" spellcheck="false" placeholder="${esc(t.ph)}"><ul id="qs" role="listbox" hidden></ul></div><button class="btn sec" id="here" type="button">${t.here}</button></div>
   <p class="muted" id="pickmsg" role="status"></p>${last ? `<p><button class="chip" data-code="${esc(last.code)}">${esc(t.resume(last.nom))}</button></p>` : ""}</div>
   <section class="mapbox"><div id="fmap" role="group" aria-label="${esc(t.cap)}"><p class="muted">…</p></div><p class="muted">${t.dom}</p></section>
   <dialog id="deptcity" aria-labelledby="dtitle"></dialog>`;
 }
 async function lBindLanding(pick) {
-  const t = lu(), q = $("#q"), msg = $("#pickmsg"); let hits = {}, timer;
+  const t = lu(), q = $("#q"), list = $("#qs"), msg = $("#pickmsg"); let hits = [], act = -1, timer;
   document.querySelectorAll("[data-code]").forEach(b => b.onclick = () => pick(b.dataset.code));
-  const label = r => `${r.nom} (${r.departement ? r.departement.code : ""})`;
+  const close = () => { list.hidden = true; q.setAttribute("aria-expanded", "false"); act = -1; q.removeAttribute("aria-activedescendant"); };
+  const mark = () => { [...list.children].forEach((li, i) => li.setAttribute("aria-selected", i === act)); act >= 0 ? q.setAttribute("aria-activedescendant", "o" + act) : q.removeAttribute("aria-activedescendant"); list.children[act]?.scrollIntoView({ block: "nearest" }); };
+  const show = () => {
+    list.innerHTML = hits.map((r, i) => `<li role="option" id="o${i}" data-i="${i}" aria-selected="false">${esc(r.nom)} <span class="muted">${esc(r.departement ? r.departement.code + " · " + r.departement.nom : "")}${/^\d{5}$/.test(q.value.trim()) && r.codesPostaux ? " · " + esc(r.codesPostaux.includes(q.value.trim()) ? q.value.trim() : r.codesPostaux[0]) : ""}</span></li>`).join("");
+    list.hidden = !hits.length; q.setAttribute("aria-expanded", String(!!hits.length)); act = -1;
+  };
   const search = async () => {
-    const v = q.value.trim(); if (v.length < 2) return;
+    const v = q.value.trim(); if (v.length < 2) { close(); return; }
     try {
-      const rows = await lget(`${LGEO}/communes?${/^\d{5}$/.test(v) ? "codePostal=" + v : "nom=" + encodeURIComponent(v) + "&boost=population"}&limit=10&${LF}`);
-      hits = Object.fromEntries(rows.map(r => [label(r), r]));
-      $("#qs").innerHTML = Object.keys(hits).map(k => `<option value="${esc(k)}">`).join("");
-      msg.textContent = rows.length ? "" : t.none;
-      if (hits[v]) pick(hits[v].code);
+      hits = await lget(`${LGEO}/communes?${/^\d{5}$/.test(v) ? "codePostal=" + v : "nom=" + encodeURIComponent(v) + "&boost=population"}&limit=8&${LF}`);
+      if (q.value.trim() !== v) return;  // a newer keystroke is already in flight
+      show(); msg.textContent = hits.length ? "" : t.none;
     } catch { msg.textContent = t.fail; }
   };
-  q.oninput = () => { if (hits[q.value]) return pick(hits[q.value].code); clearTimeout(timer); timer = setTimeout(search, 180); };
-  q.onkeydown = e => { if (e.key === "Enter") { const f = Object.values(hits)[0]; if (f) pick(f.code); } };
+  q.oninput = () => { clearTimeout(timer); timer = setTimeout(search, 180); };
+  q.onfocus = () => { if (hits.length) { list.hidden = false; q.setAttribute("aria-expanded", "true"); } };
+  q.onkeydown = e => {
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") { if (!hits.length) return; e.preventDefault(); if (list.hidden) { list.hidden = false; q.setAttribute("aria-expanded", "true"); } act = (act + (e.key === "ArrowDown" ? 1 : -1) + hits.length) % hits.length; mark(); }
+    else if (e.key === "Enter") { const r = hits[act >= 0 ? act : 0]; if (r) { e.preventDefault(); close(); pick(r.code); } }
+    else if (e.key === "Escape") close();
+  };
+  list.onpointerdown = e => { const li = e.target.closest("[data-i]"); if (li) { e.preventDefault(); close(); pick(hits[+li.dataset.i].code); } };
+  document.addEventListener("pointerdown", e => { if (!e.target.closest(".combo")) close(); });
   $("#here").onclick = () => navigator.geolocation ? navigator.geolocation.getCurrentPosition(
     async p => { try { const r = await lget(`${LGEO}/communes?lat=${p.coords.latitude}&lon=${p.coords.longitude}&${LF}`); r[0] ? pick(r[0].code) : msg.textContent = t.loc; } catch { msg.textContent = t.loc; } },
     () => { msg.textContent = t.loc; }) : (msg.textContent = t.loc);
@@ -218,5 +242,68 @@ async function lBindLanding(pick) {
     };
     host.querySelectorAll(".dep").forEach(p => { p.onclick = () => open(p); p.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(p); } }; });
   }
+}
+
+// ---- nationwide local layers, filtered for one commune: news, roads, transit, Géorisques
+const lnorm = t => " " + String(t || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim() + " ";
+const lkm = (a, b, c, d) => { const r = x => x * Math.PI / 180, h = Math.sin(r(c - a) / 2) ** 2 + Math.cos(r(a)) * Math.cos(r(c)) * Math.sin(r(d - b) / 2) ** 2; return 12742 * Math.asin(Math.sqrt(h)); };
+const lsrc = (name, link, kind, area, every, lic, ok, err, at) => ({ name, link, ok, err: err || null, n: 0, last_ok: ok ? at : null, status: ok ? "current" : "down", every, kind, area, lic });
+// "Rhône" must not match "Bouches-du-Rhône", "Loire" not "Haute-Loire" / "Loire-Atlantique"
+const ldep = (t, dn) => { const i = t.indexOf(dn); if (i < 0) return false; const b = t.slice(0, i).trim().split(" ").pop(), a = t.slice(i + dn.length).trim().split(" ")[0]; return !["du", "de", "et", "haute", "hautes", "haut", "bas", "basse", "la"].includes(b) && !["atlantique", "maritime", "maritimes", "orientales", "et"].includes(a); };
+async function lLocal(c) {
+  const g = p => lget(`https://georisques.gouv.fr/api/v1/${p}`), j = f => lget(`data/${f}?t=${Math.floor(Date.now() / 3e5)}`, 20000);
+  const [nw, rd, tr, gr, sz, cn] = await Promise.allSettled([j("news-local.json"), j("roads.json"), j("transit.json"), g(`gaspar/risques?code_insee=${c.code}`), g(`zonage_sismique?code_insee=${c.code}`), g(`gaspar/catnat?code_insee=${c.code}&page_size=1`)]);
+  const L = { sources: {} }, now = new Date().toISOString(), val = r => r.status === "fulfilled" ? r.value : null;
+  const nm = lnorm(c.nom), dn = lnorm(c.depNom);
+  const N = val(nw);
+  L.news = N && N.items.map(i => { const t = lnorm(i.t), s = t.includes(nm) ? "commune" : (i.d === c.dep || ldep(t, dn)) ? "dept" : i.r === c.reg ? "region" : null; return s && { ...i, scope: s }; })
+    .filter(Boolean).sort((a, b) => ["commune", "dept", "region"].indexOf(a.scope) - ["commune", "dept", "region"].indexOf(b.scope) || b.p.localeCompare(a.p)).slice(0, 10);
+  L.newsMeta = N && { themes: N.themes, feeds: N.feeds };
+  L.sources.localnews = lsrc("Regional and local press feeds", "https://france3-regions.francetvinfo.fr/", "reported", "france", 15, "titres et liens uniquement", !!N, nw.reason, N && N.generated);
+  const R = val(rd);
+  L.roads = R && R.items.map(i => ({ ...i, km: lkm(c.lat, c.lon, i.la, i.lo) })).filter(i => i.km <= 25).sort((a, b) => b.x - a.x || a.km - b.km).slice(0, 8);
+  L.sources.roads = lsrc("Road events (Bison Futé, DATEX II)", "https://www.bison-fute.gouv.fr", "observed", "dept", 15, "Licence Ouverte 2.0", !!R, rd.reason, R && R.generated);
+  const T = val(tr);
+  if (T) {
+    const m = a => a.some(x => (x.type === "commune" && x.insee === c.code) || (x.type === "epci" && x.insee === c.epci) || (x.type === "departement" && x.insee === c.dep) || (x.type === "region" && x.insee === c.reg));
+    const nat = a => a.some(x => x.type === "pays");
+    L.transit = { nets: T.networks.filter(n => n.ok && !nat(n.area) && m(n.area) && n.alerts.length).map(n => ({ name: n.name, link: n.link, alerts: n.alerts.slice(0, 6), n: n.alerts.length })),
+      followed: T.all.filter(n => n.ok && !nat(n.area) && m(n.area)).map(n => n.name),
+      nat: T.networks.filter(n => nat(n.area)).flatMap(n => n.alerts.filter(a => lnorm(a.t).includes(nm)).map(a => ({ ...a, net: n.name }))).slice(0, 4) };
+  }
+  L.sources.transit = lsrc("Public transport alerts (GTFS-RT, transport.data.gouv.fr)", "https://transport.data.gouv.fr", "official", "commune", 15, "voir les sources", !!T, tr.reason, T && T.generated);
+  const G = val(gr);
+  if (G && G.data && G.data[0]) {
+    const by = {}; for (const r of G.data[0].risques_detail) { const k = r.num_risque.slice(0, 2); (by[k] = by[k] || { label: null, sub: [] }); r.num_risque.length === 2 ? by[k].label = r.libelle_risque_long : by[k].sub.push(r.libelle_risque_long.replace(/^Par /, "par ")); }
+    L.geo = { risks: Object.values(by).filter(x => x.label), seismic: val(sz)?.data?.[0]?.zone_sismicite || null, catnat: val(cn)?.results ?? null };
+  } else if (G) L.geo = { risks: [], seismic: val(sz)?.data?.[0]?.zone_sismicite || null, catnat: val(cn)?.results ?? null };
+  L.sources.georisques = lsrc("Natural and technological risks (Géorisques)", "https://georisques.gouv.fr", "official", "commune", 43200, "Licence Ouverte 2.0", !!G, gr.reason, now);
+  return L;
+}
+function lNewsBlock() {
+  const t = lu(), n = S.loc && S.loc.news;
+  if (!n) return "";
+  const items = n.length ? `<ul class="links">${n.map(i => `<li><span class="muted">${esc(tx(S.loc.newsMeta.themes[i.th]))} · ${esc(t.scope[i.scope])}</span><br><a href="${esc(i.l)}" target="_blank" rel="noopener">${esc(i.t)}</a><br><span class="muted">${esc(i.s)} · ${fmt(i.p)} · ${t.trigger} : « ${esc(i.kw)} »</span></li>`).join("")}</ul>` : `<p>${t.newsNone}</p>`;
+  return col(`${t.sNews} (${n.length})`, `<p class="muted">${t.newsNote}</p>${items}`);
+}
+function lLocalBlock() {
+  const t = lu(), L = S.loc; if (!L) return "";
+  const parts = [];
+  if (L.roads) parts.push(`<h3>${t.roadsT}</h3>${L.roads.length ? `<ul class="meas">${L.roads.map(i => `<li><b>${esc(i.road || i.town || "")}</b>${i.x ? ` <span class="badge b1">${t.closed}</span>` : ""} <span class="muted">· ${esc(t.kind[i.k] || i.k)} · ${t.km} ${Math.round(i.km)} km${i.town ? " · " + esc(i.town) : ""}</span><br><span class="muted">${esc(i.t)}</span></li>`).join("")}</ul>` : `<p>${t.roadsNone}</p>`}<p class="muted">${t.roadsNote}</p>`);
+  if (L.transit) {
+    const tn = L.transit, body = tn.nets.map(n => `<li><b>${link(n.name, n.link)}</b> <span class="muted">(${n.n})</span><ul class="plainl">${n.alerts.map(a => `<li>${a.e ? `<span class="badge b1">${esc(t.eff[a.e])}</span> ` : ""}${esc(a.t)}</li>`).join("")}</ul></li>`).join("");
+    parts.push(`<h3>${t.transitT}</h3>${tn.nets.length ? `<ul class="meas">${body}</ul>` : tn.followed.length ? `<p>${t.transitNone(esc(tn.followed.join(", ")))}</p>` : `<p>${t.transitNo}</p>`}
+      ${tn.nat.length ? `<h3>${t.transitNat}</h3><ul class="plainl">${tn.nat.map(a => `<li>${esc(a.t)} <span class="muted">· ${esc(a.net)}</span></li>`).join("")}</ul>` : ""}<p class="muted">${t.transitNote}</p>`);
+  }
+  const tel = /^\d\d$/.test(C.dep) && C.dep !== "20" ? `<p>${t.powerTel(C.dep)}</p>` : "";
+  parts.push(`<h3>${t.powerT}</h3><p class="muted">${t.powerNote}</p>${tel}<p>${link(t.powerLink, "https://www.enedis.fr")}</p>`);
+  return col(t.sLocal, parts.join(""));
+}
+function lGeoBlock() {
+  const t = lu(), G = S.loc && S.loc.geo;
+  const body = !G ? `<p>${t.geoFail}</p>` : `${G.risks.length ? `<ul class="plainl">${G.risks.map(r => `<li><b>${esc(r.label)}</b>${r.sub.length ? `<br><span class="muted">${esc(r.sub.join(" · "))}</span>` : ""}</li>`).join("")}</ul>` : `<p>${t.geoNone}</p>`}
+    <p>${G.seismic ? `${t.seismic} : <b>${esc(G.seismic)}</b>` : ""}${G.catnat ? `${G.seismic ? "<br>" : ""}${t.catnat(G.catnat)}` : ""}</p>
+    <p class="muted">${t.geoNote}</p><p>${link(t.geoLink, "https://www.georisques.gouv.fr/")}</p>`;
+  return col(t.geoT, body);
 }
 if (typeof module !== "undefined") module.exports = { lScore, lH, lHeadline, lLevel, linterp };

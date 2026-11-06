@@ -425,7 +425,7 @@ FEEDS = [("franceinfo", "franceinfo", "https://www.francetvinfo.fr/titres.rss"),
 # theme -> (label fr, label en, regex). Plain keyword rules; nothing is inferred or summarised.
 THEMES = {
     "transport": (T("Transports et mobilisation", "Transport and strikes"),
-                  r"gr[eè]ve|perturbations?|trafic (perturb|interromp)|ratp|sncf|m[ée]tro|\brer\b|transilien|a[ée]roport"),
+                  r"gr[eè]ve|perturbations?|trafic (perturb|interromp)|ratp|sncf|m[ée]tro\b|\brer\b|transilien|a[ée]roport"),
     "power": (T("Électricité", "Power"), r"coupure[s]? (de courant|d.[ée]lectricit)|panne [ée]lectrique|blackout|d[ée]lestage|enedis|\brte\b|ecowatt|black-out"),
     "fuel": (T("Carburant", "Fuel"), r"p[ée]nurie (de )?(carburant|essence|diesel|gazole)|stations?[- ]service[s]? (à sec|ferm)|raffiner|rationnement"),
     "water": (T("Eau et crue", "Water and flood"), r"inondation|crue|vigilance (orange|rouge) (pluie|crue|inond)|s[ée]cheresse|restrictions? d.eau|eau potable|rupture de canalisation"),
