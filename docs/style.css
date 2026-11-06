@@ -129,6 +129,24 @@ ul.plainl{padding-left:1.2em}ul.plainl li{margin:.4em 0}
 footer{border-top:1px solid var(--line);background:var(--bg2);padding:12px 0 18px;font-size:.8rem;color:var(--mut)}
 footer p{margin:.4em 0}
 @media(prefers-color-scheme:dark){.btn{color:#161616}}
+
+/* Commune picker + France map */
+#city{background:none;border:1px solid var(--line2);padding:4px 12px;font-size:.8rem;font-weight:700;cursor:pointer;margin-left:auto;max-width:48vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#city[hidden]{display:none}
+.pickrow{display:flex;gap:8px;margin-top:6px}
+#q{flex:1;min-width:0;font:inherit;padding:10px 12px;border:1px solid var(--line2);border-bottom:2px solid var(--ink);background:var(--bg2);color:var(--ink);border-radius:0}
+.chip{font:inherit;font-size:.875rem;background:var(--blue2);color:var(--blue);border:1px solid transparent;padding:4px 12px;margin:0 6px 6px 0;cursor:pointer;border-radius:16px}
+.chip:hover{border-color:var(--blue)}
+.mapbox{margin-top:20px}
+#fmap svg{width:100%;max-height:70vh;display:block}
+.dep{fill:var(--bg2);stroke:var(--line2);stroke-width:.6;cursor:pointer}
+.dep:hover,.dep:focus-visible{stroke:var(--blue);stroke-width:2;outline:none}
+.dep.m1,.sw.m1{fill:#c8e6c0;background:#c8e6c0}
+.dep.m2,.sw.m2{fill:#f6d33f;background:#f6d33f}
+.dep.m3,.sw.m3{fill:#f08a24;background:#f08a24}
+.dep.m4,.sw.m4{fill:#d4281f;background:#d4281f}
+.legend{list-style:none;display:flex;flex-wrap:wrap;gap:4px 16px;margin:8px 0;padding:0;font-size:.875rem}
+.sw{display:inline-block;width:14px;height:14px;margin-right:6px;vertical-align:-2px;border:1px solid var(--line2)}
 @media print{.hd,.btn,.persons{display:none}body{background:#fff;color:#000}.panel{border:0;padding:0}}
 .spark rect:not(.col){pointer-events:none}
 

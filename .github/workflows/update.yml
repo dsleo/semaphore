@@ -15,6 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: python3 -m unittest -q          # stdlib only, no installs
+      - run: node tests/local.test.js        # browser-side scoring port
       - run: python3 -m puite                # writes docs/data/*.json
       - name: Commit data (each commit = a timestamped, auditable snapshot)
         run: |

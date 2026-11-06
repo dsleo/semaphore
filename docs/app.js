@@ -18,7 +18,7 @@ const UI = {
     sLocal: "Perturbations locales à Paris", localNone: "Aucune perturbation de circulation en cours dans les données de la Ville de Paris.", localN: (n, k) => `${n} chantiers ou événements en cours, dont ${k} avec fermeture de voie.`, localNote: "Données de la Ville de Paris, mises à jour toutes les 5 minutes. Ce sont surtout des travaux et des événements prévus, pas des incidents. Aucune carte pour l'instant : liste par rue.", until: "jusqu'au", closed: "voie fermée", moreTraffic: "Voir plus", noTransit: "Les perturbations de transports (RATP, SNCF) ne sont pas encore lues : consultez les sites des exploitants.",
     sRisks: "Indices de risque", riskNote: "Indice calculé par des règles publiques à partir des mesures ci-dessous. Ce n'est ni une probabilité, ni une alerte officielle, ni une prévision de danger personnel.",
     sCtx: "Se préparer et contexte", goPrep: "Votre kit d'urgence, FR-Alert, numéros utiles", goCool: "Où se rafraîchir et boire à Paris",
-    partial: "données partielles", kinds: { observed: "Mesuré", official: "Alerte officielle", forecast: "Prévision", reported: "Rapporté, non confirmé", context: "Contexte, non noté" }, areas: { paris: "Paris", idf: "Île-de-France", france: "France", world: "Monde", single: "un seul point de mesure" }, pubd: "publié", fetchd: "", ctxBadge: "Contexte",
+    partial: "données partielles", kinds: { observed: "Mesuré", official: "Alerte officielle", forecast: "Prévision", reported: "Rapporté, non confirmé", context: "Contexte, non noté" }, areas: { paris: "Paris", commune: "Commune", dept: "Département", idf: "Île-de-France", france: "France", world: "Monde", single: "un seul point de mesure" }, pubd: "publié", fetchd: "", ctxBadge: "Contexte",
     howLink: "Comment ce niveau est décidé",
     names: { meteo: "Météo et climat", power: "Électricité", fuel: "Carburant", cyber: "Cyberattaques", digital: "Réseaux et paiements", supply: "Alimentation" },
     hnames: { heat: "Chaleur", weather: "Vent, pluie, orages, froid", flood: "Crue de la Seine", drought: "Sécheresse", power: "Électricité", fuel: "Carburant", cyber: "Cyberattaques", digital: "Réseaux et paiements", supply: "Alimentation" },
@@ -31,7 +31,7 @@ const UI = {
     newsNote: "Titres de presse repérés par mot-clé, tels que publiés. Non vérifiés par nous et sans effet sur le niveau, sauf pour les cyberattaques confirmées par plusieurs médias. Fenêtre : 36 h, Paris ou France.", newsNone: "Aucun titre de crise concernant Paris ou la France ces dernières 36 h.", trigger: "mot repéré", feeds: "Flux lus", inParis: "Paris", inFrance: "France",
     srcCols: ["Source", "Nature et zone", "État", "Dernier succès", "Mise à jour attendue", "Licence"], srcOk: "à jour", srcLate: "en retard", srcKo: "indisponible", every: m => m >= 1440 ? `${Math.round(m / 1440)} j` : m >= 60 ? `${Math.round(m / 60)} h` : `${m} min`, histNone: "Aucun changement de niveau enregistré.", histCols: ["Date", "Risque", "Changement"],
     ctx: "Contexte (non noté)", enso: e => `ENSO : ${e.phase} ${e.strength} (indice ONI ${e.anom > 0 ? "+" : ""}${e.anom}, ${e.season}). Influence lente sur les prix alimentaires et le climat mondial, pas un danger direct à Paris.`,
-    repo: "Code et historique",
+    repo: "Code et historique", trLocal: "Hors Paris, seules les séries nationales (électricité, numérique, alimentation) sont suivies dans le temps.", histLocal: "L'historique des changements de niveau n'est tenu que pour Paris.",
     emerg: "Urgence :",
     disclaimer: "Ce site est un outil citoyen indépendant. Il n'émet pas d'alerte officielle : en cas d'urgence, suivez FR-Alert, la radio et la préfecture.",
     trPage: "Tendances sur 2 semaines", trHelp: "Touchez, survolez ou sélectionnez au clavier une barre pour voir le détail du jour.", trTable: "Voir les valeurs jour par jour", trUp: "En hausse", trDown: "En baisse", trSame: "Stable", trNo: "Pas assez de données",
@@ -60,7 +60,7 @@ const UI = {
     sLocal: "Local disruptions in Paris", localNone: "No traffic disruption currently listed in the City of Paris data.", localN: (n, k) => `${n} works or events under way, ${k} with a road closed.`, localNote: "City of Paris data, updated every 5 minutes. Mostly planned works and events, not incidents. No map yet: a street list.", until: "until", closed: "road closed", moreTraffic: "Show more", noTransit: "Transit disruptions (RATP, SNCF) are not read yet: check the operators' sites.",
     sRisks: "Risk indices", riskNote: "An index computed by public rules from the measurements below. It is not a probability, an official alert, or a forecast of personal danger.",
     sCtx: "Get ready and context", goPrep: "Your emergency kit, FR-Alert, useful numbers", goCool: "Where to cool down and drink in Paris",
-    partial: "partial data", kinds: { observed: "Measured", official: "Official alert", forecast: "Forecast", reported: "Reported, unconfirmed", context: "Context, not scored" }, areas: { paris: "Paris", idf: "Île-de-France", france: "France", world: "World", single: "single vantage point" }, pubd: "published", fetchd: "", ctxBadge: "Context",
+    partial: "partial data", kinds: { observed: "Measured", official: "Official alert", forecast: "Forecast", reported: "Reported, unconfirmed", context: "Context, not scored" }, areas: { paris: "Paris", commune: "Commune", dept: "Département", idf: "Île-de-France", france: "France", world: "World", single: "single vantage point" }, pubd: "published", fetchd: "", ctxBadge: "Context",
     howLink: "How this level is decided",
     names: { meteo: "Weather and climate", power: "Power", fuel: "Fuel", cyber: "Cyberattacks", digital: "Networks and payments", supply: "Food" },
     hnames: { heat: "Heat", weather: "Wind, rain, storms, cold", flood: "Seine flood", drought: "Drought", power: "Power", fuel: "Fuel", cyber: "Cyberattacks", digital: "Networks and payments", supply: "Food" },
@@ -73,7 +73,7 @@ const UI = {
     newsNote: "Press headlines picked up by keyword, as published. Not verified by us and with no effect on the level, except cyberattacks confirmed by several outlets. Window: 36 h, Paris or France.", newsNone: "No crisis headline about Paris or France in the last 36 h.", trigger: "trigger word", feeds: "Feeds read", inParis: "Paris", inFrance: "France",
     srcCols: ["Source", "Nature and area", "Status", "Last success", "Expected refresh", "Licence"], srcOk: "current", srcLate: "late", srcKo: "unavailable", every: m => m >= 1440 ? `${Math.round(m / 1440)} d` : m >= 60 ? `${Math.round(m / 60)} h` : `${m} min`, histNone: "No level change recorded.", histCols: ["Date", "Risk", "Change"],
     ctx: "Context (not scored)", enso: e => `ENSO: ${e.phase} ${e.strength} (ONI ${e.anom > 0 ? "+" : ""}${e.anom}, ${e.season}). Slow influence on food prices and global climate, not a direct danger in Paris.`,
-    repo: "Code and history",
+    repo: "Code and history", trLocal: "Outside Paris, only the national series (power, digital, food) are tracked over time.", histLocal: "The level-change history is kept for Paris only.",
     emerg: "Emergency:",
     disclaimer: "This is an independent citizen tool. It issues no official alert: in an emergency follow FR-Alert, the radio and the préfecture.",
     trPage: "Trends over 2 weeks", trHelp: "Tap, hover or select a bar with the keyboard to see that day.", trTable: "Show day-by-day values", trUp: "Rising", trDown: "Easing", trSame: "Stable", trNo: "Not enough data",
@@ -99,7 +99,8 @@ const age = iso => { const m = Math.max(0, Math.round((Date.now() - new Date(iso
 const ageMin = iso => (Date.now() - new Date(iso)) / 6e4;
 const lvName = l => M.levels[lang][l];
 const dom = d => M.domains[d][lang];
-const msg = id => M.hazards[id][lang];
+const msg = id => lMsg(M.hazards[id][lang], id);
+const hn = lHn;
 const link = (t, h) => /^https?:\/\//.test(h) ? `<a href="${esc(h)}" target="_blank" rel="noopener">${esc(t)}</a>` : esc(t);
 const badge = l => l === 0 ? "" : l == null ? `<span class="badge bu">${u().unknown}</span>` : `<span class="badge b${l}">${esc(lvName(l))}</span>`;
 const stBadge = s => { const k = s <= 0 ? 0 : s < 0.4 ? 1 : s < 0.7 ? 2 : 3; return `<span class="badge b${k}">${u().st[k]}</span>`; };
@@ -130,8 +131,8 @@ function mtable(inds) {  // stacked list: readable on a phone, no cramped column
 // ---- a risk that needs attention
 function hzBlock(id) {
   const h = S.hazards[id], m = msg(id), l = h.level;
-  if (l == null) return `<div class="row"><span>${esc(u().hnames[id])}</span>${badge(null)}</div>`;
-  if (l === 0) return `<div class="row"><span>${esc(u().hnames[id])}</span>${badge(0)}</div>`;
+  if (l == null) return `<div class="row"><span>${esc(hn(id))}</span>${badge(null)}</div>`;
+  if (l === 0) return `<div class="row"><span>${esc(hn(id))}</span>${badge(0)}</div>`;
   const hot = h.indicators.filter(i => i.s > 0);
   const notes = [h.capped && u().capped, h.held && u().held, h.missing.length && u().missing(h.missing.map(s => S.sources[s].name).join(", "))].filter(Boolean).map(t => `<p class="muted">${esc(t)}</p>`).join("");
   return `<section class="hz">${badge(l)} <span class="muted">${u().score} ${Math.round(h.R)} / 100</span><h3>${esc(m.title)}</h3><p>${esc(m.what)}</p>
@@ -147,7 +148,7 @@ function detailPanel(c) {
   const calm = hs.every(h => S.hazards[h].level === 0);
   const all = hs.flatMap(h => S.hazards[h].indicators);
   const body = calm ? `<p>${u().nothing}</p><details class="plain"><summary>${u().seeMeas}</summary>${mtable(all)}</details>` : hs.map(hzBlock).join("");
-  const heat = c.id === "meteo" && S.hazards.heat.level >= 1 ? `<p><a href="#" data-go="prep" data-sec="cool">${u().goCool} →</a></p>` : "";
+  const heat = S.paris && c.id === "meteo" && S.hazards.heat.level >= 1 ? `<p><a href="#" data-go="prep" data-sec="cool">${u().goCool} →</a></p>` : "";
   return col(esc(u().names[c.id]), body + heat, "detail");
 }
 
@@ -159,6 +160,7 @@ function alertsBlock() {
   return col(u().sAlerts, body);
 }
 function localBlock() {
+  if (!S.paris) return "";
   const T = S.context && S.context.traffic;
   if (!T) return col(u().sLocal, `<p class="muted">${u().noTransit}</p>`);
   const rows = (tmore ? T.items : T.items.slice(0, 6)).map(x => `<li><b>${esc(x.street)}</b>${x.closed ? ` <span class="badge b1">${u().closed}</span>` : ""}<br><span class="muted">${esc(x.what)} · ${u().until} ${fmt(x.until)}</span></li>`).join("");
@@ -176,11 +178,11 @@ function today() {
   const n = Object.values(S.hazards).filter(h => h.level >= 1).length, T = S.trends || {};
   const clock = new Date(S.generated).toLocaleTimeString(loc(), { timeZone: "Europe/Paris", hour: "2-digit", minute: "2-digit" });
   const lede = n ? u().ledeN(n) : u().lede0(clock) + (T.all && T.all.calm >= 2 ? " " + u().calm(T.all.calm) : "");
-  const unk = Object.keys(S.hazards).filter(id => S.hazards[id].level == null).map(id => u().hnames[id]);
+  const unk = Object.keys(S.hazards).filter(id => S.hazards[id].level == null).map(id => hn(id));
   const cur = n ? hd.level : 0, cc = cls.find(c => c.id === sel);
   const cv = S.coverage;
-  return banners + `<div class="alert a${cur}"><div class="eyebrow">Paris</div><h1>${esc(n ? lvName(hd.level) : u().ok)}</h1>${n ? "" : `<p>${esc(lede)}</p>`}
-    ${n ? `<ul class="plainl">${Object.keys(S.hazards).filter(id => S.hazards[id].level >= 1).sort((a, b) => S.hazards[b].level - S.hazards[a].level).map(id => `<li><b>${esc(u().hnames[id])}</b> : ${esc(why(id))}</li>`).join("")}</ul>` : ""}
+  return banners + `<div class="alert a${cur}"><div class="eyebrow">${esc(S.paris ? "Paris" : C.nom)}</div><h1>${esc(n ? lvName(hd.level) : u().ok)}</h1>${n ? "" : `<p>${esc(lede)}</p>`}
+    ${n ? `<ul class="plainl">${Object.keys(S.hazards).filter(id => S.hazards[id].level >= 1).sort((a, b) => S.hazards[b].level - S.hazards[a].level).map(id => `<li><b>${esc(hn(id))}</b> : ${esc(why(id))}</li>`).join("")}</ul>` : ""}
     ${cv.late || cv.down ? `<p class="muted">${esc(u().cov(cv))} · <a href="#" data-go="more" data-sec="src">${u().dSrc}</a></p>` : ""}
     <ol class="scale" aria-hidden="true">${M.levels[lang].map((x, i) => `<li class="${i === cur ? "on" : ""}${n && i === 0 ? " off" : ""}">${esc(x)}</li>`).join("")}</ol></div>
     ${alertsBlock()}${localBlock()}${newsBlock()}
@@ -220,7 +222,7 @@ function coolList() {
   <h3>${u().coolFount}</h3><p>${u().fountN(fo.length)}${arr ? "" : ""}</p>${arr ? `<ul class="plainl">${fo.slice(0, 25).map(x => `<li>${esc(x.ad)}</li>`).join("")}</ul>` : ""}`;
 }
 function coolBlock() {
-  if (!PL) return "";
+  if (!PL || !S.paris) return "";
   return `<details class="acc" data-k="cool" id="s-cool" ${sec === "cool" || OP.has("cool") ? "open" : ""}><summary>${u().coolT}</summary><div class="in"><p>${u().coolIntro}</p>
     <label for="arr"><b>${u().arr}</b></label> <select id="arr"><option value="">${u().arrAll}</option>${Array.from({ length: 20 }, (_, k) => `<option value="${k + 1}" ${+arr === k + 1 ? "selected" : ""}>${u().arrN(k + 1)}</option>`).join("")}</select>
     <div id="coolList">${coolList()}</div><p class="muted">${u().checked} ${fmt(PL.checked)} · ${link("Paris Data : " + u().coolPlaces, PL.links.equipments)} · ${link("Paris Data : " + u().coolFount, PL.links.fountains)}</p></div></details>`;
@@ -247,7 +249,7 @@ function trends() {
     return `<div class="tr"><div class="trh"><b>${esc(dom(k))}</b><span class="badge ${cls}">${trWord(t)}</span></div>
       <p class="muted" style="margin:.2em 0">${t.calm >= 2 ? esc(u().trCalm(t.calm)) : ""}${t.unusual ? (t.calm >= 2 ? " · " : "") + esc(u().unusual) : ""}</p>${spark(t.series)}</div>`;
   }).join("");
-  return `<h1>${u().trPage}</h1><p class="muted">${u().trHelp}</p><section class="panel">${rows}<p class="muted">${u().trNote} ${(T.all && T.all.base < 60) ? u().baseNote(T.all.base) : ""}</p></section>`;
+  return `<h1>${u().trPage}</h1><p class="muted">${u().trHelp}</p><section class="panel">${rows}<p class="muted">${S.paris ? "" : u().trLocal + " "}${u().trNote} ${(T.all && T.all.base < 60) ? u().baseNote(T.all.base) : ""}</p></section>`;
 }
 
 // ---- Détails: collapsible sections
@@ -274,6 +276,7 @@ function srcBody() {
   return `<div class="tw"><table><thead><tr>${u().srcCols.map(h => `<th>${h}</th>`).join("")}</tr></thead><tbody>${rows}</tbody></table></div>${e ? `<h3>${u().ctx}</h3><p>${esc(u().enso(e))} ${link("NOAA CPC", e.link)}</p>` : ""}${S.repo ? `<p>${link(u().repo, S.repo)}</p>` : ""}`;
 }
 function histBody() {
+  if (!S.paris) return `<p>${u().histLocal}</p>`;
   if (!H.length) return `<p>${u().histNone}</p>`;
   return `<div class="tw"><table><thead><tr>${u().histCols.map(h => `<th>${h}</th>`).join("")}</tr></thead><tbody>${[...H].reverse().slice(0, 60).map(e => `<tr><td>${fmt(e.ts)}</td><td>${esc(msg(e.hazard).title)}</td><td>${esc(lvName(e.from))} → ${esc(lvName(e.to))}<br><span class="muted">${e.why.map(w => esc(tx(w.label)) + " : " + esc(tx(w.value))).join(" · ")}</span></td></tr>`).join("")}</tbody></table></div>`;
 }
@@ -284,7 +287,10 @@ function more() {
 // ---- shell
 function render() {
   document.documentElement.lang = lang; document.title = u().title; $("#title").textContent = u().title; $("#lang").textContent = lang === "fr" ? "EN" : "FR"; $(".skip").textContent = u().skip;
-  if (!S || !M || !P) { $("#view").innerHTML = `<p>${u().err}</p>`; return; }
+  const cb = $("#city"); cb.hidden = !C; if (C) { cb.textContent = `${C.nom} (${C.dep})`; cb.setAttribute("aria-label", lu().back + " : " + C.nom); document.title = `${C.nom} · ${u().title}`; }
+  if (!N || !M || !P) { $("#view").innerHTML = `<p>${u().err}</p>`; return; }
+  if (!C) { $("#nav").innerHTML = ""; $("#view").innerHTML = lLanding(); $("#foot").innerHTML = `<details class="emerg"><summary>${u().emerg} 112 · 15 · 17 · 18</summary><p>${u().disclaimer}</p></details>`; lBindLanding(pickCommune); return; }
+  if (!S) { $("#view").innerHTML = `<p>${lu().load}</p>`; return; }
   $("#view").innerHTML = tab === "today" ? today() : tab === "prep" ? prepare() : tab === "trend" ? trends() : more();
   const t = (k, l) => `<button class="tab" ${tab === k ? 'aria-current="page"' : ""} data-t="${k}">${l}</button>`;
   $("#nav").innerHTML = t("today", u().tToday) + t("prep", u().tPrep) + t("trend", u().tTrend) + t("more", u().tMore);
@@ -306,10 +312,26 @@ $("#view").addEventListener("pointerover", showTip); $("#view").addEventListener
 
 $("#lang").onclick = () => { lang = lang === "fr" ? "en" : "fr"; try { localStorage.setItem("lang", lang); } catch { } const y = scrollY; render(); scrollTo(0, y); };
 const j = f => fetch(`data/${f}?t=${Date.now()}`, { cache: "no-store" }).then(r => { if (!r.ok) throw 0; return r.json(); });
-Promise.all([j("state.json"), j("messages.json"), j("prepare.json"), j("history.json").catch(() => []), j("places.json").catch(() => null)]).then(([s, m, p, h, pl]) => { S = s; M = m; P = p; H = h; PL = pl; render(); }).catch(() => { $("#view").innerHTML = `<p>${u().err}</p>`; });
-// every 5 min: fetch fresh data and redraw only if it changed; otherwise just update the "updated ... ago" line
+// ---- commune selection: C = chosen commune, N = national state.json, S = state shown (Paris: N itself; else local build)
+let N, C = null, builtAt = 0;
+async function refreshState() { S = C.code === LPARIS ? { ...N, paris: true } : await lBuild(C, N); builtAt = Date.now(); }
+async function pickCommune(code, push = true) {
+  S = null; tab = "today"; sel = null; sec = null;
+  try {
+    C = await lResolve(code);
+    if (push) history.pushState({}, "", "?c=" + C.code);
+    try { localStorage.setItem("commune", JSON.stringify({ code: C.code, nom: C.nom })); } catch { }
+    render(); await refreshState();
+  } catch { C = null; S = null; history.replaceState({}, "", location.pathname); }
+  render(); scrollTo(0, 0);
+}
+const fromUrl = () => { const c = new URLSearchParams(location.search).get("c"); if (c) pickCommune(c, false); else { C = null; S = null; render(); } };
+$("#city").onclick = () => { history.pushState({}, "", location.pathname); C = null; S = null; render(); scrollTo(0, 0); };
+addEventListener("popstate", fromUrl);
+Promise.all([j("state.json"), j("messages.json"), j("prepare.json"), j("history.json").catch(() => []), j("places.json").catch(() => null)]).then(([s, m, p, h, pl]) => { N = s; M = m; P = p; H = h; PL = pl; fromUrl(); }).catch(() => { $("#view").innerHTML = `<p>${u().err}</p>`; });
+// every 5 min: fetch fresh national data; rebuild the local view if it changed or is 15 min old
 setInterval(() => {
-  if (!S) return;
-  j("state.json").then(n => { if (n.generated !== S.generated) { S = n; const y = scrollY; render(); scrollTo(0, y); } }).catch(() => { });
+  if (!N) return;
+  j("state.json").then(async n => { if (n.generated !== N.generated || (C && !S?.paris && Date.now() - builtAt > 9e5)) { N = n; if (C) { await refreshState(); const y = scrollY; render(); scrollTo(0, y); } } }).catch(() => { });
 }, 3e5);
 setInterval(() => { if (S && M) { const f = $("#foot .upd"); if (f) f.textContent = u().updated(age(S.generated)); } }, 6e4);
