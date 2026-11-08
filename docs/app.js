@@ -3,7 +3,7 @@ const UI = {
   fr: {
     title: "Semaphore", tag: "Service citoyen indépendant, non officiel",
     tToday: "Aujourd'hui", tPrep: "Se préparer", tTrend: "Tendances", tMore: "Détails",
-    ok: "Aucune alerte prioritaire détectée", lede0: t => `Rien à signaler dans les sources que nous surveillons (dernier relevé : ${t}).`, calm: n => `${n} jours calmes d'affilée.`,
+    ok: "Aucune alerte prioritaire détectée", lede0: () => `Rien à signaler dans les sources que nous surveillons.`, calm: n => `${n} jours calmes d'affilée.`,
     ledeN: n => n === 1 ? "Un point demande votre attention aujourd'hui." : `${n} points demandent votre attention aujourd'hui.`,
     unknown: "Statut inconnu", staleMsg: m => `Les dernières données datent d'il y a ${m}. Ne vous fiez pas à une ancienne absence d'alerte.`,
     updated: m => `Mis à jour il y a ${m}`, err: "Impossible de charger les données.",
@@ -45,7 +45,7 @@ const UI = {
   en: {
     title: "Semaphore", tag: "Independent citizen service, not official",
     tToday: "Today", tPrep: "Get ready", tTrend: "Trends", tMore: "Details",
-    ok: "No priority alert detected", lede0: t => `Nothing to report in the sources we monitor (last reading: ${t}).`, calm: n => `${n} calm days in a row.`,
+    ok: "No priority alert detected", lede0: () => `Nothing to report in the sources we monitor.`, calm: n => `${n} calm days in a row.`,
     ledeN: n => n === 1 ? "One thing needs your attention today." : `${n} things need your attention today.`,
     unknown: "Status unknown", staleMsg: m => `The latest data is ${m} old. Do not rely on an earlier “no alert”.`,
     updated: m => `Updated ${m} ago`, err: "Could not load data.",
@@ -177,8 +177,7 @@ function today() {
   const bad = cls.filter(c => c.level >= 1).sort((x, y) => y.level - x.level || y.R - x.R);
   if (sel === null) sel = bad[0] ? bad[0].id : "";
   const n = Object.values(S.hazards).filter(h => h.level >= 1).length, T = S.trends || {};
-  const gd = new Date(S.generated), tz = { timeZone: "Europe/Paris" }, clock = (gd.toLocaleDateString("fr", tz) === new Date().toLocaleDateString("fr", tz) ? "" : gd.toLocaleDateString(loc(), { ...tz, day: "numeric", month: "short" }) + ", ") + gd.toLocaleTimeString(loc(), { ...tz, hour: "2-digit", minute: "2-digit" });
-  const lede = n ? u().ledeN(n) : u().lede0(clock) + (T.all && T.all.calm >= 2 ? " " + u().calm(T.all.calm) : "");
+  const lede = n ? u().ledeN(n) : u().lede0() + (T.all && T.all.calm >= 2 ? " " + u().calm(T.all.calm) : "");
   const unk = Object.keys(S.hazards).filter(id => S.hazards[id].level == null).map(id => hn(id));
   const cur = n ? hd.level : 0, cc = cls.find(c => c.id === sel);
   const cv = S.coverage;
