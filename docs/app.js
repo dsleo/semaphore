@@ -147,7 +147,7 @@ function detailPanel(c) {
   const hs = c.hs.slice().sort((a, b) => (S.hazards[b].level ?? -1) - (S.hazards[a].level ?? -1) || (S.hazards[b].R ?? 0) - (S.hazards[a].R ?? 0));
   const calm = hs.every(h => S.hazards[h].level === 0);
   const all = hs.flatMap(h => S.hazards[h].indicators);
-  const body = calm ? `<p>${u().nothing}</p><details class="plain"><summary>${u().seeMeas}</summary>${mtable(all)}</details>` : hs.map(hzBlock).join("");
+  const body = calm ? `<p>${u().nothing}</p><details class="plain"><summary>${u().seeMeas}</summary>${mtable(all)}</details>` : hs.filter(h => S.hazards[h].level !== 0).map(hzBlock).join("");  // level 0 = nothing to say; null (unknown) stays visible
   const heat = S.paris && c.id === "meteo" && S.hazards.heat.level >= 1 ? `<p><a href="#" data-go="prep" data-sec="cool">${u().goCool} →</a></p>` : "";
   return col(esc(u().names[c.id]), body + heat, "detail");
 }
