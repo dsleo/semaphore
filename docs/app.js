@@ -10,7 +10,7 @@ const UI = {
     risks: "Risques surveillés", tapRisk: "Touchez un risque pour voir le détail.", score: "Score",
     todo: min => min ? `À faire (environ ${min} min)` : "À faire", dont: "À éviter", why: "Pourquoi, sources et références", refs: "Références officielles",
     lvDef: ["", "À surveiller : un signal sort de la normale. Aucune action n'est demandée, restez informé.", "Préparez-vous : un risque est confirmé ou probable. Vérifiez votre kit et suivez les consignes.", "Agissez maintenant : un danger est en cours. Suivez les consignes officielles."],
-    nothing: "Aucun signal inhabituel : toutes les mesures sont dans la normale.", seeMeas: "Voir les mesures",
+    nothing: "Aucun signal inhabituel : toutes les mesures sont dans la normale.", nothingBut: "Pas d'alerte, mais certaines mesures sont un peu inhabituelles (détail ci-dessous).", seeMeas: "Voir les mesures",
     missing: n => `Non vérifié actuellement : ${n}.`, capped: "Niveau volontairement plafonné pour ne pas provoquer de ruée : aucune source officielle ne le confirme.",
     held: "Niveau maintenu pour éviter les fausses alertes : le changement doit être confirmé.", systemic: "Plusieurs domaines sont touchés en même temps.", shadow: "Version d'essai : les niveaux viennent de règles simples, pas encore ajustées. En cas de doute, suivez les sources officielles.",
     cov: c => `${c.ok} source${c.ok > 1 ? "s" : ""} sur ${c.total} à jour` + (c.late ? `, ${c.late} en retard` : "") + (c.down ? `, ${c.down} indisponible${c.down > 1 ? "s" : ""}` : ""),
@@ -20,8 +20,9 @@ const UI = {
     sCtx: "Se préparer et contexte", goPrep: "Votre kit d'urgence, FR-Alert, numéros utiles", goCool: "Où se rafraîchir et boire à Paris",
     partial: "données partielles", kinds: { observed: "Mesuré", official: "Alerte officielle", forecast: "Prévision", reported: "Rapporté, non confirmé", context: "Contexte, non noté" }, areas: { paris: "Paris", commune: "Commune", dept: "Département", idf: "Île-de-France", france: "France", world: "Monde", single: "un seul point de mesure" }, pubd: "publié", fetchd: "", ctxBadge: "Contexte",
     howLink: "Comment ce niveau est décidé",
-    names: { meteo: "Météo et climat", power: "Électricité", fuel: "Carburant", cyber: "Cyberattaques", digital: "Réseaux et paiements", supply: "Alimentation" },
-    hnames: { heat: "Chaleur", weather: "Vent, pluie, orages, froid", flood: "Crue de la Seine", drought: "Sécheresse", power: "Électricité", fuel: "Carburant", cyber: "Cyberattaques", digital: "Réseaux et paiements", supply: "Alimentation" },
+    names: { meteo: "Météo et climat", power: "Électricité", fuel: "Carburant", cyber: "Cyberattaques", digital: "Réseaux et paiements", supply: "Alimentation", air: "Air et pollen", health: "Santé", nuclear: "Nucléaire" },
+    hnames: { air: "Qualité de l'air", pollen: "Pollens", wildfire: "Feux de forêt", health: "Épidémies", nuclear: "Nucléaire", heat: "Chaleur", weather: "Vent, pluie, orages, froid", flood: "Crue de la Seine", drought: "Sécheresse", power: "Électricité", fuel: "Carburant", cyber: "Cyberattaques", digital: "Réseaux et paiements", supply: "Alimentation" },
+    dMap: "Comment la carte des risques est construite", mapRules: ["Chaque département reçoit un niveau pour chaque risque, avec les mêmes règles publiques que le score d'une commune (voir « Comment le niveau est décidé »), sans lissage dans le temps.", "Météo (chaleur, vent, pluie, froid) : prévision Open-Meteo au point de la ville principale du département. Vigilance Météo-France (canicule, crues, vent, pluie…) : la vigilance du département. Sécheresse : restrictions VigiEau à la ville principale. Carburant : part des stations en rupture parmi celles du département (au moins 15).", "Qualité de l'air et pollens : indice ATMO de chaque commune ; on retient le troisième quartile des communes du département, pour qu'une ou deux communes atypiques ne colorent pas tout le département. Là où l'indice ATMO n'est pas publié, un indice européen modélisé le remplace.", "Feux de forêt : Météo des forêts (Météo-France), publié seulement en saison des feux ; hors saison, niveau 0. Épidémies : alerte de Santé publique France pour la région. Nucléaire : avis d'incident de l'ASNR des 30 derniers jours pour les installations du département ; les départements sans installation sont à 0.", "« Tous les risques » affiche, pour chaque département, le niveau le plus élevé parmi les risques cartographiés. Les risques nationaux (électricité, cyber, réseaux, alimentation) ont le même niveau partout : ils ne sont pas cartographiés et figurent dans la page de chaque commune.", "Gris : données indisponibles. L'absence de donnée n'est jamais affichée comme « aucune alerte ». La carte se recalcule environ toutes les heures."],
     dMethod: "Comment le niveau est décidé", dNews: "Actualité surveillée", dSrc: "Sources de données", dHist: "Historique des changements",
     howIntro: "Le niveau vient de règles publiques, sans intelligence artificielle. Chaque risque a un score de 0 à 100 :",
     lv: ["Aucune mesure ne sort de la normale, ou un seul signe isolé et faible.", "Quelque chose sort de l'ordinaire. Aucune action requise : restez informé, vérifiez votre kit.", "Plusieurs signes concordants, ou une alerte officielle orange. Faites les petites actions conseillées.", "Situation grave confirmée, ou alerte officielle rouge. Suivez les consignes officielles."],
@@ -52,7 +53,7 @@ const UI = {
     risks: "Monitored risks", tapRisk: "Tap a risk to see details.", score: "Score",
     todo: min => min ? `What to do (about ${min} min)` : "What to do", dont: "What to avoid", why: "Why, sources and references", refs: "Official references",
     lvDef: ["", "Be aware: a signal is outside the normal range. No action is asked, stay informed.", "Prepare: a risk is confirmed or likely. Check your kit and follow the guidance.", "Act now: a danger is under way. Follow the official guidance."],
-    nothing: "No unusual signal: all measurements are within normal range.", seeMeas: "See the measurements",
+    nothing: "No unusual signal: all measurements are within normal range.", nothingBut: "No alert, but some measurements are slightly unusual (details below).", seeMeas: "See the measurements",
     missing: n => `Not currently verified: ${n}.`, capped: "Level deliberately capped to avoid triggering a rush: no official source confirms it.",
     held: "Level held to avoid false alarms: the change must be confirmed.", systemic: "Several areas are affected at the same time.", shadow: "Trial version: levels come from simple rules that are not yet tuned. When in doubt, follow the official sources.",
     cov: c => `${c.ok} of ${c.total} sources current` + (c.late ? `, ${c.late} late` : "") + (c.down ? `, ${c.down} unavailable` : ""),
@@ -62,8 +63,9 @@ const UI = {
     sCtx: "Get ready and context", goPrep: "Your emergency kit, FR-Alert, useful numbers", goCool: "Where to cool down and drink in Paris",
     partial: "partial data", kinds: { observed: "Measured", official: "Official alert", forecast: "Forecast", reported: "Reported, unconfirmed", context: "Context, not scored" }, areas: { paris: "Paris", commune: "Commune", dept: "Département", idf: "Île-de-France", france: "France", world: "World", single: "single vantage point" }, pubd: "published", fetchd: "", ctxBadge: "Context",
     howLink: "How this level is decided",
-    names: { meteo: "Weather and climate", power: "Power", fuel: "Fuel", cyber: "Cyberattacks", digital: "Networks and payments", supply: "Food" },
-    hnames: { heat: "Heat", weather: "Wind, rain, storms, cold", flood: "Seine flood", drought: "Drought", power: "Power", fuel: "Fuel", cyber: "Cyberattacks", digital: "Networks and payments", supply: "Food" },
+    names: { meteo: "Weather and climate", power: "Power", fuel: "Fuel", cyber: "Cyberattacks", digital: "Networks and payments", supply: "Food", air: "Air and pollen", health: "Health", nuclear: "Nuclear" },
+    hnames: { air: "Air quality", pollen: "Pollen", wildfire: "Wildfires", health: "Epidemics", nuclear: "Nuclear", heat: "Heat", weather: "Wind, rain, storms, cold", flood: "Seine flood", drought: "Drought", power: "Power", fuel: "Fuel", cyber: "Cyberattacks", digital: "Networks and payments", supply: "Food" },
+    dMap: "How the risk map is built", mapRules: ["Each département gets a level for every risk, using the same public rules as a commune's score (see “How the level is decided”), with no smoothing over time.", "Weather (heat, wind, rain, cold): Open-Meteo forecast at the département's main city. Météo-France vigilance (heatwave, floods, wind, rain…): the département's own vigilance. Drought: VigiEau restrictions at the main city. Fuel: share of the département's stations out of stock (at least 15 stations).", "Air quality and pollen: the ATMO index of each commune; we keep the third quartile across the département's communes, so one or two atypical communes do not colour the whole département. Where the ATMO index is not published, a modelled European index takes over.", "Wildfires: Météo des forêts (Météo-France), published only in fire season; off season it is level 0. Epidemics: the Santé publique France alert for the région. Nuclear: ASNR incident notices of the last 30 days for the département's facilities; départements without any are at 0.", "“All risks” shows, for each département, the highest level among the mapped risks. National risks (power, cyber, networks, food) have the same level everywhere: they are not mapped and appear on each commune's page.", "Grey: data unavailable. Missing data is never shown as “no alert”. The map is recomputed about hourly."],
     dMethod: "How the level is decided", dNews: "Monitored news", dSrc: "Data sources", dHist: "Change history",
     howIntro: "The level comes from public rules, with no artificial intelligence. Each risk has a score from 0 to 100:",
     lv: ["No measurement is outside normal, or one isolated weak sign.", "Something is unusual. No action required: stay informed, check your kit.", "Several signs agree, or an official orange alert. Do the small recommended actions.", "Serious situation confirmed, or an official red alert. Follow official instructions."],
@@ -106,14 +108,17 @@ const badge = l => l === 0 ? "" : l == null ? `<span class="badge bu">${u().unkn
 const stBadge = s => { const k = s <= 0 ? 0 : s < 0.4 ? 1 : s < 0.7 ? 2 : 3; return `<span class="badge b${k}">${u().st[k]}</span>`; };
 
 // ---- clusters: what the citizen sees (6 tiles) -> hazards computed underneath
-const CL = [["meteo", ["heat", "weather", "flood", "drought"]], ["power", ["power"]], ["fuel", ["fuel"]], ["cyber", ["cyber"]], ["digital", ["digital"]], ["supply", ["supply"]]];
+const CL = [["meteo", ["heat", "weather", "flood", "drought", "wildfire"]], ["air", ["air", "pollen"]], ["health", ["health"]], ["nuclear", ["nuclear"]], ["power", ["power"]], ["fuel", ["fuel"]], ["cyber", ["cyber"]], ["digital", ["digital"]], ["supply", ["supply"]]];
 const ICON = {
   meteo: '<path d="M7 17a4 4 0 0 1-.5-7.97A5.5 5.5 0 0 1 17 8.5a3.5 3.5 0 0 1 .5 7"/><path d="M12 11l-2 4h3l-2 5"/>',
   power: '<path d="M13 2L5 14h6l-1 8 9-12h-6z"/>',
   fuel: '<path d="M5 21V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16M3 21h14M5 10h10M15 8h2a2 2 0 0 1 2 2v6a1.5 1.5 0 0 0 3 0V9l-3-3"/>',
   cyber: '<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
   digital: '<path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1"/>',
-  supply: '<path d="M3 9h18l-2 11H5zM8 9l3-6M16 9l-3-6"/>'
+  supply: '<path d="M3 9h18l-2 11H5zM8 9l3-6M16 9l-3-6"/>',
+  air: '<path d="M3 8h11a3 3 0 1 0-3-3M3 12h16a3 3 0 1 1-3 3M3 16h8"/>',
+  health: '<path d="M12 21s-8-5.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.5-8 11-8 11z"/><path d="M9 11h6M12 8v6"/>',
+  nuclear: '<circle cx="12" cy="12" r="1.8"/><path d="M12 10.2V3.5a8.5 8.5 0 0 1 7.4 4.3l-5.9 3.4M13.8 13l3.4 5.9A8.5 8.5 0 0 1 7.8 19L10.2 13M10.2 11.2L4.6 7.8"/>'
 };
 const icon = id => `<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[id]}</svg>`;
 const clState = ([id, hs]) => { const lv = hs.map(h => S.hazards[h].level).filter(l => l != null), rs = hs.map(h => S.hazards[h].R).filter(r => r != null); return { id, hs, level: lv.length ? Math.max(...lv) : null, R: rs.length ? Math.round(Math.max(...rs)) : null }; };
@@ -145,11 +150,11 @@ function hzBlock(id) {
 
 function detailPanel(c) {
   const hs = c.hs.slice().sort((a, b) => (S.hazards[b].level ?? -1) - (S.hazards[a].level ?? -1) || (S.hazards[b].R ?? 0) - (S.hazards[a].R ?? 0));
-  const calm = hs.every(h => S.hazards[h].level === 0);
+  const calm = hs.every(h => S.hazards[h].level === 0), weak = calm && hs.some(h => S.hazards[h].indicators.some(i => i.kind !== "context" && i.s > 0));
   const all = hs.flatMap(h => S.hazards[h].indicators);
-  const body = calm ? `<p>${u().nothing}</p><details class="plain"><summary>${u().seeMeas}</summary>${mtable(all)}</details>` : hs.filter(h => S.hazards[h].level !== 0).map(hzBlock).join("");  // level 0 = nothing to say; null (unknown) stays visible
+  const body = calm ? `<p>${weak ? u().nothingBut : u().nothing}</p><details class="plain"${weak ? " open" : ""}><summary>${u().seeMeas}</summary>${mtable(all)}</details>` : hs.filter(h => S.hazards[h].level !== 0).map(hzBlock).join("");  // level 0 = nothing to say; null (unknown) stays visible
   const heat = S.paris && c.id === "meteo" && S.hazards.heat.level >= 1 ? `<p><a href="#" data-go="prep" data-sec="cool">${u().goCool} →</a></p>` : "";
-  return col(esc(u().names[c.id]), body + heat, "detail");
+  return `<div class="dp" id="detail"><h2 class="dh">${esc(u().names[c.id])}</h2>${body + heat}</div>`;
 }
 
 // ---- Today: official alerts -> local disruptions -> risk indices -> context
@@ -186,8 +191,7 @@ function today() {
     ${cv.late || cv.down ? `<p class="muted">${esc(u().cov(cv))} · <a href="#" data-go="more" data-sec="src">${u().dSrc}</a></p>` : ""}
     <ol class="scale" aria-hidden="true">${M.levels[lang].map((x, i) => `<li class="${i === cur ? "on" : ""}${n && i === 0 ? " off" : ""}">${esc(x)}</li>`).join("")}</ol></div>
     ${alertsBlock()}${lLocalBlock()}${S.paris ? newsBlock() : lNewsBlock()}
-    ${col(u().sRisks, `<p class="muted">${u().riskNote}</p><div class="grid">${cls.map(tile).join("")}</div>`)}
-    ${cc ? detailPanel(cc) : ""}
+    ${col(u().sRisks, `<p class="muted">${u().riskNote}</p><div class="grid">${cls.map(tile).join("")}</div>${cc ? detailPanel(cc) : ""}`)}
     ${unk.length ? `<p class="muted">${esc(u().missing(unk.join(", ")))}</p>` : ""}`;
 }
 
@@ -289,7 +293,7 @@ function render() {
   document.documentElement.lang = lang; document.title = u().title; $("#title").textContent = u().title; $("#lang").textContent = lang === "fr" ? "EN" : "FR"; $(".skip").textContent = u().skip;
   const cb = $("#city"); cb.hidden = !C; if (C) { cb.textContent = `${C.nom} (${C.dep})`; cb.setAttribute("aria-label", lu().back + " : " + C.nom); document.title = `${C.nom} · ${u().title}`; }
   if (!N || !M || !P) { $("#view").innerHTML = `<p>${u().err}</p>`; return; }
-  if (!C) { $("#nav").innerHTML = ""; $("#view").innerHTML = lLanding(); $("#foot").innerHTML = `<details class="emerg"><summary>${u().emerg} 112 · 15 · 17 · 18</summary><p>${u().disclaimer}</p></details>`; lBindLanding(pickCommune); return; }
+  if (!C) { $("#nav").innerHTML = ""; $("#view").innerHTML = RM ? lRiskPage() : lLanding(); if (RM) document.title = `${lu().riskTitle} · ${u().title}`; $("#foot").innerHTML = `<details class="emerg"><summary>${u().emerg} 112 · 15 · 17 · 18</summary><p>${u().disclaimer}</p></details>`; if (RM) { lBindRisk(pickCommune); $("#back").onclick = goHome; } else { lBindLanding(pickCommune); $("#tomap").onclick = e => { e.preventDefault(); RM = true; history.pushState({}, "", "?map=risks"); render(); scrollTo(0, 0); }; } return; }
   if (!S) { $("#view").innerHTML = `<p>${lu().load}</p>`; return; }
   $("#view").innerHTML = tab === "today" ? today() : tab === "prep" ? prepare() : tab === "trend" ? trends() : more();
   const t = (k, l) => `<button class="tab" ${tab === k ? 'aria-current="page"' : ""} data-t="${k}">${l}</button>`;
@@ -313,9 +317,22 @@ $("#view").addEventListener("pointerover", showTip); $("#view").addEventListener
 $("#lang").onclick = () => { lang = lang === "fr" ? "en" : "fr"; try { localStorage.setItem("lang", lang); } catch { } const y = scrollY; render(); scrollTo(0, y); };
 const j = f => fetch(`data/${f}?t=${Date.now()}`, { cache: "no-store" }).then(r => { if (!r.ok) throw 0; return r.json(); });
 // ---- commune selection: C = chosen commune, N = national state.json, S = state shown (Paris: N itself; else local build)
-let N, C = null, builtAt = 0;
+let N, C = null, builtAt = 0, D = null, RM = false;  // RM: the dedicated risk-map page (?map=risks)
+// départemental hazards (air, pollen, wildfire, health, nuclear) come from depts.json for the commune's département
+const DETAIL = ["air", "pollen", "wildfire", "health", "nuclear"];
+function dMerge(st, dep) {
+  if (!D) return st;
+  const row = D.deps[dep] || {}, hz = { ...st.hazards };
+  for (const h of DETAIL) {
+    const x = row[h], cfg = D.cfg[h], base = { cand: null, held: null, capped: false, up: 0, down_since: null, domain: cfg.domain };
+    hz[h] = x ? { ...base, level: x.l, R: x.R, H: x.R, cand: x.l, missing: [], indicators: (x.i || []).map(([id, value, s, pub]) => ({ ...D.defs[id], id, value, s, pub, fetched: D.generated, query: "", sha: "" })).sort((a, b) => b.s * b.w - a.s * a.w) }
+      : { ...base, level: null, R: null, H: null, missing: cfg.src, indicators: [] };
+  }
+  return { ...st, hazards: hz, sources: { ...st.sources, ...D.sources }, headline: lHeadline(hz) };
+}
 async function refreshState() {
-  const [st, loc] = await Promise.all([C.code === LPARIS ? { ...N, paris: true } : lBuild(C, N), lLocal(C)]);
+  const [st0, loc] = await Promise.all([C.code === LPARIS ? { ...N, paris: true } : lBuild(C, N), lLocal(C)]);
+  const st = dMerge(st0, C.dep);
   S = { ...st, loc, sources: { ...st.sources, ...loc.sources } }; builtAt = Date.now();
 }
 // no fresh/complete data (stale national file, a local hazard or source that failed) -> re-run on its own, 30 s then doubling up to 5 min
@@ -329,7 +346,7 @@ function autoRetry() {
   }, Math.min(3e5, 3e4 * 2 ** rn++));
 }
 async function pickCommune(code, push = true) {
-  S = null; tab = "today"; sel = null; sec = null;
+  S = null; tab = "today"; sel = null; sec = null; RM = false;
   try {
     C = await lResolve(code);
     if (push) history.pushState({}, "", "?c=" + C.code);
@@ -338,14 +355,15 @@ async function pickCommune(code, push = true) {
   } catch { C = null; S = null; history.replaceState({}, "", location.pathname); }
   render(); scrollTo(0, 0); rn = 0; autoRetry();
 }
-const fromUrl = () => { const c = new URLSearchParams(location.search).get("c"); if (c) pickCommune(c, false); else { C = null; S = null; render(); } };
-const goHome = e => { e && e.preventDefault(); if (!C && !location.search) return; history.pushState({}, "", location.pathname); C = null; S = null; render(); scrollTo(0, 0); };
+const fromUrl = () => { const q = new URLSearchParams(location.search), c = q.get("c"); RM = !c && q.get("map") === "risks"; if (c) pickCommune(c, false); else { C = null; S = null; render(); } };
+const goHome = e => { e && e.preventDefault(); if (!C && !RM && !location.search) return; history.pushState({}, "", location.pathname); C = null; S = null; RM = false; render(); scrollTo(0, 0); };
 $("#city").onclick = $("#home").onclick = goHome;
 addEventListener("popstate", fromUrl);
-Promise.all([j("state.json"), j("messages.json"), j("prepare.json"), j("history.json").catch(() => []), j("places.json").catch(() => null)]).then(([s, m, p, h, pl]) => { N = s; M = m; P = p; H = h; PL = pl; fromUrl(); autoRetry(); }).catch(() => { $("#view").innerHTML = `<p>${u().err}</p>`; });
+Promise.all([j("state.json"), j("messages.json"), j("prepare.json"), j("history.json").catch(() => []), j("places.json").catch(() => null), j("depts.json").catch(() => null)]).then(([s, m, p, h, pl, dp]) => { N = s; M = m; P = p; H = h; PL = pl; D = dp; fromUrl(); autoRetry(); }).catch(() => { $("#view").innerHTML = `<p>${u().err}</p>`; });
 // every 5 min: fetch fresh national data; rebuild the local view if it changed or is 15 min old
 setInterval(() => {
   if (!N) return;
+  j("depts.json").then(d => { D = d; }).catch(() => { });
   j("state.json").then(async n => { if (n.generated !== N.generated || (C && !S?.paris && Date.now() - builtAt > 9e5)) { N = n; if (C) { await refreshState(); const y = scrollY; render(); scrollTo(0, y); } } }).catch(() => { });
 }, 3e5);
 setInterval(() => { if (S && M) { const f = $("#foot .upd"); if (f) f.textContent = u().updated(age(S.generated)); } }, 6e4);

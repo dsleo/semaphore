@@ -4,7 +4,7 @@ import json
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from . import local, memory, places, score, sources
+from . import depts, local, memory, places, score, sources
 
 HERE = Path(__file__).parent
 
@@ -76,6 +76,10 @@ def main(out="docs/data"):
     alerts = sorted(({k: i[k] for k in ("id", "label", "value", "s", "floor", "source", "link", "area", "pub", "fetched")}
                      for r in res.values() if r["ok"] for i in r["inds"] if i["official"] and i["s"] > 0), key=lambda a: -a["s"])
     local.refresh(out)  # news-local / roads / transit: each collector fails alone
+    try:
+        depts.refresh(out)  # per-département scoring (heatmap + commune view), at most hourly
+    except Exception as e:
+        print("  depts not refreshed:", type(e).__name__, e)
     try:
         places.refresh(out)
     except Exception as e:

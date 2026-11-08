@@ -85,6 +85,12 @@ META = {
     "probes": dict(kind="observed", area="single", every=30, lic="ce projet", fam="probes"),
     "news": dict(kind="reported", area="france", every=60, lic="titres et liens uniquement", fam="press"),
     "traffic": dict(kind="observed", area="paris", every=30, lic="ODbL (Ville de Paris)", fam="traffic"),
+    "atmo": dict(kind="observed", area="dept", every=1440, lic="ODbL (Atmo France)", fam="atmo"),
+    "aqom": dict(kind="observed", area="dept", every=1440, lic="CC BY 4.0 (Open-Meteo, Copernicus CAMS)", fam="atmo"),
+    "pollen": dict(kind="observed", area="dept", every=1440, lic="ODbL (Atmo France)", fam="pollen"),
+    "mdf": dict(kind="official", area="dept", every=1440, lic="Licence Ouverte 2.0 (Météo-France)", fam="mdf"),
+    "spf": dict(kind="official", area="region", every=10080, lic="voir la source (Santé publique France)", fam="spf"),
+    "asnr": dict(kind="official", area="dept", every=60, lic="Licence Ouverte 2.0 (ASNR)", fam="asnr"),
     "oni": dict(kind="context", area="world", every=43200, lic="domaine public (NOAA)", fam="oni"),
 }
 

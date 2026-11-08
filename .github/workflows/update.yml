@@ -21,5 +21,5 @@ jobs:
         run: |
           git config user.name "puite-bot"
           git config user.email "puite-bot@users.noreply.github.com"
-          git add docs/data/state.json docs/data/history.json docs/data/memory.json docs/data/places.json docs/data/news-local.json docs/data/roads.json docs/data/transit.json
+          git add docs/data/state.json docs/data/history.json docs/data/memory.json docs/data/places.json docs/data/news-local.json docs/data/roads.json docs/data/transit.json docs/data/depts.json
           git diff --cached --quiet || { git commit -m "data $(date -u +%FT%TZ)"; git push; }

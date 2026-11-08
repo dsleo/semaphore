@@ -38,6 +38,14 @@
   "supply": {
    "fr": "Alimentation et approvisionnement",
    "en": "Food and supply"
+  },
+  "health": {
+   "fr": "Santé et environnement",
+   "en": "Health and environment"
+  },
+  "nuclear": {
+   "fr": "Nucléaire",
+   "en": "Nuclear"
   }
  },
  "hazards": {
@@ -623,6 +631,340 @@
      {
       "t": "Risks: what to do (French government)",
       "u": "https://www.info.gouv.fr/risques"
+     }
+    ]
+   }
+  },
+  "air": {
+   "fr": {
+    "title": "Mauvaise qualité de l'air",
+    "what": "La qualité de l'air est dégradée dans votre département. Les personnes sensibles (asthme, enfants, personnes âgées, femmes enceintes) sont les plus exposées.",
+    "do": {
+     "1": [
+      "Si vous êtes sensible, limitez les efforts intenses en extérieur."
+     ],
+     "2": [
+      "Reportez le sport en plein air, surtout près des axes routiers.",
+      "Aérez brièvement, aux heures les moins polluées (tôt le matin).",
+      "Gardez vos médicaments (asthme) à portée de main."
+     ],
+     "3": [
+      "Restez à l'intérieur autant que possible, fenêtres fermées aux heures de pointe.",
+      "Évitez tout effort physique en extérieur.",
+      "Difficultés à respirer, oppression : appelez le 15."
+     ]
+    },
+    "dont": [
+     "N'allumez pas de feu de cheminée ouvert ni de barbecue.",
+     "Ne faites pas de sport intense à côté d'un axe routier."
+    ],
+    "refs": [
+     {
+      "t": "Indice ATMO et prévisions",
+      "u": "https://www.atmo-france.org/"
+     },
+     {
+      "t": "Santé publique France : pollution de l'air",
+      "u": "https://www.santepubliquefrance.fr/determinants-de-sante/pollution-et-sante/air"
+     }
+    ]
+   },
+   "en": {
+    "title": "Poor air quality",
+    "what": "Air quality is degraded in your département. Sensitive people (asthma, children, older adults, pregnant women) are the most exposed.",
+    "do": {
+     "1": [
+      "If you are sensitive, limit intense outdoor effort."
+     ],
+     "2": [
+      "Postpone outdoor sport, especially near busy roads.",
+      "Ventilate briefly, at the least polluted hours (early morning).",
+      "Keep your asthma medication within reach."
+     ],
+     "3": [
+      "Stay indoors as much as possible, windows closed at peak hours.",
+      "Avoid any outdoor exertion.",
+      "Trouble breathing, chest tightness: call 15."
+     ]
+    },
+    "dont": [
+     "Do not light open fires or barbecues.",
+     "Do not exercise hard next to a busy road."
+    ],
+    "refs": [
+     {
+      "t": "ATMO index and forecasts",
+      "u": "https://www.atmo-france.org/"
+     },
+     {
+      "t": "Santé publique France: air pollution",
+      "u": "https://www.santepubliquefrance.fr/determinants-de-sante/pollution-et-sante/air"
+     }
+    ]
+   }
+  },
+  "pollen": {
+   "fr": {
+    "title": "Risque pollinique",
+    "what": "Le risque d'allergie aux pollens est élevé dans votre département.",
+    "do": {
+     "1": [
+      "Si vous êtes allergique, prenez votre traitement habituel."
+     ],
+     "2": [
+      "Aérez tôt le matin ou tard le soir, évitez les heures de pointe pollinique.",
+      "Rincez-vous les cheveux le soir et changez de vêtements en rentrant.",
+      "Évitez de faire sécher le linge dehors."
+     ],
+     "3": [
+      "Limitez les sorties, surtout par temps sec, chaud et venteux.",
+      "Gardez les fenêtres fermées, y compris en voiture.",
+      "Gêne respiratoire importante : appelez le 15."
+     ]
+    },
+    "dont": [
+     "N'arrêtez pas un traitement antiallergique sans avis médical."
+    ],
+    "refs": [
+     {
+      "t": "Indice pollen (ATMO)",
+      "u": "https://www.atmo-france.org/"
+     },
+     {
+      "t": "Réseau national de surveillance aérobiologique",
+      "u": "https://www.pollens.fr"
+     }
+    ]
+   },
+   "en": {
+    "title": "Pollen risk",
+    "what": "The risk of pollen allergy is high in your département.",
+    "do": {
+     "1": [
+      "If you are allergic, take your usual treatment."
+     ],
+     "2": [
+      "Ventilate early morning or late evening, avoid peak pollen hours.",
+      "Rinse your hair at night and change clothes when you get home.",
+      "Avoid drying laundry outdoors."
+     ],
+     "3": [
+      "Limit outings, especially on dry, warm, windy days.",
+      "Keep windows closed, including in the car.",
+      "Significant breathing difficulty: call 15."
+     ]
+    },
+    "dont": [
+     "Do not stop an allergy treatment without medical advice."
+    ],
+    "refs": [
+     {
+      "t": "Pollen index (ATMO)",
+      "u": "https://www.atmo-france.org/"
+     },
+     {
+      "t": "National aerobiological network",
+      "u": "https://www.pollens.fr"
+     }
+    ]
+   }
+  },
+  "wildfire": {
+   "fr": {
+    "title": "Risque de feu de forêt",
+    "what": "Les conditions météorologiques favorisent le départ et la propagation des feux de forêt et de végétation dans votre département.",
+    "do": {
+     "1": [
+      "En zone boisée, informez-vous sur les restrictions locales avant de sortir."
+     ],
+     "2": [
+      "Évitez de fumer, de faire du feu ou des travaux par points chauds en forêt et en lisière.",
+      "Repérez deux itinéraires d'évacuation et préparez un sac d'urgence.",
+      "Débroussaillez autour de votre habitation (obligation légale en zone concernée)."
+     ],
+     "3": [
+      "Évitez les massifs forestiers : l'accès est souvent interdit.",
+      "Gardez le téléphone chargé et suivez les consignes de la préfecture.",
+      "Feu en vue : appelez le 18 ou le 112 sans attendre."
+     ]
+    },
+    "dont": [
+     "Ne jetez jamais un mégot, ne laissez aucun objet en verre en forêt.",
+     "N'allumez aucun barbecue ni feu d'artifice."
+    ],
+    "refs": [
+     {
+      "t": "Météo des forêts",
+      "u": "https://meteofrance.com/meteo-des-forets"
+     },
+     {
+      "t": "Prévention des feux de forêt",
+      "u": "https://www.gouvernement.fr/risques/feux-de-foret"
+     }
+    ]
+   },
+   "en": {
+    "title": "Wildfire risk",
+    "what": "Weather conditions favour the start and spread of forest and vegetation fires in your département.",
+    "do": {
+     "1": [
+      "In wooded areas, check local restrictions before going out."
+     ],
+     "2": [
+      "Avoid smoking, fires or hot-work in or near forests.",
+      "Identify two evacuation routes and prepare an emergency bag.",
+      "Clear brush around your home (a legal duty in exposed zones)."
+     ],
+     "3": [
+      "Stay away from forest massifs: access is often banned.",
+      "Keep your phone charged and follow the prefecture's instructions.",
+      "Fire in sight: call 18 or 112 without delay."
+     ]
+    },
+    "dont": [
+     "Never throw a cigarette butt or leave glass in a forest.",
+     "Do not light barbecues or fireworks."
+    ],
+    "refs": [
+     {
+      "t": "Météo des forêts",
+      "u": "https://meteofrance.com/meteo-des-forets"
+     },
+     {
+      "t": "Wildfire prevention (government)",
+      "u": "https://www.gouvernement.fr/risques/feux-de-foret"
+     }
+    ]
+   }
+  },
+  "health": {
+   "fr": {
+    "title": "Épidémies saisonnières",
+    "what": "Une épidémie de grippe ou de bronchiolite est annoncée ou en cours dans votre région (alerte de Santé publique France).",
+    "do": {
+     "1": [
+      "Lavez-vous les mains régulièrement et aérez les pièces."
+     ],
+     "2": [
+      "Vérifiez votre vaccination (grippe, COVID-19) et celle des personnes fragiles.",
+      "Portez un masque près des personnes fragiles ou si vous êtes malade.",
+      "Prévoyez antipyrétique, thermomètre et sérum physiologique à la maison."
+     ],
+     "3": [
+      "Évitez le contact avec bébés et personnes fragiles si vous êtes malade.",
+      "Consultez d'abord votre médecin ou une téléconsultation ; les urgences sont souvent saturées.",
+      "Difficultés à respirer, nourrisson qui refuse de boire : appelez le 15."
+     ]
+    },
+    "dont": [
+     "N'allez pas aux urgences pour un simple rhume ou une fièvre bien tolérée."
+    ],
+    "refs": [
+     {
+      "t": "Santé publique France : épidémies hivernales",
+      "u": "https://www.santepubliquefrance.fr/"
+     },
+     {
+      "t": "Ameli : vaccination",
+      "u": "https://www.ameli.fr/assure/sante/themes/vaccination"
+     }
+    ]
+   },
+   "en": {
+    "title": "Seasonal epidemics",
+    "what": "A flu or bronchiolitis epidemic is announced or under way in your region (Santé publique France alert).",
+    "do": {
+     "1": [
+      "Wash your hands regularly and ventilate rooms."
+     ],
+     "2": [
+      "Check your vaccinations (flu, COVID-19) and those of vulnerable people.",
+      "Wear a mask near vulnerable people or when you are ill.",
+      "Keep fever medicine, a thermometer and saline at home."
+     ],
+     "3": [
+      "Avoid contact with babies and vulnerable people when ill.",
+      "See your doctor or a teleconsultation first; emergency rooms are often saturated.",
+      "Trouble breathing, an infant refusing to drink: call 15."
+     ]
+    },
+    "dont": [
+     "Do not go to the emergency room for a simple cold or a well-tolerated fever."
+    ],
+    "refs": [
+     {
+      "t": "Santé publique France: winter epidemics",
+      "u": "https://www.santepubliquefrance.fr/"
+     },
+     {
+      "t": "Ameli: vaccination",
+      "u": "https://www.ameli.fr/assure/sante/themes/vaccination"
+     }
+    ]
+   }
+  },
+  "nuclear": {
+   "fr": {
+    "title": "Incident sur une installation nucléaire",
+    "what": "L'Autorité de sûreté nucléaire (ASNR) a publié un avis d'incident concernant une installation de votre département. La grande majorité des incidents sont de niveau 0 ou 1 de l'échelle INES : sans conséquence pour la population.",
+    "do": {
+     "1": [
+      "Aucune action nécessaire. Vous pouvez consulter l'avis publié."
+     ],
+     "2": [
+      "Tenez-vous informé via les canaux officiels (préfecture, ASNR).",
+      "Vérifiez que vous savez ce qu'est le signal d'alerte et la consigne de confinement."
+     ],
+     "3": [
+      "Suivez strictement les consignes de la préfecture et de FR-Alert.",
+      "Si l'ordre de confinement est donné : rentrez, fermez portes et fenêtres, arrêtez la ventilation, écoutez la radio.",
+      "Ne prenez de l'iode stable que sur instruction officielle."
+     ]
+    },
+    "dont": [
+     "Ne prenez pas de comprimés d'iode de votre propre initiative.",
+     "N'allez pas chercher vos enfants à l'école : les établissements appliquent leur plan de mise en sûreté."
+    ],
+    "refs": [
+     {
+      "t": "ASNR : avis d'incident",
+      "u": "https://reglementation-controle.asnr.fr/controle/actualites-du-controle/installations-nucleaires/avis-d-incident-des-installations-nucleaires"
+     },
+     {
+      "t": "Risque nucléaire : que faire",
+      "u": "https://www.gouvernement.fr/risques/accident-nucleaire"
+     }
+    ]
+   },
+   "en": {
+    "title": "Nuclear installation incident",
+    "what": "The nuclear safety authority (ASNR) has published an incident notice for a facility in your département. Most incidents are INES level 0 or 1: no consequence for the public.",
+    "do": {
+     "1": [
+      "No action needed. You can read the published notice."
+     ],
+     "2": [
+      "Stay informed through official channels (prefecture, ASNR).",
+      "Make sure you know the alert signal and the shelter-in-place instruction."
+     ],
+     "3": [
+      "Follow the prefecture's and FR-Alert's instructions strictly.",
+      "If told to shelter: go inside, close doors and windows, stop ventilation, listen to the radio.",
+      "Take stable iodine only on official instruction."
+     ]
+    },
+    "dont": [
+     "Do not take iodine tablets on your own initiative.",
+     "Do not go to collect your children from school: schools apply their own safety plan."
+    ],
+    "refs": [
+     {
+      "t": "ASNR: incident notices",
+      "u": "https://reglementation-controle.asnr.fr/controle/actualites-du-controle/installations-nucleaires/avis-d-incident-des-installations-nucleaires"
+     },
+     {
+      "t": "Nuclear accident: what to do",
+      "u": "https://www.gouvernement.fr/risques/accident-nucleaire"
      }
     ]
    }

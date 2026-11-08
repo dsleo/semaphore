@@ -1,0 +1,674 @@
+{
+"01": {
+"n": "Ain",
+"city": "Bourg-en-Bresse",
+"lat": 46.203,
+"lon": 5.247,
+"reg": "84"
+},
+"02": {
+"n": "Aisne",
+"city": "Saint-Quentin",
+"lat": 49.847,
+"lon": 3.279,
+"reg": "32"
+},
+"03": {
+"n": "Allier",
+"city": "Montluçon",
+"lat": 46.343,
+"lon": 2.608,
+"reg": "84"
+},
+"04": {
+"n": "Alpes-de-Haute-Provence",
+"city": "Manosque",
+"lat": 43.829,
+"lon": 5.79,
+"reg": "93"
+},
+"05": {
+"n": "Hautes-Alpes",
+"city": "Gap",
+"lat": 44.58,
+"lon": 6.062,
+"reg": "93"
+},
+"06": {
+"n": "Alpes-Maritimes",
+"city": "Nice",
+"lat": 43.703,
+"lon": 7.253,
+"reg": "93"
+},
+"07": {
+"n": "Ardèche",
+"city": "Annonay",
+"lat": 45.245,
+"lon": 4.642,
+"reg": "84"
+},
+"08": {
+"n": "Ardennes",
+"city": "Charleville-Mézières",
+"lat": 49.78,
+"lon": 4.73,
+"reg": "44"
+},
+"09": {
+"n": "Ariège",
+"city": "Pamiers",
+"lat": 43.128,
+"lon": 1.617,
+"reg": "76"
+},
+"10": {
+"n": "Aube",
+"city": "Troyes",
+"lat": 48.292,
+"lon": 4.076,
+"reg": "44"
+},
+"11": {
+"n": "Aude",
+"city": "Narbonne",
+"lat": 43.149,
+"lon": 3.034,
+"reg": "76"
+},
+"12": {
+"n": "Aveyron",
+"city": "Rodez",
+"lat": 44.359,
+"lon": 2.57,
+"reg": "76"
+},
+"13": {
+"n": "Bouches-du-Rhône",
+"city": "Marseille",
+"lat": 43.28,
+"lon": 5.381,
+"reg": "93"
+},
+"14": {
+"n": "Calvados",
+"city": "Caen",
+"lat": 49.185,
+"lon": -0.372,
+"reg": "28"
+},
+"15": {
+"n": "Cantal",
+"city": "Aurillac",
+"lat": 44.928,
+"lon": 2.442,
+"reg": "84"
+},
+"16": {
+"n": "Charente",
+"city": "Angoulême",
+"lat": 45.646,
+"lon": 0.145,
+"reg": "75"
+},
+"17": {
+"n": "Charente-Maritime",
+"city": "La Rochelle",
+"lat": 46.162,
+"lon": -1.177,
+"reg": "75"
+},
+"18": {
+"n": "Cher",
+"city": "Bourges",
+"lat": 47.078,
+"lon": 2.398,
+"reg": "24"
+},
+"19": {
+"n": "Corrèze",
+"city": "Brive-la-Gaillarde",
+"lat": 45.145,
+"lon": 1.514,
+"reg": "75"
+},
+"21": {
+"n": "Côte-d'Or",
+"city": "Dijon",
+"lat": 47.332,
+"lon": 5.032,
+"reg": "27"
+},
+"22": {
+"n": "Côtes-d'Armor",
+"city": "Saint-Brieuc",
+"lat": 48.511,
+"lon": -2.766,
+"reg": "53"
+},
+"23": {
+"n": "Creuse",
+"city": "Guéret",
+"lat": 46.158,
+"lon": 1.871,
+"reg": "75"
+},
+"24": {
+"n": "Dordogne",
+"city": "Périgueux",
+"lat": 45.194,
+"lon": 0.711,
+"reg": "75"
+},
+"25": {
+"n": "Doubs",
+"city": "Besançon",
+"lat": 47.26,
+"lon": 6.012,
+"reg": "27"
+},
+"26": {
+"n": "Drôme",
+"city": "Valence",
+"lat": 44.923,
+"lon": 4.916,
+"reg": "84"
+},
+"27": {
+"n": "Eure",
+"city": "Évreux",
+"lat": 49.018,
+"lon": 1.141,
+"reg": "28"
+},
+"28": {
+"n": "Eure-et-Loir",
+"city": "Chartres",
+"lat": 48.448,
+"lon": 1.505,
+"reg": "24"
+},
+"29": {
+"n": "Finistère",
+"city": "Brest",
+"lat": 48.408,
+"lon": -4.5,
+"reg": "53"
+},
+"2A": {
+"n": "Corse-du-Sud",
+"city": "Ajaccio",
+"lat": 41.923,
+"lon": 8.706,
+"reg": "94"
+},
+"2B": {
+"n": "Haute-Corse",
+"city": "Bastia",
+"lat": 42.686,
+"lon": 9.424,
+"reg": "94"
+},
+"30": {
+"n": "Gard",
+"city": "Nîmes",
+"lat": 43.832,
+"lon": 4.343,
+"reg": "76"
+},
+"31": {
+"n": "Haute-Garonne",
+"city": "Toulouse",
+"lat": 43.601,
+"lon": 1.433,
+"reg": "76"
+},
+"32": {
+"n": "Gers",
+"city": "Auch",
+"lat": 43.66,
+"lon": 0.567,
+"reg": "76"
+},
+"33": {
+"n": "Gironde",
+"city": "Bordeaux",
+"lat": 44.862,
+"lon": -0.585,
+"reg": "75"
+},
+"34": {
+"n": "Hérault",
+"city": "Montpellier",
+"lat": 43.61,
+"lon": 3.874,
+"reg": "76"
+},
+"35": {
+"n": "Ille-et-Vilaine",
+"city": "Rennes",
+"lat": 48.116,
+"lon": -1.688,
+"reg": "53"
+},
+"36": {
+"n": "Indre",
+"city": "Châteauroux",
+"lat": 46.802,
+"lon": 1.69,
+"reg": "24"
+},
+"37": {
+"n": "Indre-et-Loire",
+"city": "Tours",
+"lat": 47.394,
+"lon": 0.695,
+"reg": "24"
+},
+"38": {
+"n": "Isère",
+"city": "Grenoble",
+"lat": 45.184,
+"lon": 5.715,
+"reg": "84"
+},
+"39": {
+"n": "Jura",
+"city": "Dole",
+"lat": 47.074,
+"lon": 5.502,
+"reg": "27"
+},
+"40": {
+"n": "Landes",
+"city": "Mont-de-Marsan",
+"lat": 43.893,
+"lon": -0.501,
+"reg": "75"
+},
+"41": {
+"n": "Loir-et-Cher",
+"city": "Blois",
+"lat": 47.581,
+"lon": 1.305,
+"reg": "24"
+},
+"42": {
+"n": "Loire",
+"city": "Saint-Étienne",
+"lat": 45.424,
+"lon": 4.367,
+"reg": "84"
+},
+"43": {
+"n": "Haute-Loire",
+"city": "Le Puy-en-Velay",
+"lat": 45.028,
+"lon": 3.897,
+"reg": "84"
+},
+"44": {
+"n": "Loire-Atlantique",
+"city": "Nantes",
+"lat": 47.238,
+"lon": -1.56,
+"reg": "52"
+},
+"45": {
+"n": "Loiret",
+"city": "Orléans",
+"lat": 47.873,
+"lon": 1.912,
+"reg": "24"
+},
+"46": {
+"n": "Lot",
+"city": "Cahors",
+"lat": 44.456,
+"lon": 1.439,
+"reg": "76"
+},
+"47": {
+"n": "Lot-et-Garonne",
+"city": "Agen",
+"lat": 44.201,
+"lon": 0.63,
+"reg": "75"
+},
+"48": {
+"n": "Lozère",
+"city": "Mende",
+"lat": 44.535,
+"lon": 3.491,
+"reg": "76"
+},
+"49": {
+"n": "Maine-et-Loire",
+"city": "Angers",
+"lat": 47.482,
+"lon": -0.563,
+"reg": "52"
+},
+"50": {
+"n": "Manche",
+"city": "Cherbourg-en-Cotentin",
+"lat": 49.628,
+"lon": -1.636,
+"reg": "28"
+},
+"51": {
+"n": "Marne",
+"city": "Reims",
+"lat": 49.254,
+"lon": 4.055,
+"reg": "44"
+},
+"52": {
+"n": "Haute-Marne",
+"city": "Saint-Dizier",
+"lat": 48.632,
+"lon": 4.94,
+"reg": "44"
+},
+"53": {
+"n": "Mayenne",
+"city": "Laval",
+"lat": 48.058,
+"lon": -0.769,
+"reg": "52"
+},
+"54": {
+"n": "Meurthe-et-Moselle",
+"city": "Nancy",
+"lat": 48.688,
+"lon": 6.173,
+"reg": "44"
+},
+"55": {
+"n": "Meuse",
+"city": "Verdun",
+"lat": 49.144,
+"lon": 5.361,
+"reg": "44"
+},
+"56": {
+"n": "Morbihan",
+"city": "Lorient",
+"lat": 47.749,
+"lon": -3.38,
+"reg": "53"
+},
+"57": {
+"n": "Moselle",
+"city": "Metz",
+"lat": 49.105,
+"lon": 6.196,
+"reg": "44"
+},
+"58": {
+"n": "Nièvre",
+"city": "Nevers",
+"lat": 46.985,
+"lon": 3.16,
+"reg": "27"
+},
+"59": {
+"n": "Nord",
+"city": "Lille",
+"lat": 50.631,
+"lon": 3.047,
+"reg": "32"
+},
+"60": {
+"n": "Oise",
+"city": "Beauvais",
+"lat": 49.443,
+"lon": 2.088,
+"reg": "32"
+},
+"61": {
+"n": "Orne",
+"city": "Alençon",
+"lat": 48.431,
+"lon": 0.092,
+"reg": "28"
+},
+"62": {
+"n": "Pas-de-Calais",
+"city": "Calais",
+"lat": 50.952,
+"lon": 1.869,
+"reg": "32"
+},
+"63": {
+"n": "Puy-de-Dôme",
+"city": "Clermont-Ferrand",
+"lat": 45.787,
+"lon": 3.113,
+"reg": "84"
+},
+"64": {
+"n": "Pyrénées-Atlantiques",
+"city": "Pau",
+"lat": 43.322,
+"lon": -0.344,
+"reg": "75"
+},
+"65": {
+"n": "Hautes-Pyrénées",
+"city": "Tarbes",
+"lat": 43.239,
+"lon": 0.065,
+"reg": "76"
+},
+"66": {
+"n": "Pyrénées-Orientales",
+"city": "Perpignan",
+"lat": 42.699,
+"lon": 2.905,
+"reg": "76"
+},
+"67": {
+"n": "Bas-Rhin",
+"city": "Strasbourg",
+"lat": 48.569,
+"lon": 7.762,
+"reg": "44"
+},
+"68": {
+"n": "Haut-Rhin",
+"city": "Mulhouse",
+"lat": 47.753,
+"lon": 7.325,
+"reg": "44"
+},
+"69": {
+"n": "Rhône",
+"city": "Lyon",
+"lat": 45.758,
+"lon": 4.835,
+"reg": "84"
+},
+"70": {
+"n": "Haute-Saône",
+"city": "Vesoul",
+"lat": 47.632,
+"lon": 6.152,
+"reg": "27"
+},
+"71": {
+"n": "Saône-et-Loire",
+"city": "Chalon-sur-Saône",
+"lat": 46.79,
+"lon": 4.851,
+"reg": "27"
+},
+"72": {
+"n": "Sarthe",
+"city": "Le Mans",
+"lat": 47.982,
+"lon": 0.196,
+"reg": "52"
+},
+"73": {
+"n": "Savoie",
+"city": "Chambéry",
+"lat": 45.582,
+"lon": 5.906,
+"reg": "84"
+},
+"74": {
+"n": "Haute-Savoie",
+"city": "Annecy",
+"lat": 45.902,
+"lon": 6.126,
+"reg": "84"
+},
+"75": {
+"n": "Paris",
+"city": "Paris",
+"lat": 48.859,
+"lon": 2.347,
+"reg": "11"
+},
+"76": {
+"n": "Seine-Maritime",
+"city": "Le Havre",
+"lat": 49.496,
+"lon": 0.131,
+"reg": "28"
+},
+"77": {
+"n": "Seine-et-Marne",
+"city": "Meaux",
+"lat": 48.957,
+"lon": 2.904,
+"reg": "11"
+},
+"78": {
+"n": "Yvelines",
+"city": "Versailles",
+"lat": 48.804,
+"lon": 2.119,
+"reg": "11"
+},
+"79": {
+"n": "Deux-Sèvres",
+"city": "Niort",
+"lat": 46.327,
+"lon": -0.461,
+"reg": "75"
+},
+"80": {
+"n": "Somme",
+"city": "Amiens",
+"lat": 49.899,
+"lon": 2.285,
+"reg": "32"
+},
+"81": {
+"n": "Tarn",
+"city": "Albi",
+"lat": 43.929,
+"lon": 2.132,
+"reg": "76"
+},
+"82": {
+"n": "Tarn-et-Garonne",
+"city": "Montauban",
+"lat": 44.022,
+"lon": 1.365,
+"reg": "76"
+},
+"83": {
+"n": "Var",
+"city": "Toulon",
+"lat": 43.136,
+"lon": 5.933,
+"reg": "93"
+},
+"84": {
+"n": "Vaucluse",
+"city": "Avignon",
+"lat": 43.942,
+"lon": 4.833,
+"reg": "93"
+},
+"85": {
+"n": "Vendée",
+"city": "La Roche-sur-Yon",
+"lat": 46.666,
+"lon": -1.416,
+"reg": "52"
+},
+"86": {
+"n": "Vienne",
+"city": "Poitiers",
+"lat": 46.585,
+"lon": 0.371,
+"reg": "75"
+},
+"87": {
+"n": "Haute-Vienne",
+"city": "Limoges",
+"lat": 45.857,
+"lon": 1.226,
+"reg": "75"
+},
+"88": {
+"n": "Vosges",
+"city": "Épinal",
+"lat": 48.164,
+"lon": 6.487,
+"reg": "44"
+},
+"89": {
+"n": "Yonne",
+"city": "Auxerre",
+"lat": 47.794,
+"lon": 3.582,
+"reg": "27"
+},
+"90": {
+"n": "Territoire de Belfort",
+"city": "Belfort",
+"lat": 47.646,
+"lon": 6.841,
+"reg": "27"
+},
+"91": {
+"n": "Essonne",
+"city": "Évry-Courcouronnes",
+"lat": 48.629,
+"lon": 2.431,
+"reg": "11"
+},
+"92": {
+"n": "Hauts-de-Seine",
+"city": "Boulogne-Billancourt",
+"lat": 48.837,
+"lon": 2.243,
+"reg": "11"
+},
+"93": {
+"n": "Seine-Saint-Denis",
+"city": "Saint-Denis",
+"lat": 48.938,
+"lon": 2.366,
+"reg": "11"
+},
+"94": {
+"n": "Val-de-Marne",
+"city": "Vitry-sur-Seine",
+"lat": 48.789,
+"lon": 2.395,
+"reg": "11"
+},
+"95": {
+"n": "Val-d'Oise",
+"city": "Argenteuil",
+"lat": 48.95,
+"lon": 2.248,
+"reg": "11"
+}
+}

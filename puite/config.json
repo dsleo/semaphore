@@ -86,6 +86,46 @@
     "probes",
     "news"
    ]
+  },
+  "air": {
+   "domain": "health",
+   "impact": 2,
+   "persist": 1,
+   "sources": [
+    "atmo"
+   ]
+  },
+  "pollen": {
+   "domain": "health",
+   "impact": 1,
+   "persist": 1,
+   "sources": [
+    "pollen"
+   ]
+  },
+  "wildfire": {
+   "domain": "weather",
+   "impact": 4,
+   "persist": 1,
+   "sources": [
+    "mdf"
+   ]
+  },
+  "health": {
+   "domain": "health",
+   "impact": 3,
+   "persist": 1,
+   "sources": [
+    "spf"
+   ]
+  },
+  "nuclear": {
+   "domain": "nuclear",
+   "impact": 5,
+   "persist": 1,
+   "sources": [
+    "asnr"
+   ]
   }
  }
 }
