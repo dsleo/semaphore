@@ -169,9 +169,10 @@ function trafficBody() {
 }
 const why = id => { const i = S.hazards[id].indicators.filter(x => x.kind !== "context").sort((a, b) => b.s - a.s)[0]; return i ? `${tx(i.label)} : ${tx(i.value)}` : ""; };
 function today() {
-  const a = ageMin(S.generated), stale = a > 180, hd = S.headline;
-  if (stale || hd.level == null) return `<div class="alert au"><h1>${u().unknown}</h1><p>${stale ? u().staleMsg(age(S.generated)) : u().err}</p></div>`;
-  const banners = (S.shadow ? `<div class="notice">${u().shadow}</div>` : "") + (hd.systemic ? `<div class="notice">${u().systemic}</div>` : "");
+  const a = ageMin(S.generated), stale = a > 720, hd = S.headline;
+  if (hd.level == null) return `<div class="alert au"><h1>${u().unknown}</h1><p>${u().err}</p></div>`;
+  // stale = show the latest data with a warning (local hazards of a commune are computed live; only the national ones are old)
+  const banners = (stale ? `<p class="muted">⚠ ${u().staleMsg(age(S.generated))}</p>` : "") + (S.shadow ? `<div class="notice">${u().shadow}</div>` : "") + (hd.systemic ? `<div class="notice">${u().systemic}</div>` : "");
   const cls = CL.map(clState);
   const bad = cls.filter(c => c.level >= 1).sort((x, y) => y.level - x.level || y.R - x.R);
   if (sel === null) sel = bad[0] ? bad[0].id : "";
@@ -318,6 +319,16 @@ async function refreshState() {
   const [st, loc] = await Promise.all([C.code === LPARIS ? { ...N, paris: true } : lBuild(C, N), lLocal(C)]);
   S = { ...st, loc, sources: { ...st.sources, ...loc.sources } }; builtAt = Date.now();
 }
+// no fresh/complete data (stale national file, a local hazard or source that failed) -> re-run on its own, 30 s then doubling up to 5 min
+let rt = null, rn = 0;
+const incomplete = () => N && (ageMin(N.generated) > 180 || (C && !S) || (S && (Object.values(S.hazards).some(h => h.level == null) || Object.values(S.loc?.sources || {}).some(x => !x.ok))));
+function autoRetry() {
+  clearTimeout(rt); if (!incomplete()) { rn = 0; return; }
+  rt = setTimeout(async () => {
+    try { N = await j("state.json"); if (C) await refreshState(); const y = scrollY; render(); scrollTo(0, y); } catch { }
+    autoRetry();
+  }, Math.min(3e5, 3e4 * 2 ** rn++));
+}
 async function pickCommune(code, push = true) {
   S = null; tab = "today"; sel = null; sec = null;
   try {
@@ -326,13 +337,13 @@ async function pickCommune(code, push = true) {
     try { localStorage.setItem("commune", JSON.stringify({ code: C.code, nom: C.nom })); } catch { }
     render(); await refreshState();
   } catch { C = null; S = null; history.replaceState({}, "", location.pathname); }
-  render(); scrollTo(0, 0);
+  render(); scrollTo(0, 0); rn = 0; autoRetry();
 }
 const fromUrl = () => { const c = new URLSearchParams(location.search).get("c"); if (c) pickCommune(c, false); else { C = null; S = null; render(); } };
 const goHome = e => { e && e.preventDefault(); if (!C && !location.search) return; history.pushState({}, "", location.pathname); C = null; S = null; render(); scrollTo(0, 0); };
 $("#city").onclick = $("#home").onclick = goHome;
 addEventListener("popstate", fromUrl);
-Promise.all([j("state.json"), j("messages.json"), j("prepare.json"), j("history.json").catch(() => []), j("places.json").catch(() => null)]).then(([s, m, p, h, pl]) => { N = s; M = m; P = p; H = h; PL = pl; fromUrl(); }).catch(() => { $("#view").innerHTML = `<p>${u().err}</p>`; });
+Promise.all([j("state.json"), j("messages.json"), j("prepare.json"), j("history.json").catch(() => []), j("places.json").catch(() => null)]).then(([s, m, p, h, pl]) => { N = s; M = m; P = p; H = h; PL = pl; fromUrl(); autoRetry(); }).catch(() => { $("#view").innerHTML = `<p>${u().err}</p>`; });
 // every 5 min: fetch fresh national data; rebuild the local view if it changed or is 15 min old
 setInterval(() => {
   if (!N) return;

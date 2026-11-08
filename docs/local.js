@@ -4,7 +4,14 @@
 // ponytail: no persistence/hysteresis for local hazards (no per-visitor history); add a localStorage replay if flapping shows.
 const LGEO = "https://geo.api.gouv.fr", LPARIS = "75056";
 const LF = "fields=nom,code,codesPostaux,centre,population,departement,region,codeEpci";
-const lget = (u, ms = 15000) => fetch(u, { signal: AbortSignal.timeout(ms) }).then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); });
+const lget1 = (u, ms) => fetch(u, { signal: AbortSignal.timeout(ms) }).then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); });
+// retry transient failures (network, timeout, 429/5xx) twice with backoff; 4xx other than 429 is final
+async function lget(u, ms = 15000) {
+  for (let i = 0; ; i++) {
+    try { return await lget1(u, ms); }
+    catch (e) { if (i >= 2 || /HTTP 4(?!29)/.test(e.message)) throw e; await new Promise(r => setTimeout(r, 800 * 2 ** i)); }
+  }
+}
 const lclamp = (x, lo = 0, hi = 1) => Math.max(lo, Math.min(hi, x));
 const linterp = (x, p) => { if (x <= p[0][0]) return p[0][1]; for (let i = 1; i < p.length; i++) if (x <= p[i][0]) return p[i - 1][1] + (p[i][1] - p[i - 1][1]) * (x - p[i - 1][0]) / (p[i][0] - p[i - 1][0]); return p[p.length - 1][1]; };
 const lT = (fr, en) => ({ fr, en });
