@@ -1,14 +1,76 @@
 # Semaphore
 
-A free, zero-account early-warning page for Paris citizens. It answers one question, "Is anything going wrong in Paris right now, and what should I do?", using only public open data and fixed, readable rules.
+**Is anything going wrong near you right now, and what should you do?** Semaphore answers that for any commune in France, on one page, from public open data and fixed, readable rules.
 
-- **No LLM** anywhere (backend or frontend), no tracking, no cookies, no account.
-- **Independent and non-official**: it uses a sober public-service look but carries no state emblem and never claims to be an official service. It points to the official sources.
-- **Static**: a Python script writes JSON, a static page displays it. No server to run in production.
+**[Open the live site →](https://dsleo.github.io/semaphore/)** · French and English · light and dark · works on a phone
+
+<img src="docs/img/today-top.png" width="720" alt="Semaphore's Today tab for Paris: a status banner reading 'Be aware' with a three-step scale">
+
+- **Free and private.** No account, no cookies, no tracking.
+- **No AI deciding anything.** Every level comes from a rule you can read. No LLM, front or back.
+- **Independent.** Not an official service and never presented as one. It points you to the official sources (Météo-France, Vigicrues, RTE, FR-Alert, 112).
+- **Honest about gaps.** A source that is down shows as "unavailable", never as "all clear". The calm state says *"No priority alert detected… this is not an all-clear."*
+
+## What you can do with it
+
+### Check any commune
+Type a commune or postcode, or use your location. You get a single status (*Everything's fine → Be aware → Prepare → Act now*), the official alerts in force, and the reasons behind the level. Your choice lives in the URL, so you can share it.
+
+### See France at a glance
+A map coloured per département, one layer per risk: heat, wind/rain/cold, floods, drought, fuel, air quality, pollen, wildfire, epidemics, nuclear incidents. Each layer has a one-line summary, so a calm layer reads as checked, not blank.
+
+<img src="docs/img/map.png" width="640" alt="Risk map of France coloured by département, with a layer selector">
+
+### Know what is disrupted around you
+Roads (Bison Futé), public transport alerts from about 75 networks, city works and events in Paris, and local press headlines that mention a crisis. All filtered to your commune.
+
+### See why, not just a number
+Each risk has an index out of 100, a plain-language "what to do", and the evidence behind it with source, time and link. The index is explicitly not a probability and not an official warning.
+
+<img src="docs/img/indices.png" width="640" alt="Risk indices grid with the Health risk expanded: what to do, sources and references">
+
+### Get ready before something happens
+A 72-hour emergency kit based on the government's guide, a checklist saved only in your browser, key numbers, your commune's natural and technological risks (Géorisques), and in Paris where to cool down and drink.
+
+<img src="docs/img/kit.png" width="520" alt="The 'Get ready' tab: 72-hour emergency kit sections">
+
+### Watch the trend
+Fourteen days per risk group: rising, stable or easing, with calm streaks. Pale bars are reconstructed from archives, solid bars were measured live.
+
+<img src="docs/img/trends.png" width="520" alt="The Trends tab: 14-day bar charts per risk group">
+
+### Use it on your phone
+Same page, same data, laid out for a small screen.
+
+<img src="docs/img/phone.png" width="260" alt="Semaphore on a phone">
+
+## What it watches
+
+Weather vigilance and forecasts, floods (Seine), electricity (Ecowatt), fuel stations, water restrictions, air quality, pollen, wildfire, epidemics, nuclear incident notices, cyber and internet outages, and press. Paris gets the full set (16 sources, traffic, cooling places); other communes get the live local ones plus national signals. Power outages are not covered locally: no open feed exists, and the page says so.
+
+## Limits, plainly
+
+- Thresholds are starting defaults, not yet calibrated against real events. Compare with official warnings.
+- It cannot read FR-Alert or préfecture alerts automatically.
+- **It does not replace official alerts. When FR-Alert, your préfecture or the authorities say something different, follow them.** Emergency: 112 · 15 · 17 · 18.
+
+## Run it yourself
+
+Python 3.9+, nothing to install.
+
+```bash
+python3 -m puite --serve        # refresh data, then serve http://localhost:8000
+python3 -m unittest -q          # tests
+```
+
+On GitHub, an Action refreshes the data every 15 minutes and commits it; Pages serves the `docs/` folder.
+
+<details>
+<summary><b>Technical overview</b> (scoring rules, architecture, sources, memory, review guide, known limits)</summary>
 
 Further design docs: [SPEC.md](SPEC.md) (product and safety design) · [RISK_REGISTER.md](RISK_REGISTER.md) (hazards and data map).
 
-## Any commune in France
+### Any commune in France
 
 The first screen is a commune picker (autocomplete on `geo.api.gouv.fr`, postcode, or geolocation) and a map of France coloured by Météo-France vigilance per département. The choice lives in the URL (`?c=<INSEE code>`), so it can be shared.
 
@@ -19,18 +81,26 @@ The first screen is a commune picker (autocomplete on `geo.api.gouv.fr`, postcod
 - Local levels have no persistence/hysteresis (no per-visitor history). The heat threshold outside Île-de-France is an approximate national one (34/20 °C); the official canicule vigilance has the exact values.
 - `scripts/build_map.py` regenerates `docs/data/france-map.json` from a départements GeoJSON. `node tests/local.test.js` checks the scoring port.
 
-## What the user sees
+### Risk map (per département)
+
+`puite/depts.py` scores every hazard for each metropolitan département with the same rules as `score.py` (no damping: there is no per-département history) and writes `docs/data/depts.json`, at most hourly (Open-Meteo is rate limited). The home map has one layer per hazard, each with a one-line summary, so a calm layer is visibly checked rather than blank.
+
+- Layers beyond the national hazards: **air quality** (ATMO France index, Open-Meteo/CAMS fallback), **pollen** (ATMO), **wildfire** (Météo des forêts), **health** (Santé publique France epidemic alerts) and **nuclear** (ASNR incident notices, sites in `puite/nuclear_sites.json`).
+- These five are read for the chosen commune's département in the commune view.
+- Each source fails alone: its layer is then unknown for every département, never "all clear". These sources are reported in `depts.json`, not in `state.json`'s 16.
+
+### What the user sees
 
 Four tabs, French and English, light and dark mode:
 
 | Tab | Content |
 |---|---|
-| **Aujourd'hui** | In this order: (1) a status banner, with the source coverage ("16 of 16 sources current"). The calm state reads *"No priority alert detected in the monitored sources, as of HH:MM. This is not an all-clear"*; (2) **official alerts now** (Météo-France, Vigicrues, Ecowatt, VigiEau), kept apart from scores; (3) **local disruptions** (Paris traffic events); (4) six **PUITE risk indices** (icon, score /100, level badge), explicitly not a probability or an official warning; tap one for what to do and the evidence; (5) links to preparedness and method. |
+| **Aujourd'hui** | In this order: (1) a status banner, with the source coverage ("16 of 16 sources current"). The calm state reads *"No priority alert detected in the monitored sources, as of HH:MM. This is not an all-clear"*; (2) **official alerts now** (Météo-France, Vigicrues, Ecowatt, VigiEau), kept apart from scores; (3) **local disruptions** (Paris traffic events); (4) the **PUITE risk indices** (icon, score /100, level badge), explicitly not a probability or an official warning; tap one for what to do and the evidence; (5) links to preparedness and method. |
 | **Se préparer** | The 72-hour emergency kit from the official government guide: persons counter, checklist saved in the browser only, "know" list (FR-Alert, sirens, 112/15/17/18, how to judge information), and **where to cool down and drink** by arrondissement (Paris open data, with the last-checked date; no geolocation). |
 | **Tendances** | Last 14 days per risk group: rising / stable / easing, calm streak, "unusual" flag. Hover or tap a bar for the day's date, level and score. Pale bars are reconstructed, solid bars are live. Each chart has a keyboard-reachable table version. |
 | **Détails** | Collapsible sections: how the level is decided, current measurements, monitored press, data sources, change history, traceability and limits. |
 
-## How a level is decided
+### How a level is decided
 
 All of it is deterministic and in `puite/score.py` (about 80 lines) plus the stress rules in `puite/sources.py`.
 
@@ -46,7 +116,7 @@ All of it is deterministic and in `puite/score.py` (about 80 lines) plus the str
 
 The deployed page shows the same explanation (Détails → "Comment le niveau est décidé").
 
-## Architecture
+### Architecture
 
 ```
 puite/                     Python 3, standard library only
@@ -55,25 +125,29 @@ puite/                     Python 3, standard library only
   score.py     noisy-OR, impact, levels, persistence, hysteresis, headline
   memory.py    daily memory (memory.json) + trend rules (no ML)
   backfill.py  rebuilds past days from public archives
+  depts.py     per-département scoring and risk-map layers (depts.json)
+  local.py     news-local, roads, transit static layers
   run.py       collect (thread pool) -> score -> write JSON
-  config.json  hazards: domain, impact, persistence, sources
+  config.json  hazards (14): domain, impact, persistence, sources
 docs/                      the static site (GitHub Pages serves this folder)
-  index.html, app.js, style.css    vanilla JS/CSS, no framework, no build step
+  index.html, app.js, local.js, style.css    vanilla JS/CSS, no framework, no build step
   data/state.json          current scores, evidence, trends, sources (generated)
   data/history.json        level-change log (generated)
   data/memory.json         one peak score per hazard per day, 400-day cap (generated)
+  data/depts.json          per-département levels for the risk map (generated, hourly)
+  data/news-local.json, roads.json, transit.json   local layers (generated)
   data/places.json         cooling places and fountains, with last-checked date (generated daily)
   data/messages.json       FR/EN texts per hazard: what / do / don't / references (hand-written)
   data/prepare.json        emergency kit and "know" list (hand-written)
-tests/                     32 unittest tests: scoring, memory, news filter, and replayed scenarios
+tests/                     37 unittest tests: scoring, memory, news filter, and replayed scenarios
                            (2003 heatwave, red vigilance, 2016 Seine flood, calm day, double counting,
                            stale or missing feeds, DST day boundaries)
-.github/workflows/update.yml   cron every 15 min: test, collect, commit docs/data
+.github/workflows/update.yml   cron every 15 min: unit tests, JS scoring-port test, collect, commit docs/data
 ```
 
 Flow: `python3 -m puite` runs every collector in parallel. A collector that fails never stops the run; it is reported as failed in `state.json`. Each indicator carries its value, source, timestamp, a SHA-256 fingerprint of the raw response and the API query so a reader can reproduce it. The scorer produces hazard states, the run records the day in memory, and the page renders everything client-side from `state.json`.
 
-### Sources (16)
+#### Sources (16)
 
 | Source | Use |
 |---|---|
@@ -92,7 +166,7 @@ Flow: `python3 -m puite` runs every collector in parallel. A collector that fail
 
 Préfecture, gouvernement.fr and interieur.gouv.fr block automated reads and publish no open alert feed. They appear as links, and through press coverage. No open FR-Alert feed exists.
 
-### Memory and trends
+#### Memory and trends
 
 Each indicator records its kind (observed, official, forecast, reported, context), area (Paris, Île-de-France, France, world, single point), publication time when the source gives one, and fetch time. The Détails tab lists each source's expected refresh and licence.
 
@@ -100,7 +174,7 @@ Every run stores the day's peak per hazard in `memory.json` (Paris-time day), ca
 
 `python3 -m puite.backfill 30` rebuilds the past from archives (fuel, observed weather, Seine about 1 month, Ecowatt, CISA KEV). Cyber is not backfilled. Limits: fuel history is a lower bound (the feed lists only stations still in stockout), weather uses observed values rather than forecasts, and VigiEau, IODA, RansomLook, press and probes have no archive, so those days stay empty. The backfill reuses the same stress functions as the live collectors, so thresholds cannot drift.
 
-## Run it
+### Run it
 
 Python 3.9+, nothing to install.
 
@@ -108,13 +182,14 @@ Python 3.9+, nothing to install.
 python3 -m puite --serve        # refresh data, then serve http://localhost:8000
 python3 -m puite.backfill 30    # optional, once: rebuild 30 days of history
 python3 -m unittest -q          # tests
+node tests/local.test.js        # browser-side scoring port
 ```
 
 To only view the existing data: `python3 -m http.server 8000 --directory docs`.
 
-**Unattended and free, on GitHub:** push the repo, then Settings → Pages → Deploy from branch → `main` / `docs`. The workflow runs every 15 min, tests, collects and commits `docs/data/{state,history,memory}.json`. Each commit is a timestamped snapshot. GitHub may delay scheduled runs, and pauses them after 60 days without repository activity. Set `"repo"` in `puite/config.json` to show the repo link in the app.
+**Unattended and free, on GitHub:** push the repo, then Settings → Pages → Deploy from branch → `main` / `docs`. The workflow runs every 15 min, tests, collects and commits the generated `docs/data/*.json` (state, history, memory, places, depts and the local layers). Each commit is a timestamped snapshot. GitHub may delay scheduled runs, and pauses them after 60 days without repository activity. Set `"repo"` in `puite/config.json` to show the repo link in the app.
 
-## Review guide
+### Review guide
 
 Where to look first:
 - `puite/score.py`: the whole decision logic. `tests/test_score.py` pins its behaviour.
@@ -124,15 +199,17 @@ Where to look first:
 - `docs/app.js`: rendering only; it contains no scoring.
 - `tests/test_scenarios.py`: the replayed known events and failure modes. Add a case whenever a real miss or false alarm is found.
 
-## Known limits
+### Known limits
 
 - **Thresholds are starting defaults**, not calibrated. Run for several weeks and tune `sources.py` and `config.json`. Seine thresholds (3/4/5/6 m at Austerlitz) are placeholders to confirm with Vigicrues.
 - Probes run from one vantage point (the GitHub runner or your laptop), so they cannot tell a Paris outage from a local one.
 - Ecowatt via ODRE is the day's colour and lags about a day. The RTE API (free key) would give the 3-day forecast.
 - No open feed exists for strikes, local power cuts (Enedis), tap-water incidents or physical attacks. Press coverage and official alerts (FR-Alert, 112) remain the answer.
 - The supply cluster has no history yet. Backfilled trends are partial and conservative.
-- **Shadow mode is off** (`"shadow": false` in `config.json`; set it to `true` to show a trial banner). The thresholds are still uncalibrated, so keep comparing against official warnings after several weeks of comparing against official warnings (missed warnings and false alarms).
-- Not yet run on GitHub Actions with the current data files. Checked in a browser (mobile and desktop, light and dark; badge and text contrast at least 4.5:1; keyboard-reachable chart bars, skip link, no live-region re-announcements), but **not** with a real screen-reader or a DSFR conformance audit.
+- **Shadow mode is off** (`"shadow": false` in `config.json`; set it to `true` to show a trial banner). The thresholds are still uncalibrated, so keep comparing against official warnings for several weeks (missed warnings and false alarms).
+- Runs unattended on GitHub Actions. Checked in a browser (mobile and desktop, light and dark; badge and text contrast at least 4.5:1; keyboard-reachable chart bars, skip link, no live-region re-announcements), but **not** with a real screen-reader or a DSFR conformance audit.
 - Not integrated, on purpose: Île-de-France Mobilités disruptions, Airparif, the RTE Ecowatt API (accounts or keys; they would go in GitHub Actions secrets, never in the repo or JSON), GDELT, RIPE Atlas, Eau de Paris works, Enedis (no live feed). No map yet for local disruptions. Raw API responses are not archived (fingerprints and queries are, which do not allow an exact replay if upstream changes).
 - Official FR-Alert and préfecture alerts cannot be read automatically; the page says so.
 - This is not a substitute for official alerts. When FR-Alert, the préfecture or the authorities say something different, follow them.
+
+</details>
