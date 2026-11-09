@@ -1,6 +1,6 @@
 import unittest
 
-from puite import local
+from semaphore import local
 
 
 def tag(f, w):
@@ -27,6 +27,12 @@ class TestGtfsRt(unittest.TestCase):
     def test_ici_url_gives_region_and_departement(self):
         m = local.ICI_RE.search("https://www.ici.fr/auvergne-rhone-alpes/ain-01/lent/x-1")
         self.assertEqual((local.SLUG2REG[m.group(1)], m.group(3)), ("84", "01"))
+
+    def test_varint_multibyte(self):
+        self.assertEqual(local._varint(bytes([0xAC, 0x02]), 0), (300, 2))
+
+    def test_norm_collapses_punctuation_and_case(self):
+        self.assertEqual(local._norm("  Crue : Rhône,  alerte! "), "crue rhône alerte")
 
 
 if __name__ == "__main__":

@@ -6,6 +6,6 @@ python3 -m http.server 8000 --directory docs >/dev/null 2>&1 &
 SRV=$!
 trap 'kill $SRV 2>/dev/null' EXIT
 while true; do
-  python3 -m puite || echo "refresh failed, retrying in 10 min"
+  python3 -m semaphore || echo "refresh failed, retrying in 10 min"
   sleep 600
 done

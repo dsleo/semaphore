@@ -1,5 +1,5 @@
 // Node self-check for the browser-side scoring port: node tests/local.test.js
-const a = require("assert"), { lScore, lH, lLevel, lHeadline } = require("../docs/local.js");
+const a = require("assert"), { lScore, lH, lLevel, lHeadline, lShown } = require("../docs/local.js");
 const ind = (o) => ({ kind: "forecast", fam: "x", w: 1, s: 0, floor: 0, official: false, ...o });
 a.strictEqual(lLevel(24.9), 0); a.strictEqual(lLevel(25), 1); a.strictEqual(lLevel(50), 2); a.strictEqual(lLevel(75), 3);
 // same family counted once; independent families corroborate (noisy-OR)
@@ -12,4 +12,5 @@ a.strictEqual(lScore({ impact: 5 }, []).level, null);
 a.strictEqual(lScore({ impact: 5, cap: true }, [ind({ s: 1 })]).level, 2);
 a.strictEqual(lScore({ impact: 5, cap: true }, [ind({ s: 1, official: true })]).level, 3);
 a.deepStrictEqual(lHeadline({ a: { level: null }, b: { level: 2, R: 55, domain: "d" } }).top, ["b"]);
+a.ok(lShown({ level: 0, R: 46 }) < 25); a.strictEqual(lShown({ level: 3, R: 91 }), 91);  // same as score.shown_R
 console.log("ok");

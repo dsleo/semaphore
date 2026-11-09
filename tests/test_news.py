@@ -1,6 +1,6 @@
 import re
 import unittest
-from puite import sources as S
+from semaphore import sources as S
 
 
 def hit(title):

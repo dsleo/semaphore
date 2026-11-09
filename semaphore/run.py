@@ -1,4 +1,4 @@
-"""Collect → score → write static JSON. Usage: python3 -m puite [--out docs/data] [--serve]"""
+"""Collect → score → write static JSON. Usage: python3 -m semaphore [--out docs/data] [--serve]"""
 import argparse
 import json
 from concurrent.futures import ThreadPoolExecutor

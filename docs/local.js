@@ -16,7 +16,7 @@ const lclamp = (x, lo = 0, hi = 1) => Math.max(lo, Math.min(hi, x));
 const linterp = (x, p) => { if (x <= p[0][0]) return p[0][1]; for (let i = 1; i < p.length; i++) if (x <= p[i][0]) return p[i - 1][1] + (p[i][1] - p[i - 1][1]) * (x - p[i - 1][0]) / (p[i][0] - p[i - 1][0]); return p[p.length - 1][1]; };
 const lT = (fr, en) => ({ fr, en });
 
-// ---- scoring (port of puite/score.py, same rules, no damping)
+// ---- scoring (port of semaphore/score.py, same rules, no damping)
 const LCFG = {
   heat: { impact: 5, domain: "weather", src: ["weather", "vigilance"] },
   weather: { impact: 2, domain: "weather", src: ["weather", "vigilance"] },
@@ -38,15 +38,16 @@ function lScore(cfg, inds) {
   if (cfg.cap && cand === 3 && !inds.some(i => i.official && i.s > 0)) { cand = 2; capped = true; }
   return { level: cand, R: Math.round(R * 10) / 10, H: Math.round(H * 10) / 10, cand, held: null, capped, up: 0, down_since: null };
 }
+const lShown = s => s.level >= 3 || s.R == null ? s.R : Math.min(s.R, [25, 50, 75][s.level] - 0.1);  // port of score.shown_R
 function lHeadline(hz) {
   const known = Object.entries(hz).filter(([, s]) => s.level != null);
   if (!known.length) return { level: null, score: null, systemic: false, top: [] };
   const top = known.filter(([, s]) => s.level >= 1).sort((a, b) => b[1].level - a[1].level || b[1].R - a[1].R).map(([h]) => h);
   const doms = new Set(known.filter(([, s]) => s.level >= 2).map(([, s]) => s.domain));
-  return { level: Math.max(...known.map(([, s]) => s.level)), score: Math.round(Math.max(...known.map(([, s]) => s.R))), systemic: doms.size >= 2, top };
+  return { level: Math.max(...known.map(([, s]) => s.level)), score: Math.round(Math.max(...known.map(([, s]) => lShown(s)))), systemic: doms.size >= 2, top };
 }
 
-// ---- local sources (kind/area/refresh mirror puite/sources.py META)
+// ---- local sources (kind/area/refresh mirror semaphore/sources.py META)
 const LMETA = { weather: ["forecast", "commune", 360, "@hazard"], vigilance: ["official", "dept", 720, "@hazard"], vigieau: ["official", "commune", 1440, "vigieau"], fuel: ["observed", "dept", 30, "fuel"] };
 function lind(id, hazard, label, value, s, w, source, link, query, rule, o = {}) {
   const [kind, area, , fam] = LMETA[source];
@@ -371,4 +372,4 @@ function lGeoBlock() {
     <p class="muted">${t.geoNote}</p><p>${link(t.geoLink, "https://www.georisques.gouv.fr/")}</p>`;
   return col(t.geoT, body);
 }
-if (typeof module !== "undefined") module.exports = { lScore, lH, lHeadline, lLevel, linterp };
+if (typeof module !== "undefined") module.exports = { lShown, lScore, lH, lHeadline, lLevel, linterp };

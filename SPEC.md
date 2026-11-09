@@ -1,4 +1,4 @@
-# PUITE v4: Paris Risk Today, a public early-warning and readiness service
+# Semaphore v4: Paris Risk Today, a public early-warning and readiness service
 
 **One line:** a free, always-on, open service that tells any Parisian *how risky today is, for what, and the one thing to do about it*, built on continuously collected open data.
 **Companion:** [RISK_REGISTER.md](RISK_REGISTER.md) (58 hazards, 40 data sources, about 25 of them verified live 2026-11-03).
@@ -173,7 +173,7 @@ Everything tunable lives in `config/`: `indicators.toml` (mappings), `hazards.to
 
 ## 10. Prompt for the implementing agent
 
-> Build **puite** per `SPEC.md` and `RISK_REGISTER.md`, phase by phase; stop after each phase with acceptance evidence.
+> Build **semaphore** per `SPEC.md` and `RISK_REGISTER.md`, phase by phase; stop after each phase with acceptance evidence.
 > 1. For every adapter: call the real endpoint first, save the response to `tests/fixtures/`, derive the schema from it. Never guess fields. Anything marked ⚠ must be verified or reported as unverified.
 > 2. `scorer.evaluate()` is pure, with table-driven tests for every indicator mapping, level boundary, noisy-OR combination, hysteresis, freshness decay and `UNKNOWN`.
 > 3. Adapters raise `SourceError`, update `source_health`, and never crash the loop. A stale source is never green.

@@ -3,7 +3,7 @@ const UI = {
   fr: {
     title: "Semaphore", tag: "Service citoyen indépendant, non officiel",
     tToday: "Aujourd'hui", tPrep: "Se préparer", tTrend: "Tendances", tMore: "Détails",
-    ok: "Aucune alerte prioritaire détectée", lede0: () => `Rien à signaler dans les sources que nous surveillons.`, calm: n => `${n} jours calmes d'affilée.`,
+    ok: "Aucune alerte prioritaire détectée", lede0: () => `Rien à signaler dans les sources que nous surveillons. Ce n'est pas un feu vert : suivez toujours les alertes officielles.`, calm: n => `${n} jours calmes d'affilée.`,
     ledeN: n => n === 1 ? "Un point demande votre attention aujourd'hui." : `${n} points demandent votre attention aujourd'hui.`,
     unknown: "Statut inconnu", staleMsg: m => `Les dernières données datent d'il y a ${m}. Ne vous fiez pas à une ancienne absence d'alerte.`,
     updated: m => `Mis à jour il y a ${m}`, err: "Impossible de charger les données.",
@@ -46,7 +46,7 @@ const UI = {
   en: {
     title: "Semaphore", tag: "Independent citizen service, not official",
     tToday: "Today", tPrep: "Get ready", tTrend: "Trends", tMore: "Details",
-    ok: "No priority alert detected", lede0: () => `Nothing to report in the sources we monitor.`, calm: n => `${n} calm days in a row.`,
+    ok: "No priority alert detected", lede0: () => `Nothing to report in the sources we monitor. This is not an all-clear: always follow official alerts.`, calm: n => `${n} calm days in a row.`,
     ledeN: n => n === 1 ? "One thing needs your attention today." : `${n} things need your attention today.`,
     unknown: "Status unknown", staleMsg: m => `The latest data is ${m} old. Do not rely on an earlier “no alert”.`,
     updated: m => `Updated ${m} ago`, err: "Could not load data.",
@@ -88,7 +88,7 @@ const UI = {
   }
 };
 const $ = s => document.querySelector(s);
-const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 let lang = (() => { try { return localStorage.getItem("lang"); } catch { return null; } })() || ((navigator.language || "fr").slice(0, 2) === "en" ? "en" : "fr");
 if (!["fr", "en"].includes(lang)) lang = "fr";
 let S, M, H, P, tab = "today", sel = null, sec = null;
@@ -98,6 +98,7 @@ const tx = v => (v && typeof v === "object") ? (v[lang] || v.en) : v;
 const fmt = iso => iso ? new Date(iso).toLocaleString(loc(), { timeZone: "Europe/Paris", dateStyle: "short", timeStyle: "short" }) : "—";
 const fmtDay = d => new Date(d + "T12:00:00").toLocaleDateString(loc(), { weekday: "short", day: "numeric", month: "short" });
 const age = iso => { const m = Math.max(0, Math.round((Date.now() - new Date(iso)) / 6e4)); return m < 1 ? (lang === "fr" ? "à l'instant" : "just now") : m < 90 ? `${m} min` : m < 2880 ? `${Math.round(m / 60)} h` : `${Math.round(m / 1440)} ${lang === "fr" ? "j" : "d"}`; };
+const privLink = () => `<p class="upd"><a href="privacy.html">${lang === "fr" ? "Confidentialité et mentions légales" : "Privacy and legal notice"}</a></p>`;
 const ageMin = iso => (Date.now() - new Date(iso)) / 6e4;
 const lvName = l => M.levels[lang][l];
 const dom = d => M.domains[d][lang];
@@ -121,7 +122,7 @@ const ICON = {
   nuclear: '<circle cx="12" cy="12" r="1.8"/><path d="M12 10.2V3.5a8.5 8.5 0 0 1 7.4 4.3l-5.9 3.4M13.8 13l3.4 5.9A8.5 8.5 0 0 1 7.8 19L10.2 13M10.2 11.2L4.6 7.8"/>'
 };
 const icon = id => `<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[id]}</svg>`;
-const clState = ([id, hs]) => { const lv = hs.map(h => S.hazards[h].level).filter(l => l != null), rs = hs.map(h => S.hazards[h].R).filter(r => r != null); return { id, hs, level: lv.length ? Math.max(...lv) : null, R: rs.length ? Math.round(Math.max(...rs)) : null }; };
+const clState = ([id, hs]) => { const lv = hs.map(h => S.hazards[h].level).filter(l => l != null), rs = hs.map(h => lShown(S.hazards[h])).filter(r => r != null); return { id, hs, level: lv.length ? Math.max(...lv) : null, R: rs.length ? Math.round(Math.max(...rs)) : null }; };
 const partial = c => c.hs.some(h => S.hazards[h].missing.length);
 const tile = c => `<button class="tile t${c.level == null ? "u" : c.level}" data-h="${c.id}" aria-pressed="${sel === c.id}" aria-label="${esc(u().names[c.id])}, ${c.level == null ? u().unknown : esc(lvName(c.level))}, ${u().score} ${c.R ?? "?"}">${icon(c.id)}<span class="tn">${esc(u().names[c.id])}</span><span class="ts">${c.R ?? "?"}<small> / 100</small></span>${badge(c.level)}${partial(c) ? `<span class="muted">${u().partial}</span>` : ""}</button>`;
 
@@ -174,7 +175,7 @@ function trafficBody() {
 }
 const why = id => { const i = S.hazards[id].indicators.filter(x => x.kind !== "context").sort((a, b) => b.s - a.s)[0]; return i ? `${tx(i.label)} : ${tx(i.value)}` : ""; };
 function today() {
-  const a = ageMin(S.generated), stale = a > 720, hd = S.headline;
+  const a = ageMin(S.generated), stale = a > 90, hd = S.headline;
   if (hd.level == null) return `<div class="alert au"><h1>${u().unknown}</h1><p>${u().err}</p></div>`;
   // stale = show the latest data with a warning (local hazards of a commune are computed live; only the national ones are old)
   const banners = (stale ? `<p class="muted">⚠ ${u().staleMsg(age(S.generated))}</p>` : "") + (S.shadow ? `<div class="notice">${u().shadow}</div>` : "") + (hd.systemic ? `<div class="notice">${u().systemic}</div>` : "");
@@ -213,7 +214,7 @@ function prepare() {
   <div class="need">${u().needWater(kit.n)}</div>
   <div class="bar"><b style="width:${Math.min(100, Math.round(100 * d / t))}%"></b></div><p class="muted" style="margin:0">${u().items(d, t)}</p>
   <p class="muted">${u().verified} : <b>${esc(kit.at ? fmt(kit.at) : u().never)}</b>. ${u().verifyDue}</p>
-  <p><button class="btn" id="verify">${u().verifyNow}</button> <button class="btn sec" onclick="print()">${u().print}</button></p><p class="muted">${u().local}</p>`)}
+  <p><button class="btn" id="verify">${u().verifyNow}</button> <button class="btn sec" id="prt">${u().print}</button></p><p class="muted">${u().local}</p>`)}
   ${lGeoBlock()}${groups}
   ${col(esc(tx(P.know.t)), `<ul class="plainl">${P.know.items.map(x => `<li>${esc(tx(x))}</li>`).join("")}</ul>`)}
   <div class="accs">${coolBlock()}</div><h2>${u().pn}</h2><ul class="links">${P.links.map(l => `<li>${link(tx(l.t), l.u)}</li>`).join("")}</ul>`;
@@ -293,12 +294,12 @@ function render() {
   document.documentElement.lang = lang; document.title = u().title; $("#title").textContent = u().title; $("#lang").textContent = lang === "fr" ? "EN" : "FR"; $(".skip").textContent = u().skip;
   const cb = $("#city"); cb.hidden = !C; if (C) { cb.textContent = `${C.nom} (${C.dep})`; cb.setAttribute("aria-label", lu().back + " : " + C.nom); document.title = `${C.nom} · ${u().title}`; }
   if (!N || !M || !P) { $("#view").innerHTML = `<p>${u().err}</p>`; return; }
-  if (!C) { $("#nav").innerHTML = ""; $("#view").innerHTML = RM ? lRiskPage() : lLanding(); if (RM) document.title = `${lu().riskTitle} · ${u().title}`; $("#foot").innerHTML = `<details class="emerg"><summary>${u().emerg} 112 · 15 · 17 · 18</summary><p>${u().disclaimer}</p></details>`; if (RM) { lBindRisk(pickCommune); $("#back").onclick = goHome; } else { lBindLanding(pickCommune); $("#tomap").onclick = e => { e.preventDefault(); RM = true; history.pushState({}, "", "?map=risks"); render(); scrollTo(0, 0); }; } return; }
+  if (!C) { $("#nav").innerHTML = ""; $("#view").innerHTML = RM ? lRiskPage() : lLanding(); if (RM) document.title = `${lu().riskTitle} · ${u().title}`; $("#foot").innerHTML = `<details class="emerg"><summary>${u().emerg} 112 · 15 · 17 · 18</summary><p>${u().disclaimer}</p></details>${privLink()}`; if (RM) { lBindRisk(pickCommune); $("#back").onclick = goHome; } else { lBindLanding(pickCommune); $("#tomap").onclick = e => { e.preventDefault(); RM = true; history.pushState({}, "", "?map=risks"); render(); scrollTo(0, 0); }; } return; }
   if (!S) { $("#view").innerHTML = `<p>${lu().load}</p>`; return; }
   $("#view").innerHTML = tab === "today" ? today() : tab === "prep" ? prepare() : tab === "trend" ? trends() : more();
   const t = (k, l) => `<button class="tab" ${tab === k ? 'aria-current="page"' : ""} data-t="${k}">${l}</button>`;
   $("#nav").innerHTML = t("today", u().tToday) + t("prep", u().tPrep) + t("trend", u().tTrend) + t("more", u().tMore);
-  $("#foot").innerHTML = `<details class="emerg"><summary>${u().emerg} 112 · 15 · 17 · 18</summary><p>${u().disclaimer}</p></details><p class="upd">${u().updated(age(S.generated))}</p>`;
+  $("#foot").innerHTML = `<details class="emerg"><summary>${u().emerg} 112 · 15 · 17 · 18</summary><p>${u().disclaimer}</p></details><p class="upd">${u().updated(age(S.generated))}</p>${privLink()}`;
   const go = (k, s) => { tab = k; sec = s || null; render(); window.scrollTo(0, 0); if (s) document.getElementById("s-" + s)?.scrollIntoView(); else { const h = document.querySelector("#view h1"); if (h) { h.tabIndex = -1; h.focus({ preventScroll: true }); } } };
   document.querySelectorAll("[data-t]").forEach(b => b.onclick = () => go(b.dataset.t));
   document.querySelectorAll("[data-go]").forEach(b => b.onclick = e => { e.preventDefault(); go(b.dataset.go, b.dataset.sec); });
@@ -307,6 +308,7 @@ function render() {
   document.querySelectorAll(".tile").forEach(b => b.onclick = () => { sel = sel === b.dataset.h ? "" : b.dataset.h; if (sel) OP.add(esc(u().names[sel])); render(); document.getElementById("detail")?.scrollIntoView({ behavior: "smooth", block: "nearest" }); });
   const ar = $("#arr"); if (ar) ar.onchange = () => { arr = ar.value; $("#coolList").innerHTML = coolList(); };
   const mt = $("#moreT"); if (mt) mt.onclick = () => { tmore = !tmore; const y = scrollY; render(); scrollTo(0, y); };
+  const pr = $("#prt"); if (pr) pr.onclick = () => print();
   const v = $("#verify"); if (v) v.onclick = () => { kit.at = new Date().toISOString(); saveKit(); const y = scrollY; render(); scrollTo(0, y); };
 }
 // trend tooltips: hover on desktop, tap on phones

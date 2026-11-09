@@ -25,6 +25,12 @@ def hazard_H(inds):
     return 100 * (1 - p)
 
 
+def shown_R(s):
+    """Score as displayed: never above the band of the displayed level (a rise still held back by persistence keeps its old level)."""
+    r = s["R"]
+    return r if r is None or s["level"] is None or s["level"] >= 3 else min(r, LEVEL_AT[s["level"]] - 0.1)
+
+
 def impact_mult(impact):
     return 0.6 + 0.1 * (impact - 1)
 
@@ -83,6 +89,6 @@ def headline(hazards, cfgs):
     top = sorted((h for h, s in known.items() if s["level"] >= 1), key=lambda h: (-known[h]["level"], -known[h]["R"]))
     worst = max(s["level"] for s in known.values())
     doms = {cfgs[h]["domain"] for h, s in known.items() if s["level"] >= 2}
-    best = max(s["R"] for s in known.values())
+    best = max(shown_R(s) for s in known.values())
     score = round(best)
     return {"level": worst, "score": score, "systemic": len(doms) >= 2, "top": top}

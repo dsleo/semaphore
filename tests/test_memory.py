@@ -1,5 +1,5 @@
 import unittest
-from puite import memory
+from semaphore import memory
 
 
 def ser(rs, lv=None):

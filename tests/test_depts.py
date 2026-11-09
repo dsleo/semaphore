@@ -1,5 +1,5 @@
 import unittest
-from puite import depts
+from semaphore import depts
 
 
 class Depts(unittest.TestCase):
@@ -16,6 +16,15 @@ class Depts(unittest.TestCase):
         for ids in depts.SRC_OF.values():
             for sid in ids:
                 self.assertIn(sid, depts.SRC_NAME)
+
+    def test_per_dep_groups_communes_and_ignores_unknown_deps(self):
+        best = {"75056": {"code_qual": "2"}, "75101": {"code_qual": "4", "alerte": "True"}, "99999": {"code_qual": "6"}}
+        g = depts._per_dep(best, None)
+        self.assertEqual(set(g), {"75"})
+        self.assertEqual(g["75"], (4, True, 2))  # q75 of [2, 4], alert flag any(), 2 communes
+
+    def test_norm_strips_accents(self):
+        self.assertEqual(depts._norm("Cattenom Île-de-France É"), "cattenom ile-de-france e")
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
-@font-face{font-family:"Marianne";font-style:normal;font-weight:300;font-display:swap;src:url("https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@1.15.0/dist/fonts/Marianne-Light.woff2") format("woff2")}
-@font-face{font-family:"Marianne";font-style:normal;font-weight:400;font-display:swap;src:url("https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@1.15.0/dist/fonts/Marianne-Regular.woff2") format("woff2")}
-@font-face{font-family:"Marianne";font-style:normal;font-weight:500;font-display:swap;src:url("https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@1.15.0/dist/fonts/Marianne-Medium.woff2") format("woff2")}
-@font-face{font-family:"Marianne";font-style:normal;font-weight:700;font-display:swap;src:url("https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@1.15.0/dist/fonts/Marianne-Bold.woff2") format("woff2")}
+@font-face{font-family:"Marianne";font-style:normal;font-weight:300;font-display:swap;src:url("fonts/Marianne-Light.woff2") format("woff2")}
+@font-face{font-family:"Marianne";font-style:normal;font-weight:400;font-display:swap;src:url("fonts/Marianne-Regular.woff2") format("woff2")}
+@font-face{font-family:"Marianne";font-style:normal;font-weight:500;font-display:swap;src:url("fonts/Marianne-Medium.woff2") format("woff2")}
+@font-face{font-family:"Marianne";font-style:normal;font-weight:700;font-display:swap;src:url("fonts/Marianne-Bold.woff2") format("woff2")}
 /* Sober public-service look: white page, one blue, square-ish components, plain Arial-style type,
    underlined links, bordered alerts and accordions. Independent civic tool: no state emblem, no "official" claim. */
 :root{

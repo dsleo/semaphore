@@ -12,7 +12,7 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
 
-UA = "puite/1.0 (open civic risk monitor)"
+UA = "semaphore/1.0 (open civic risk monitor)"
 UTC = timezone.utc
 
 
@@ -400,7 +400,7 @@ CAT = {"bank": T("Banques", "Banks"), "retail": T("Supermarchés en ligne", "Onl
 def _up(url):
     for attempt in (0, 1):
         try:
-            urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (compatible; puite/1.0)"}), timeout=10).read(512)
+            urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (compatible; semaphore/1.0)"}), timeout=10).read(512)
             return True
         except urllib.error.HTTPError as e:
             if e.code < 500:

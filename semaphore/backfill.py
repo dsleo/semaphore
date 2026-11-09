@@ -1,4 +1,4 @@
-"""Rebuild past days from public archives: python3 -m puite.backfill [days=30]
+"""Rebuild past days from public archives: python3 -m semaphore.backfill [days=30]
 Reconstructed days are marked src="recon" and never overwrite a live reading. Honest limits:
  - fuel: the feed only holds stations *currently* in stockout, so past ratios are lower bounds;
  - weather: uses observed values (the live collector uses forecasts);

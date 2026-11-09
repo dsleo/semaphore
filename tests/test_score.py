@@ -1,8 +1,8 @@
 import unittest
 from datetime import datetime, timedelta, timezone
 
-from puite import score
-from puite.sources import interp
+from semaphore import score
+from semaphore.sources import interp
 
 NOW = datetime(2026, 11, 3, 12, 0, tzinfo=timezone.utc)
 
@@ -84,6 +84,14 @@ class T(unittest.TestCase):
         hz = {"a": {"level": 2, "R": 55}, "b": {"level": 2, "R": 60}}
         h = score.headline(hz, {"a": {"domain": "x"}, "b": {"domain": "y"}})
         self.assertEqual((h["systemic"], h["score"]), (True, 60))
+
+    def test_held_rise_does_not_show_a_score_from_a_higher_band(self):
+        s = {"level": 0, "R": 46.0}
+        self.assertLess(score.shown_R(s), 25)
+        self.assertEqual(score.shown_R({"level": 3, "R": 91.0}), 91.0)
+        self.assertEqual(score.shown_R({"level": None, "R": None}), None)
+        h = score.headline({"a": s}, {"a": {"domain": "x"}})
+        self.assertEqual((h["level"], h["score"]), (0, 25))
 
 
 if __name__ == "__main__":

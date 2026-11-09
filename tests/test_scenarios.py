@@ -1,9 +1,10 @@
 """Replay of known situations and failure modes through the real scoring path (no network).
 A missed warning or a false alarm here is a bug, not a threshold to argue about."""
 import unittest
+from pathlib import Path
 from datetime import datetime, timezone
 
-from puite import score, sources as S
+from semaphore import score, sources as S
 
 NOW = datetime(2026, 8, 12, 12, 0, tzinfo=timezone.utc)
 
@@ -56,8 +57,8 @@ class Replay(unittest.TestCase):
         self.assertIsNone(run({"impact": 3, "persist": 2}, [mk("context", "kev", 1.0, 0.4)])["level"])
 
     def test_unknown_source_status(self):
-        from puite import run as R  # status rule: failed within 3x its refresh = late, otherwise down
-        self.assertIn("late", open(R.__file__).read())
+        from semaphore import run as R  # status rule: failed within 3x its refresh = late, otherwise down
+        self.assertIn("late", Path(R.__file__).read_text())
 
     def test_meta_covers_every_source(self):
         for sid, *_ in S.SOURCES:

@@ -5,6 +5,7 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
+  issues: write
 concurrency:
   group: update
   cancel-in-progress: false
@@ -16,10 +17,17 @@ jobs:
       - uses: actions/checkout@v5
       - run: python3 -m unittest -q          # stdlib only, no installs
       - run: node tests/local.test.js        # browser-side scoring port
-      - run: python3 -m puite                # writes docs/data/*.json
+      - run: python3 -m semaphore                # writes docs/data/*.json
       - name: Commit data (each commit = a timestamped, auditable snapshot)
         run: |
-          git config user.name "puite-bot"
-          git config user.email "puite-bot@users.noreply.github.com"
+          git config user.name "semaphore-bot"
+          git config user.email "semaphore-bot@users.noreply.github.com"
           git add docs/data/state.json docs/data/history.json docs/data/memory.json docs/data/places.json docs/data/news-local.json docs/data/roads.json docs/data/transit.json docs/data/depts.json
-          git diff --cached --quiet || { git commit -m "data $(date -u +%FT%TZ)"; git push; }
+          git diff --cached --quiet || { git commit -m "data $(date -u +%FT%TZ)"; git pull --rebase -q; git push; }
+      - name: Alert on failure (open an issue once)
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue list --label pipeline-down --state open --json number --jq length | grep -qx 0 \
+            && gh issue create --label pipeline-down --title "Data pipeline failing" --body "Run $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID failed. The site is serving stale data." || true
