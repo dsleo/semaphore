@@ -57,7 +57,7 @@ def main(out="docs/data"):
         inds = [i for r in res.values() if r["ok"] for i in r["inds"] if i["hazard"] == hid]
         st = score.score_hazard(hc, inds, prev.get("hazards", {}).get(hid), t)
         st["domain"] = hc["domain"]
-        st["missing"] = [s for s in hc["sources"] if not res[s]["ok"]]
+        st["missing"] = [s for s in hc["sources"] if s in res and not res[s]["ok"]]
         st["indicators"] = sorted(inds, key=lambda i: -i["s"] * i["w"])
         hazards[hid] = st
         old = prev.get("hazards", {}).get(hid, {}).get("level")
