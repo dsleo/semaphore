@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-08T02:38:04Z",
+ "generated": "2026-11-09T10:21:53Z",
  "repo": "https://github.com/dsleo/semaphore",
  "shadow": false,
  "coverage": {
@@ -25,12 +25,12 @@
    "link": "https://vigieau.gouv.fr",
    "area": "paris",
    "pub": null,
-   "fetched": "2026-11-08T02:38:05Z"
+   "fetched": "2026-11-09T10:21:54Z"
   }
  ],
  "headline": {
   "level": 0,
-  "score": 20,
+  "score": 46,
   "systemic": false,
   "top": []
  },
@@ -54,20 +54,20 @@
       "fr": "Chaleur prévue (7 jours)",
       "en": "Forecast heat (7 days)"
      },
-     "value": "Tmax max 17 °C · Tmin max 12 °C · 3 j. depuis 2026-11-08: 10.5/5.9 °C",
+     "value": "Tmax max 17 °C · Tmin max 12 °C · 3 j. depuis 2026-11-09: 14.2/8.9 °C",
      "s": 0.0,
      "w": 0.7,
      "source": "weather",
      "link": "https://open-meteo.com/",
      "query": "https://api.open-meteo.com/v1/forecast?latitude=48.85&longitude=2.35&timezone=Europe%2FParis&forecast_days=7&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_gusts_10m_max",
-     "sha": "0229d265167e53ce",
+     "sha": "bfc6875f57eb8073",
      "rule": {
       "fr": "Seuil canicule Paris : moyenne 3 j. Tmax ≥ 31 °C et Tmin ≥ 21 °C (= 1). Un jour ≥ 40 °C = 1.",
       "en": "Paris heatwave criterion: 3-day mean Tmax ≥ 31 °C and Tmin ≥ 21 °C (= 1). A day ≥ 40 °C = 1."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-08T02:38:04Z",
+     "fetched": "2026-11-09T10:21:53Z",
      "pub": null,
      "kind": "forecast",
      "area": "paris",
@@ -100,14 +100,14 @@
      "source": "weather",
      "link": "https://open-meteo.com/",
      "query": "https://api.open-meteo.com/v1/forecast?latitude=48.85&longitude=2.35&timezone=Europe%2FParis&forecast_days=7&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_gusts_10m_max",
-     "sha": "0229d265167e53ce",
+     "sha": "bfc6875f57eb8073",
      "rule": {
       "fr": "0 °C = 0 ; −3 °C = 0,4 ; −8 °C = 1.",
       "en": "0 °C = 0; −3 °C = 0.4; −8 °C = 1."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-08T02:38:04Z",
+     "fetched": "2026-11-09T10:21:53Z",
      "pub": null,
      "kind": "forecast",
      "area": "paris",
@@ -120,20 +120,20 @@
       "fr": "Rafales prévues (3 jours)",
       "en": "Forecast gusts (3 days)"
      },
-     "value": "17 km/h",
+     "value": "20 km/h",
      "s": 0.0,
      "w": 0.7,
      "source": "weather",
      "link": "https://open-meteo.com/",
      "query": "https://api.open-meteo.com/v1/forecast?latitude=48.85&longitude=2.35&timezone=Europe%2FParis&forecast_days=7&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_gusts_10m_max",
-     "sha": "0229d265167e53ce",
+     "sha": "bfc6875f57eb8073",
      "rule": {
       "fr": "60 km/h = 0 ; 80 = 0,4 ; 110 = 1.",
       "en": "60 km/h = 0; 80 = 0.4; 110 = 1."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-08T02:38:04Z",
+     "fetched": "2026-11-09T10:21:53Z",
      "pub": null,
      "kind": "forecast",
      "area": "paris",
@@ -146,20 +146,20 @@
       "fr": "Pluie prévue en 24 h (3 jours)",
       "en": "Forecast 24 h rain (3 days)"
      },
-     "value": "5 mm",
+     "value": "6 mm",
      "s": 0.0,
      "w": 0.7,
      "source": "weather",
      "link": "https://open-meteo.com/",
      "query": "https://api.open-meteo.com/v1/forecast?latitude=48.85&longitude=2.35&timezone=Europe%2FParis&forecast_days=7&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_gusts_10m_max",
-     "sha": "0229d265167e53ce",
+     "sha": "bfc6875f57eb8073",
      "rule": {
       "fr": "20 mm = 0 ; 40 = 0,5 ; 60 = 1 (risque d'inondation rapide).",
       "en": "20 mm = 0; 40 = 0.5; 60 = 1 (flash-flood risk)."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-08T02:38:04Z",
+     "fetched": "2026-11-09T10:21:53Z",
      "pub": null,
      "kind": "forecast",
      "area": "paris",
@@ -181,15 +181,15 @@
      "source": "vigilance",
      "link": "https://vigilance.meteofrance.fr",
      "query": "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/weatherref-france-vigilance-meteo-departement/records?where=domain_id%3D%2275%22&limit=40",
-     "sha": "ac711747d60fa0e5",
+     "sha": "573890c3c180fa72",
      "rule": {
       "fr": "Vert 0 ; jaune 0,25 ; orange 0,6 (plancher « Préparez-vous ») ; rouge 1 (plancher « Agissez »). Aujourd'hui et demain.",
       "en": "Green 0; yellow 0.25; orange 0.6 (floor “Prepare”); red 1 (floor “Act”). Today and tomorrow."
      },
      "official": true,
      "floor": 0,
-     "fetched": "2026-11-08T02:38:05Z",
-     "pub": "2026-11-07T15:00:00+00:00",
+     "fetched": "2026-11-09T10:21:54Z",
+     "pub": "2026-11-09T05:00:00+00:00",
      "kind": "official",
      "area": "paris",
      "fam": "weather"
@@ -216,23 +216,23 @@
       "en": "Ecowatt signal (RTE)"
      },
      "value": {
-      "fr": "vert (2026-11-07)",
-      "en": "green (2026-11-07)"
+      "fr": "vert (2026-11-08)",
+      "en": "green (2026-11-08)"
      },
      "s": 0.0,
      "w": 1.0,
      "source": "ecowatt",
      "link": "https://www.monecowatt.fr",
      "query": "https://odre.opendatasoft.com/api/explore/v2.1/catalog/datasets/nouveau_signal_ecowatt/records?limit=3&order_by=date+desc",
-     "sha": "9d0344286f037cb3",
+     "sha": "2f49d5135d53d82c",
      "rule": {
       "fr": "Vert = 0. Orange = tension (plancher « Préparez-vous »). Rouge = coupures possibles (plancher « Agissez »).",
       "en": "Green = 0. Orange = tension (floor “Prepare”). Red = outages possible (floor “Act”)."
      },
      "official": true,
      "floor": 0,
-     "fetched": "2026-11-08T02:38:05Z",
-     "pub": "2026-11-07",
+     "fetched": "2026-11-09T10:21:53Z",
+     "pub": "2026-11-08",
      "kind": "official",
      "area": "france",
      "fam": "rte"
@@ -244,21 +244,21 @@
       "fr": "Consommation nationale vs prévision",
       "en": "National load vs forecast"
      },
-     "value": "47109 / 47050 MW (100%)",
+     "value": "61472 / 59900 MW (103%)",
      "s": 0.0,
      "w": 0.8,
      "source": "eco2mix",
      "link": "https://www.rte-france.com/eco2mix",
      "query": "https://odre.opendatasoft.com/api/explore/v2.1/catalog/datasets/eco2mix-national-tr/records?limit=1&where=consommation+is+not+null&order_by=date_heure+desc&select=date_heure%2Cconsommation%2Cprevision_j",
-     "sha": "621327f1b724a9e8",
+     "sha": "c94b4edbaa4f4c2f",
      "rule": {
       "fr": "Écart > 6 % entre consommation réelle et prévue : anomalie ; > 20 % : effondrement ou pic extrême.",
       "en": "Gap > 6 % between actual and forecast load = anomaly; > 20 % = collapse or extreme peak."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-08T02:38:05Z",
-     "pub": "2026-11-08T02:15:00+00:00",
+     "fetched": "2026-11-09T10:21:53Z",
+     "pub": "2026-11-09T10:00:00+00:00",
      "kind": "observed",
      "area": "france",
      "fam": "rte"
@@ -267,12 +267,16 @@
   },
   "fuel": {
    "level": 0,
-   "R": 20.2,
-   "H": 25.2,
-   "cand": 0,
-   "held": null,
+   "R": 46.0,
+   "H": 57.5,
+   "cand": 1,
+   "held": {
+    "why": "persistence",
+    "need": 2,
+    "have": 1
+   },
    "capped": false,
-   "up": 0,
+   "up": 1,
    "down_since": null,
    "domain": "fuel",
    "missing": [],
@@ -284,20 +288,20 @@
       "fr": "Stations SP95-E10 en rupture (Île-de-France)",
       "en": "SP95-E10 stations out of stock (Île-de-France)"
      },
-     "value": "104 / 791 stations déclarantes (13.1%)",
-     "s": 0.315,
+     "value": "150 / 774 stations déclarantes (19.4%)",
+     "s": 0.719,
      "w": 0.8,
      "source": "fuel",
      "link": "https://data.economie.gouv.fr/explore/dataset/prix-des-carburants-en-france-flux-instantane-v2/",
-     "query": "https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/prix-des-carburants-en-france-flux-instantane-v2/records?limit=0&where=%28code_departement+in+%28%2275%22%2C%2277%22%2C%2278%22%2C%2291%22%2C%2292%22%2C%2293%22%2C%2294%22%2C%2295%22%29%29+and+e10_rupture_type%3D%22temporaire%22+and+e10_rupture_debut+%3E%3D+date%272026-10-25%27",
-     "sha": "b1ac3877954aece8d7e22fcc01842527",
+     "query": "https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/prix-des-carburants-en-france-flux-instantane-v2/records?limit=0&where=%28code_departement+in+%28%2275%22%2C%2277%22%2C%2278%22%2C%2291%22%2C%2292%22%2C%2293%22%2C%2294%22%2C%2295%22%29%29+and+e10_rupture_type%3D%22temporaire%22+and+e10_rupture_debut+%3E%3D+date%272026-10-26%27",
+     "sha": "41692d17a76224cf65b92e128557fa20",
      "rule": {
       "fr": "Normal ≈ 8 %. 15 % = tension (0,5). 25 % = grave (1). Seules les ruptures temporaires déclarées depuis 14 jours comptent (les plus anciennes sont des lignes obsolètes). Mesure des ruptures déclarées par les stations, pas un recensement.",
       "en": "Normal ≈ 8 %. 15 % = tension (0.5). 25 % = severe (1). Only temporary stockouts declared in the last 14 days count (older ones are stale feed rows). Counts stockouts declared by stations, not a census."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-08T02:38:06Z",
+     "fetched": "2026-11-09T10:21:55Z",
      "pub": null,
      "kind": "observed",
      "area": "idf",
@@ -310,20 +314,20 @@
       "fr": "Stations Diesel en rupture (Île-de-France)",
       "en": "Diesel stations out of stock (Île-de-France)"
      },
-     "value": "24 / 828 stations déclarantes (2.9%)",
+     "value": "45 / 819 stations déclarantes (5.5%)",
      "s": 0.0,
      "w": 0.8,
      "source": "fuel",
      "link": "https://data.economie.gouv.fr/explore/dataset/prix-des-carburants-en-france-flux-instantane-v2/",
-     "query": "https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/prix-des-carburants-en-france-flux-instantane-v2/records?limit=0&where=%28code_departement+in+%28%2275%22%2C%2277%22%2C%2278%22%2C%2291%22%2C%2292%22%2C%2293%22%2C%2294%22%2C%2295%22%29%29+and+gazole_rupture_type%3D%22temporaire%22+and+gazole_rupture_debut+%3E%3D+date%272026-10-25%27",
-     "sha": "8fba7a4df16a79639905b636017d9c2d",
+     "query": "https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/prix-des-carburants-en-france-flux-instantane-v2/records?limit=0&where=%28code_departement+in+%28%2275%22%2C%2277%22%2C%2278%22%2C%2291%22%2C%2292%22%2C%2293%22%2C%2294%22%2C%2295%22%29%29+and+gazole_rupture_type%3D%22temporaire%22+and+gazole_rupture_debut+%3E%3D+date%272026-10-26%27",
+     "sha": "82cde3b8feea51e6b33a1cdd8f29d219",
      "rule": {
       "fr": "Normal ≈ 8 %. 15 % = tension (0,5). 25 % = grave (1). Seules les ruptures temporaires déclarées depuis 14 jours comptent (les plus anciennes sont des lignes obsolètes). Mesure des ruptures déclarées par les stations, pas un recensement.",
       "en": "Normal ≈ 8 %. 15 % = tension (0.5). 25 % = severe (1). Only temporary stockouts declared in the last 14 days count (older ones are stale feed rows). Counts stockouts declared by stations, not a census."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-08T02:38:05Z",
+     "fetched": "2026-11-09T10:21:54Z",
      "pub": null,
      "kind": "observed",
      "area": "idf",
@@ -350,21 +354,21 @@
       "fr": "Seine à Paris-Austerlitz",
       "en": "Seine at Paris-Austerlitz"
      },
-     "value": "0.94 m · +0.02 m/jour",
+     "value": "0.90 m · -0.05 m/jour",
      "s": 0.0,
      "w": 0.6,
      "source": "seine",
      "link": "https://www.vigicrues.gouv.fr",
      "query": "https://hubeau.eaufrance.fr/api/v2/hydrometrie/observations_tr?code_entite=F700000103&grandeur_hydro=H&size=100&sort=desc&fields=date_obs,resultat_obs",
-     "sha": "42129dabd7b0640c",
+     "sha": "37b5958ec990f67c",
      "rule": {
       "fr": "Niveau 3 m = 0 ; 4 m = 0,4 ; 5 m = 0,8 ; 6 m = 1 (repères de crues 2016/2018 : ≈ 6 m). Montée > 0,3 m/jour compte. Seuils à confirmer avec Vigicrues.",
       "en": "Level 3 m = 0; 4 m = 0.4; 5 m = 0.8; 6 m = 1 (2016/2018 floods ≈ 6 m). Rise > 0.3 m/day counts. Thresholds to confirm with Vigicrues."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-08T02:38:06Z",
-     "pub": "2026-11-08T02:20:00Z",
+     "fetched": "2026-11-09T10:21:54Z",
+     "pub": "2026-11-09T10:00:00Z",
      "kind": "observed",
      "area": "paris",
      "fam": "flood"
@@ -385,14 +389,14 @@
      "source": "vigicrues",
      "link": "https://www.vigicrues.gouv.fr/",
      "query": "https://www.vigicrues.gouv.fr/services/InfoVigiCru.geojson",
-     "sha": "f37c81b3b5200949",
+     "sha": "8f7a19676eb4ee0a",
      "rule": {
       "fr": "Vert 0 ; jaune 0,25 ; orange 0,6 (plancher « Préparez-vous ») ; rouge 1 (plancher « Agissez »). Vigilance officielle du service de prévision des crues.",
       "en": "Green 0; yellow 0.25; orange 0.6 (floor “Prepare”); red 1 (floor “Act”). Official flood-forecasting service vigilance."
      },
      "official": true,
      "floor": 0,
-     "fetched": "2026-11-08T02:38:07Z",
+     "fetched": "2026-11-09T10:21:56Z",
      "pub": null,
      "kind": "official",
      "area": "paris",
@@ -428,14 +432,14 @@
      "source": "vigieau",
      "link": "https://vigieau.gouv.fr",
      "query": "https://api.vigieau.beta.gouv.fr/api/zones?lon=2.35&lat=48.85",
-     "sha": "28bbc03973bc9f56",
+     "sha": "2ea7fb800fb554eb",
      "rule": {
       "fr": "Vigilance 0,15 ; alerte 0,4 ; alerte renforcée 0,7 ; crise 1.",
       "en": "Watch 0.15; alert 0.4; heightened 0.7; crisis 1."
      },
      "official": true,
      "floor": 0,
-     "fetched": "2026-11-08T02:38:05Z",
+     "fetched": "2026-11-09T10:21:54Z",
      "pub": null,
      "kind": "official",
      "area": "paris",
@@ -475,7 +479,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-08T02:38:04Z",
+     "fetched": "2026-11-09T10:21:53Z",
      "pub": null,
      "kind": "context",
      "area": "world",
@@ -501,7 +505,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-08T02:38:04Z",
+     "fetched": "2026-11-09T10:21:53Z",
      "pub": null,
      "kind": "context",
      "area": "world",
@@ -527,7 +531,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-08T02:38:04Z",
+     "fetched": "2026-11-09T10:21:53Z",
      "pub": null,
      "kind": "context",
      "area": "world",
@@ -553,7 +557,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-08T02:38:05Z",
+     "fetched": "2026-11-09T10:21:53Z",
      "pub": null,
      "kind": "context",
      "area": "france",
@@ -572,14 +576,14 @@
      "source": "news",
      "link": "https://www.cybermalveillance.gouv.fr",
      "query": "https://www.francetvinfo.fr/titres.rss, https://www.francebleu.fr/rss/a-la-une.xml, https://www.20minutes.fr/feeds/rss-une.xml, https://www.lefigaro.fr/rss/figaro_actualites-a-la-une.xml, https://www.rfi.fr/fr/france/rss, https://www.lemonde.fr/paris/rss_full.xml",
-     "sha": "fea6cbefa7d08ef6",
+     "sha": "943b2603ecdee5af",
      "rule": {
       "fr": "Mots-clés cyber (cyberattaque, rançongiciel, piratage…) + secteur. On compte les événements distincts, pas les médias : plusieurs médias qui reprennent la même histoire valent un seul événement. 1 = 0,2 ; 2 = 0,5 ; 3+ = 0,7. Poids plafonné : la presse seule ne peut pas dépasser « À surveiller » ou « Préparez-vous ».",
       "en": "Cyber keywords (cyberattack, ransomware, hacking…) + sector. Counts distinct events, not outlets: several outlets repeating one story are one event. 1 = 0.2; 2 = 0.5; 3+ = 0.7. Weight capped: press alone cannot go beyond “Be aware” or “Prepare”."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-08T02:38:07Z",
+     "fetched": "2026-11-09T10:21:56Z",
      "pub": null,
      "kind": "reported",
      "area": "france",
@@ -611,15 +615,15 @@
      "w": 0.8,
      "source": "ioda",
      "link": "https://ioda.inetintel.cc.gatech.edu/country/FR",
-     "query": "https://api.ioda.inetintel.cc.gatech.edu/v2/outages/summary?entityType=country&entityCode=FR&from=1794019085&until=1794105485",
-     "sha": "023820f1c61dc053",
+     "query": "https://api.ioda.inetintel.cc.gatech.edu/v2/outages/summary?entityType=country&entityCode=FR&from=1794133313&until=1794219713",
+     "sha": "353b51991f8a3453",
      "rule": {
       "fr": "Détection indépendante (Georgia Tech). 0 = 0 ; 1 = 0,5 ; 3 = 1.",
       "en": "Independent detection (Georgia Tech). 0 = 0; 1 = 0.5; 3 = 1."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-08T02:38:05Z",
+     "fetched": "2026-11-09T10:21:54Z",
      "pub": null,
      "kind": "observed",
      "area": "france",
@@ -638,14 +642,14 @@
      "source": "probes",
      "link": "https://github.com/",
      "query": "https://www.credit-agricole.fr, https://www.boursorama.com, https://www.lcl.fr, https://www.societegenerale.fr",
-     "sha": "167c1870ae2d9279",
+     "sha": "b8e2597a1d11e591",
      "rule": {
       "fr": "Un site est « en panne » s'il ne répond pas après 2 essais (une réponse HTTP < 500 = joignable). Un seul point de mesure : poids limité (0,6). ≥ 50 % en panne = 0,5.",
       "en": "A site is “down” if it fails twice (any HTTP < 500 = reachable). Single vantage point: weight capped (0.6). ≥ 50 % down = 0.5."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-08T02:38:33Z",
+     "fetched": "2026-11-09T10:22:32Z",
      "pub": null,
      "kind": "observed",
      "area": "single",
@@ -664,14 +668,14 @@
      "source": "probes",
      "link": "https://github.com/",
      "query": "https://www.iledefrance-mobilites.fr, https://www.ratp.fr, https://www.sncf-connect.com",
-     "sha": "167c1870ae2d9279",
+     "sha": "b8e2597a1d11e591",
      "rule": {
       "fr": "Un site est « en panne » s'il ne répond pas après 2 essais (une réponse HTTP < 500 = joignable). Un seul point de mesure : poids limité (0,6). ≥ 50 % en panne = 0,5.",
       "en": "A site is “down” if it fails twice (any HTTP < 500 = reachable). Single vantage point: weight capped (0.6). ≥ 50 % down = 0.5."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-08T02:38:33Z",
+     "fetched": "2026-11-09T10:22:32Z",
      "pub": null,
      "kind": "observed",
      "area": "single",
@@ -690,14 +694,14 @@
      "source": "probes",
      "link": "https://github.com/",
      "query": "https://www.orange.fr, https://www.free.fr, https://www.sfr.fr, https://www.bouyguestelecom.fr",
-     "sha": "167c1870ae2d9279",
+     "sha": "b8e2597a1d11e591",
      "rule": {
       "fr": "Un site est « en panne » s'il ne répond pas après 2 essais (une réponse HTTP < 500 = joignable). Un seul point de mesure : poids limité (0,6). ≥ 50 % en panne = 0,5.",
       "en": "A site is “down” if it fails twice (any HTTP < 500 = reachable). Single vantage point: weight capped (0.6). ≥ 50 % down = 0.5."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-08T02:38:33Z",
+     "fetched": "2026-11-09T10:22:32Z",
      "pub": null,
      "kind": "observed",
      "area": "single",
@@ -710,20 +714,20 @@
       "fr": "Accessibilité : Cloud",
       "en": "Reachability: Cloud"
      },
-     "value": "4/4 joignables",
+     "value": "3/4: azure.microsoft.com",
      "s": 0.0,
      "w": 0.6,
      "source": "probes",
      "link": "https://github.com/",
      "query": "https://www.cloudflare.com, https://aws.amazon.com, https://azure.microsoft.com, https://www.ovhcloud.com",
-     "sha": "167c1870ae2d9279",
+     "sha": "b8e2597a1d11e591",
      "rule": {
       "fr": "Un site est « en panne » s'il ne répond pas après 2 essais (une réponse HTTP < 500 = joignable). Un seul point de mesure : poids limité (0,6). ≥ 50 % en panne = 0,5.",
       "en": "A site is “down” if it fails twice (any HTTP < 500 = reachable). Single vantage point: weight capped (0.6). ≥ 50 % down = 0.5."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-08T02:38:33Z",
+     "fetched": "2026-11-09T10:22:32Z",
      "pub": null,
      "kind": "observed",
      "area": "single",
@@ -742,14 +746,14 @@
      "source": "probes",
      "link": "https://github.com/",
      "query": "https://www.service-public.fr, https://www.impots.gouv.fr, https://www.ameli.fr",
-     "sha": "167c1870ae2d9279",
+     "sha": "b8e2597a1d11e591",
      "rule": {
       "fr": "Un site est « en panne » s'il ne répond pas après 2 essais (une réponse HTTP < 500 = joignable). Un seul point de mesure : poids limité (0,6). ≥ 50 % en panne = 0,5.",
       "en": "A site is “down” if it fails twice (any HTTP < 500 = reachable). Single vantage point: weight capped (0.6). ≥ 50 % down = 0.5."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-08T02:38:33Z",
+     "fetched": "2026-11-09T10:22:32Z",
      "pub": null,
      "kind": "observed",
      "area": "single",
@@ -768,14 +772,14 @@
      "source": "news",
      "link": "https://www.cybermalveillance.gouv.fr",
      "query": "https://www.francetvinfo.fr/titres.rss, https://www.francebleu.fr/rss/a-la-une.xml, https://www.20minutes.fr/feeds/rss-une.xml, https://www.lefigaro.fr/rss/figaro_actualites-a-la-une.xml, https://www.rfi.fr/fr/france/rss, https://www.lemonde.fr/paris/rss_full.xml",
-     "sha": "fea6cbefa7d08ef6",
+     "sha": "943b2603ecdee5af",
      "rule": {
       "fr": "Mots-clés cyber (cyberattaque, rançongiciel, piratage…) + secteur. On compte les événements distincts, pas les médias : plusieurs médias qui reprennent la même histoire valent un seul événement. 1 = 0,2 ; 2 = 0,5 ; 3+ = 0,7. Poids plafonné : la presse seule ne peut pas dépasser « À surveiller » ou « Préparez-vous ».",
       "en": "Cyber keywords (cyberattack, ransomware, hacking…) + sector. Counts distinct events, not outlets: several outlets repeating one story are one event. 1 = 0.2; 2 = 0.5; 3+ = 0.7. Weight capped: press alone cannot go beyond “Be aware” or “Prepare”."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-08T02:38:07Z",
+     "fetched": "2026-11-09T10:21:56Z",
      "pub": null,
      "kind": "reported",
      "area": "france",
@@ -808,14 +812,14 @@
      "source": "ransomlook",
      "link": "https://www.ransomlook.io",
      "query": "https://www.ransomlook.io/api/recent",
-     "sha": "f96c00e72e178134",
+     "sha": "2eec07c04104723a",
      "rule": {
       "fr": "Heuristique : domaine en .fr + mot-clé secteur. Les effets en rayon arrivent en 2-5 jours. 1 = 0,3 ; 3 = 0,6.",
       "en": "Heuristic: .fr domain + sector keyword. Shelf effects follow in 2-5 days. 1 = 0.3; 3 = 0.6."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-08T02:38:05Z",
+     "fetched": "2026-11-09T10:21:54Z",
      "pub": null,
      "kind": "context",
      "area": "world",
@@ -834,14 +838,14 @@
      "source": "probes",
      "link": "https://github.com/",
      "query": "https://www.carrefour.fr, https://www.auchan.fr, https://www.monoprix.fr, https://www.leclercdrive.fr",
-     "sha": "167c1870ae2d9279",
+     "sha": "b8e2597a1d11e591",
      "rule": {
       "fr": "Un site est « en panne » s'il ne répond pas après 2 essais (une réponse HTTP < 500 = joignable). Un seul point de mesure : poids limité (0,6). ≥ 50 % en panne = 0,5.",
       "en": "A site is “down” if it fails twice (any HTTP < 500 = reachable). Single vantage point: weight capped (0.6). ≥ 50 % down = 0.5."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-08T02:38:33Z",
+     "fetched": "2026-11-09T10:22:32Z",
      "pub": null,
      "kind": "observed",
      "area": "single",
@@ -860,39 +864,93 @@
      "source": "news",
      "link": "https://www.cert.ssi.gouv.fr/alerte/",
      "query": "https://www.francetvinfo.fr/titres.rss, https://www.francebleu.fr/rss/a-la-une.xml, https://www.20minutes.fr/feeds/rss-une.xml, https://www.lefigaro.fr/rss/figaro_actualites-a-la-une.xml, https://www.rfi.fr/fr/france/rss, https://www.lemonde.fr/paris/rss_full.xml",
-     "sha": "fea6cbefa7d08ef6",
+     "sha": "943b2603ecdee5af",
      "rule": {
       "fr": "Mots-clés cyber (cyberattaque, rançongiciel, piratage…) + secteur. On compte les événements distincts, pas les médias : plusieurs médias qui reprennent la même histoire valent un seul événement. 1 = 0,2 ; 2 = 0,5 ; 3+ = 0,7. Poids plafonné : la presse seule ne peut pas dépasser « À surveiller » ou « Préparez-vous ».",
       "en": "Cyber keywords (cyberattack, ransomware, hacking…) + sector. Counts distinct events, not outlets: several outlets repeating one story are one event. 1 = 0.2; 2 = 0.5; 3+ = 0.7. Weight capped: press alone cannot go beyond “Be aware” or “Prepare”."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-08T02:38:07Z",
+     "fetched": "2026-11-09T10:21:56Z",
      "pub": null,
      "kind": "reported",
      "area": "france",
      "fam": "press"
     }
    ]
+  },
+  "air": {
+   "level": null,
+   "R": null,
+   "H": null,
+   "cand": null,
+   "held": null,
+   "up": 0,
+   "down_since": null,
+   "domain": "health",
+   "missing": [],
+   "indicators": []
+  },
+  "pollen": {
+   "level": null,
+   "R": null,
+   "H": null,
+   "cand": null,
+   "held": null,
+   "up": 0,
+   "down_since": null,
+   "domain": "health",
+   "missing": [],
+   "indicators": []
+  },
+  "wildfire": {
+   "level": null,
+   "R": null,
+   "H": null,
+   "cand": null,
+   "held": null,
+   "up": 0,
+   "down_since": null,
+   "domain": "weather",
+   "missing": [],
+   "indicators": []
+  },
+  "health": {
+   "level": null,
+   "R": null,
+   "H": null,
+   "cand": null,
+   "held": null,
+   "up": 0,
+   "down_since": null,
+   "domain": "health",
+   "missing": [],
+   "indicators": []
+  },
+  "nuclear": {
+   "level": null,
+   "R": null,
+   "H": null,
+   "cand": null,
+   "held": null,
+   "up": 0,
+   "down_since": null,
+   "domain": "nuclear",
+   "missing": [],
+   "indicators": []
   }
  },
  "trends": {
   "weather": {
-   "trend": "rising",
-   "diff": 6.0,
-   "calm": 16,
+   "trend": "stable",
+   "diff": 4.5,
+   "calm": 17,
    "z": null,
    "unusual": false,
-   "n": 35,
-   "base": 32,
+   "n": 36,
+   "base": 33,
    "recon": 30,
    "series": [
-    [
-     "2026-10-10",
-     0.0,
-     0,
-     "recon"
-    ],
     [
      "2026-10-11",
      0.0,
@@ -1066,31 +1124,32 @@
      10.5,
      0,
      "live"
+    ],
+    [
+     "2026-11-09",
+     10.5,
+     0,
+     "live"
     ]
    ],
    "hazards": [
     "heat",
     "weather",
     "flood",
-    "drought"
+    "drought",
+    "wildfire"
    ]
   },
   "power": {
    "trend": "stable",
    "diff": 0.0,
-   "calm": 35,
+   "calm": 36,
    "z": null,
    "unusual": false,
-   "n": 35,
-   "base": 32,
+   "n": 36,
+   "base": 33,
    "recon": 30,
    "series": [
-    [
-     "2026-10-10",
-     0.0,
-     0,
-     "recon"
-    ],
     [
      "2026-10-11",
      0.0,
@@ -1264,6 +1323,12 @@
      0.0,
      0,
      "live"
+    ],
+    [
+     "2026-11-09",
+     0.0,
+     0,
+     "live"
     ]
    ],
    "hazards": [
@@ -1272,20 +1337,14 @@
   },
   "fuel": {
    "trend": "rising",
-   "diff": 6.1,
-   "calm": 2,
+   "diff": 12.9,
+   "calm": 3,
    "z": null,
    "unusual": false,
-   "n": 35,
-   "base": 32,
+   "n": 36,
+   "base": 33,
    "recon": 30,
    "series": [
-    [
-     "2026-10-10",
-     0.0,
-     0,
-     "recon"
-    ],
     [
      "2026-10-11",
      0.0,
@@ -1459,6 +1518,12 @@
      21.2,
      0,
      "live"
+    ],
+    [
+     "2026-11-09",
+     46.0,
+     0,
+     "live"
     ]
    ],
    "hazards": [
@@ -1466,21 +1531,15 @@
    ]
   },
   "digital": {
-   "trend": "nodata",
-   "diff": null,
-   "calm": 5,
+   "trend": "easing",
+   "diff": -10.7,
+   "calm": 6,
    "z": null,
    "unusual": false,
-   "n": 5,
-   "base": 2,
+   "n": 6,
+   "base": 3,
    "recon": 0,
    "series": [
-    [
-     "2026-10-10",
-     null,
-     null,
-     null
-    ],
     [
      "2026-10-11",
      null,
@@ -1654,6 +1713,12 @@
      0.0,
      0,
      "live"
+    ],
+    [
+     "2026-11-09",
+     0.0,
+     0,
+     "live"
     ]
    ],
    "hazards": [
@@ -1662,21 +1727,15 @@
    ]
   },
   "supply": {
-   "trend": "nodata",
-   "diff": null,
-   "calm": 5,
+   "trend": "easing",
+   "diff": -9.3,
+   "calm": 6,
    "z": null,
    "unusual": false,
-   "n": 5,
-   "base": 2,
+   "n": 6,
+   "base": 3,
    "recon": 0,
    "series": [
-    [
-     "2026-10-10",
-     null,
-     null,
-     null
-    ],
     [
      "2026-10-11",
      null,
@@ -1850,28 +1909,420 @@
      0.0,
      0,
      "live"
+    ],
+    [
+     "2026-11-09",
+     0.0,
+     0,
+     "live"
     ]
    ],
    "hazards": [
     "supply"
    ]
   },
-  "all": {
-   "trend": "rising",
-   "diff": 6.1,
-   "calm": 2,
+  "health": {
+   "trend": "nodata",
+   "diff": null,
+   "calm": 0,
    "z": null,
    "unusual": false,
-   "n": 35,
-   "base": 32,
-   "recon": 30,
+   "n": 0,
+   "base": 0,
+   "recon": 0,
    "series": [
     [
-     "2026-10-10",
-     0.0,
-     0,
-     "recon"
+     "2026-10-11",
+     null,
+     null,
+     null
     ],
+    [
+     "2026-10-12",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-13",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-14",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-15",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-16",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-17",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-18",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-19",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-20",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-21",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-22",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-23",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-24",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-25",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-26",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-27",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-28",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-29",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-30",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-31",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-11-01",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-11-02",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-11-03",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-11-04",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-11-05",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-11-06",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-11-07",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-11-08",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-11-09",
+     null,
+     null,
+     null
+    ]
+   ],
+   "hazards": [
+    "air",
+    "pollen",
+    "health"
+   ]
+  },
+  "nuclear": {
+   "trend": "nodata",
+   "diff": null,
+   "calm": 0,
+   "z": null,
+   "unusual": false,
+   "n": 0,
+   "base": 0,
+   "recon": 0,
+   "series": [
+    [
+     "2026-10-11",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-12",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-13",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-14",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-15",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-16",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-17",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-18",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-19",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-20",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-21",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-22",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-23",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-24",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-25",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-26",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-27",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-28",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-29",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-30",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-10-31",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-11-01",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-11-02",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-11-03",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-11-04",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-11-05",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-11-06",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-11-07",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-11-08",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-11-09",
+     null,
+     null,
+     null
+    ]
+   ],
+   "hazards": [
+    "nuclear"
+   ]
+  },
+  "all": {
+   "trend": "rising",
+   "diff": 12.9,
+   "calm": 3,
+   "z": null,
+   "unusual": false,
+   "n": 36,
+   "base": 33,
+   "recon": 30,
+   "series": [
     [
      "2026-10-11",
      0.0,
@@ -2045,6 +2496,12 @@
      21.2,
      0,
      "live"
+    ],
+    [
+     "2026-11-09",
+     46.0,
+     0,
+     "live"
     ]
    ],
    "hazards": [
@@ -2056,7 +2513,12 @@
     "drought",
     "cyber",
     "digital",
-    "supply"
+    "supply",
+    "air",
+    "pollen",
+    "wildfire",
+    "health",
+    "nuclear"
    ]
   }
  },
@@ -2067,7 +2529,7 @@
    "ok": true,
    "err": null,
    "n": 2,
-   "last_ok": "2026-11-08T02:38:04Z",
+   "last_ok": "2026-11-09T10:21:53Z",
    "status": "current",
    "every": 30,
    "kind": "observed",
@@ -2080,7 +2542,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-08T02:38:04Z",
+   "last_ok": "2026-11-09T10:21:53Z",
    "status": "current",
    "every": 1440,
    "kind": "official",
@@ -2093,7 +2555,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-08T02:38:04Z",
+   "last_ok": "2026-11-09T10:21:53Z",
    "status": "current",
    "every": 60,
    "kind": "observed",
@@ -2106,7 +2568,7 @@
    "ok": true,
    "err": null,
    "n": 4,
-   "last_ok": "2026-11-08T02:38:04Z",
+   "last_ok": "2026-11-09T10:21:53Z",
    "status": "current",
    "every": 360,
    "kind": "forecast",
@@ -2119,7 +2581,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-08T02:38:04Z",
+   "last_ok": "2026-11-09T10:21:53Z",
    "status": "current",
    "every": 60,
    "kind": "observed",
@@ -2132,7 +2594,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-08T02:38:04Z",
+   "last_ok": "2026-11-09T10:21:53Z",
    "status": "current",
    "every": 1440,
    "kind": "official",
@@ -2145,7 +2607,7 @@
    "ok": true,
    "err": null,
    "n": 3,
-   "last_ok": "2026-11-08T02:38:04Z",
+   "last_ok": "2026-11-09T10:21:53Z",
    "status": "current",
    "every": 1440,
    "kind": "context",
@@ -2158,7 +2620,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-08T02:38:04Z",
+   "last_ok": "2026-11-09T10:21:53Z",
    "status": "current",
    "every": 1440,
    "kind": "context",
@@ -2171,7 +2633,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-08T02:38:04Z",
+   "last_ok": "2026-11-09T10:21:53Z",
    "status": "current",
    "every": 360,
    "kind": "context",
@@ -2184,7 +2646,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-08T02:38:04Z",
+   "last_ok": "2026-11-09T10:21:53Z",
    "status": "current",
    "every": 60,
    "kind": "observed",
@@ -2197,7 +2659,7 @@
    "ok": true,
    "err": null,
    "n": 6,
-   "last_ok": "2026-11-08T02:38:04Z",
+   "last_ok": "2026-11-09T10:21:53Z",
    "status": "current",
    "every": 30,
    "kind": "observed",
@@ -2210,7 +2672,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-08T02:38:04Z",
+   "last_ok": "2026-11-09T10:21:53Z",
    "status": "current",
    "every": 720,
    "kind": "official",
@@ -2223,7 +2685,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-08T02:38:04Z",
+   "last_ok": "2026-11-09T10:21:53Z",
    "status": "current",
    "every": 360,
    "kind": "official",
@@ -2236,7 +2698,7 @@
    "ok": true,
    "err": null,
    "n": 0,
-   "last_ok": "2026-11-08T02:38:04Z",
+   "last_ok": "2026-11-09T10:21:53Z",
    "status": "current",
    "every": 30,
    "kind": "observed",
@@ -2249,7 +2711,7 @@
    "ok": true,
    "err": null,
    "n": 3,
-   "last_ok": "2026-11-08T02:38:04Z",
+   "last_ok": "2026-11-09T10:21:53Z",
    "status": "current",
    "every": 60,
    "kind": "reported",
@@ -2262,7 +2724,7 @@
    "ok": true,
    "err": null,
    "n": 0,
-   "last_ok": "2026-11-08T02:38:04Z",
+   "last_ok": "2026-11-09T10:21:53Z",
    "status": "current",
    "every": 43200,
    "kind": "context",
@@ -2272,8 +2734,8 @@
  },
  "context": {
   "traffic": {
-   "n": 51,
-   "closed": 13,
+   "n": 45,
+   "closed": 6,
    "items": [
     {
      "street": "Bd Mortier",
@@ -2312,52 +2774,10 @@
      "until": "2027-08-28T17:00:00Z"
     },
     {
-     "street": "Alesia",
-     "what": "Sauf bus, vélos, livraisons, taxis et véhicules de propreté.",
-     "closed": true,
-     "until": "2030-03-17T17:00:00Z"
-    },
-    {
-     "street": "Rivoli",
-     "what": "Interdit sauf BUS, Taxis",
-     "closed": true,
-     "until": "2030-11-19T09:05:00Z"
-    },
-    {
-     "street": "St Antoine",
-     "what": "Interdit sauf BUS, Taxis",
-     "closed": true,
-     "until": "2030-11-19T09:05:00Z"
-    },
-    {
-     "street": "Rue de Rivoli",
-     "what": "Interdit sauf BUS, Taxis",
-     "closed": true,
-     "until": "2030-11-19T09:05:00Z"
-    },
-    {
-     "street": "Av de St Ouen",
-     "what": "Interdit sauf BUS, Taxis",
-     "closed": true,
-     "until": "2030-11-19T09:07:00Z"
-    },
-    {
-     "street": "Av de Clichy",
-     "what": "Interdit sauf BUS, Taxis",
-     "closed": true,
-     "until": "2030-11-23T02:02:00Z"
-    },
-    {
-     "street": "Av Clichy",
-     "what": "Interdit sauf BUS, Taxis",
-     "closed": true,
-     "until": "2030-11-23T02:02:00Z"
-    },
-    {
-     "street": "Vouille",
-     "what": "Maitre d'ouvrage RTE Phase 4 Raccordement Réseau/Suppression branchement",
+     "street": "Bd Kellermann",
+     "what": "Bd Kellermann RATP : Tvx de renouvellement de rails du tram situés entre Pte d'Italie - Portene des peupliers",
      "closed": false,
-     "until": "2026-11-08T23:00:00Z"
+     "until": "2026-11-12T23:00:00Z"
     },
     {
      "street": "Bd Kellermann",
@@ -2372,16 +2792,16 @@
      "until": "2026-11-15T23:00:00Z"
     },
     {
-     "street": "Av Victor Hugo",
-     "what": "Av Victor Hugo - Raccordement de réseau et suppression de réseau",
-     "closed": false,
-     "until": "2026-11-19T23:00:00Z"
-    },
-    {
      "street": "Bd de Clichy",
      "what": "Chantier privé Emprise sur trottoir",
      "closed": false,
      "until": "2026-11-27T17:00:00Z"
+    },
+    {
+     "street": "Quai d'Orsay",
+     "what": "STV / Cours La Reine Aménagement de la voirie.",
+     "closed": false,
+     "until": "2026-11-27T23:00:00Z"
     },
     {
      "street": "Quai Andre Citroen",
@@ -2450,68 +2870,74 @@
      "until": "2026-12-16T23:00:00Z"
     },
     {
+     "street": "Av Victor Hugo",
+     "what": "Av Victor Hugo - Raccordement de réseau et suppression de réseau",
+     "closed": false,
+     "until": "2026-12-17T23:00:00Z"
+    },
+    {
      "street": "Bac",
      "what": "Bac CP : 10/08/2026 - 12h14",
      "closed": false,
      "until": "2026-12-18T03:00:00Z"
+    },
+    {
+     "street": "St Martin",
+     "what": "APHP - Av Victoria Réhabilitation de bâtiment",
+     "closed": false,
+     "until": "2026-12-30T23:00:00Z"
+    },
+    {
+     "street": "Quai Voltaire",
+     "what": "Musée d'Orsay - Quai Voltaire Réhabilitation de bâtiment",
+     "closed": false,
+     "until": "2026-12-30T23:00:00Z"
+    },
+    {
+     "street": "Bd de Strasbourg",
+     "what": "Eiffage - Bd de Strasbourg Réhabilitation de bâtiment",
+     "closed": false,
+     "until": "2026-12-30T23:00:00Z"
+    },
+    {
+     "street": "Av Victoria",
+     "what": "APHP - Av Victoria Réhabilitation de bâtiment",
+     "closed": false,
+     "until": "2026-12-30T23:00:00Z"
+    },
+    {
+     "street": "Quai d'Austerlitz",
+     "what": "Quai d'Austerlitz - Réduction de la chaussée sens entrant.",
+     "closed": false,
+     "until": "2027-03-26T00:00:00Z"
+    },
+    {
+     "street": "Bd de l'Hopital",
+     "what": "MO A7A8  11 Boulevard de l'Hopital Neutralisation du trottoir.",
+     "closed": false,
+     "until": "2027-03-27T17:00:00Z"
     }
    ],
-   "fetched": "2026-11-08T02:38:05Z",
+   "fetched": "2026-11-09T10:21:54Z",
    "link": "https://opendata.paris.fr/explore/dataset/circulation_evenement/",
-   "sha": "20906fcd836f1398"
+   "sha": "3c9f7175f900ad6c"
   },
   "news": {
    "items": [
     {
-     "title": "\"On entend beaucoup de revendications mais pas de réponses concrètes\" : à Paris, la mobilisation se poursuit malgré les annonces du gouvernement",
-     "link": "https://www.franceinfo.fr/societe/manifestations/reportage-on-entend-beaucoup-de-revendications-mais-pas-de-reponses-concretes-a-paris-la-mobilisation-se-poursuit-malgre-les-annonces-du-gouvernement_8272733.html#xtor=RSS-3-[lestitres]",
+     "title": "Consultations à Matignon, manifestations… En quête d'une sortie de crise, le gouvernement entame une nouvelle semaine sociale chargée",
+     "link": "https://www.franceinfo.fr/societe/manifestations/consultations-a-matignon-manifestations-en-quete-d-une-sortie-de-crise-le-gouvernement-entame-une-nouvelle-semaine-sociale-chargee_8274125.html#xtor=RSS-3-[lestitres]",
      "source": "franceinfo",
-     "published": "2026-11-07T21:47:45Z",
+     "published": "2026-11-09T09:49:16Z",
      "theme": "transport",
-     "scope": "paris",
-     "kw": "mobilisation"
-    },
-    {
-     "title": "« Solidarité avec la jeunesse broyée par le système » : à Paris, l’acte IV de la colère sociale marqué par une baisse de la mobilisation",
-     "link": "https://www.lefigaro.fr/actualite-france/solidarite-avec-la-jeunesse-broyee-par-le-systeme-a-paris-l-acte-iv-de-la-colere-sociale-marque-par-une-baisse-de-la-mobilisation-20261107",
-     "source": "Le Figaro",
-     "published": "2026-11-07T19:15:01Z",
-     "theme": "transport",
-     "scope": "paris",
-     "kw": "mobilisation"
-    },
-    {
-     "title": "Colère sociale en France: entre 146000 et 250000 manifestants, nouvel appel à la grève dans l'éducation mardi",
-     "link": "https://www.rfi.fr/fr/france/20261107-direct-col%C3%A8re-sociale-en-france-des-milliers-de-personnes-attendues-dans-la-rue-pour-maintenir-la-pression",
-     "source": "RFI France",
-     "published": "2026-11-07T11:31:11Z",
-     "theme": "transport",
-     "scope": "paris",
+     "scope": "france",
      "kw": "grève"
     },
     {
-     "title": "EN DIRECT Manifestation du 7 novembre : Baisse de la mobilisation, tensions place de la Nation à Paris...",
-     "link": "https://www.20minutes.fr/societe/4261120-20261107-direct-manifestations-7-novembre-jeunesse-gilets-jaunes-attendus-rue-acte-iv?at_medium=display&at_campaign=149",
-     "source": "20 Minutes",
-     "published": "2026-11-07T07:58:20Z",
-     "theme": "transport",
-     "scope": "paris",
-     "kw": "manifestation"
-    },
-    {
-     "title": "Mouvement lycéen en France: «Les responsables politiques n'ont pas tenu leurs promesses depuis trop longtemps»",
-     "link": "https://www.rfi.fr/fr/podcasts/invit%C3%A9-politique/20261106-mouvement-lyc%C3%A9en-en-france-les-responsables-politiques-n-ont-pas-tenu-leurs-promesses-depuis-trop-longtemps",
-     "source": "RFI France",
-     "published": "2026-11-06T15:03:57Z",
-     "theme": "transport",
-     "scope": "paris",
-     "kw": "mobilisation"
-    },
-    {
-     "title": "Éducation nationale : un nouvel appel à la grève lancé pour le mardi 10 novembre",
-     "link": "https://www.ici.fr/infos/economie-social/education-nationale-nouvel-appel-a-la-greve-pour-le-mardi-10-novembre-1641012?at_medium=lien_RSS&at_locale=56",
+     "title": "Mouvement social : négociations à Matignon lundi, grève dans l’éducation mardi, à quoi s'attendre cette semaine ?",
+     "link": "https://www.ici.fr/infos/economie-social/mouvement-social-negociations-a-matignon-lundi-greve-dans-l-education-mardi-a-quoi-s-attendre-cette-semaine-3749711?at_medium=lien_RSS&at_locale=56",
      "source": "ici (France Bleu)",
-     "published": "2026-11-07T10:58:00Z",
+     "published": "2026-11-09T07:29:48Z",
      "theme": "transport",
      "scope": "france",
      "kw": "grève"
@@ -2523,7 +2949,7 @@
      "name": "franceinfo",
      "link": "https://www.francetvinfo.fr/titres.rss",
      "ok": true,
-     "n": 27
+     "n": 30
     },
     {
      "id": "ici",
@@ -2561,7 +2987,7 @@
      "n": 20
     }
    ],
-   "fetched": "2026-11-08T02:38:07Z",
+   "fetched": "2026-11-09T10:21:56Z",
    "themes": {
     "transport": {
      "fr": "Transports et mobilisation",
@@ -2604,7 +3030,7 @@
      "en": "Health"
     }
    },
-   "sha": "fea6cbefa7d08ef6",
+   "sha": "943b2603ecdee5af",
    "rule": {
     "fr": "Titres de moins de 36 h contenant un mot-clé de crise ET une référence à Paris/Île-de-France (ou à la France). Aucune interprétation : le titre est affiché tel que publié, avec le mot déclencheur.",
     "en": "Headlines under 36 h old containing a crisis keyword AND a reference to Paris/Île-de-France (or France). No interpretation: the headline is shown as published, with the trigger word."
