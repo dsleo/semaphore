@@ -1,60 +1,88 @@
-# Semaphore
+<p align="center"><img src="docs/img/logo.svg" width="96" alt="Semaphore logo"></p>
+
+<h1 align="center">Semaphore</h1>
 
 **Is anything going wrong near you right now, and what should you do?** Semaphore answers that for any commune in France, on one page, from public open data and fixed, readable rules.
 
-**[Open the live site →](https://dsleo.github.io/semaphore/)** · French and English · light and dark · works on a phone
+<p align="center"><b><a href="https://dsleo.github.io/semaphore/">Open the live site →</a></b></p>
 
-<img src="docs/img/today-top.png" width="720" alt="Semaphore's Today tab for Paris: a status banner reading 'Be aware' with a three-step scale">
+<p align="center"><img src="docs/img/home.png" width="720" alt="Semaphore homepage: pick a commune or postcode, with a map of France"></p>
 
 - **Free and private.** No account, no cookies, no tracking.
 - **No AI deciding anything.** Every level comes from a rule you can read. No LLM, front or back.
 - **Independent.** Not an official service and never presented as one. It points you to the official sources (Météo-France, Vigicrues, RTE, FR-Alert, 112).
 - **Honest about gaps.** A source that is down shows as "unavailable", never as "all clear". The calm state says *"No priority alert detected… this is not an all-clear."*
 
-## What you can do with it
+<details open>
+<summary><b>Check any commune</b></summary>
 
-### Check any commune
 Type a commune or postcode, or use your location. You get a single status (*Everything's fine → Be aware → Prepare → Act now*), the official alerts in force, and the reasons behind the level. Your choice lives in the URL, so you can share it.
 
-### See France at a glance
+<p align="center"><img src="docs/img/today-top.png" width="640" alt="Status banner for Paris reading 'Be aware' with a three-step scale"></p>
+
+</details>
+
+<details open>
+<summary><b>See France at a glance</b></summary>
+
 A map coloured per département, one layer per risk: heat, wind/rain/cold, floods, drought, fuel, air quality, pollen, wildfire, epidemics, nuclear incidents. Each layer has a one-line summary, so a calm layer reads as checked, not blank.
 
-<img src="docs/img/map.png" width="640" alt="Risk map of France coloured by département, with a layer selector">
+<p align="center"><img src="docs/img/map.png" width="640" alt="Risk map of France coloured by département, with a layer selector"></p>
 
-### Know what is disrupted around you
+</details>
+
+<details open>
+<summary><b>Know what is disrupted around you</b></summary>
+
 Roads (Bison Futé), public transport alerts from about 75 networks, city works and events in Paris, and local press headlines that mention a crisis. All filtered to your commune.
 
-### See why, not just a number
+</details>
+
+<details open>
+<summary><b>See why, not just a number</b></summary>
+
 Each risk has an index out of 100, a plain-language "what to do", and the evidence behind it with source, time and link. The index is explicitly not a probability and not an official warning.
 
-<img src="docs/img/indices.png" width="640" alt="Risk indices grid with the Health risk expanded: what to do, sources and references">
+<p align="center"><img src="docs/img/indices.png" width="640" alt="Risk indices grid with the Health risk expanded: what to do, sources and references"></p>
 
-### Get ready before something happens
+</details>
+
+<details open>
+<summary><b>Get ready before something happens</b></summary>
+
 A 72-hour emergency kit based on the government's guide, a checklist saved only in your browser, key numbers, your commune's natural and technological risks (Géorisques), and in Paris where to cool down and drink.
 
-<img src="docs/img/kit.png" width="520" alt="The 'Get ready' tab: 72-hour emergency kit sections">
+<p align="center"><img src="docs/img/kit.png" width="520" alt="The 'Get ready' tab: 72-hour emergency kit sections"></p>
 
-### Watch the trend
+</details>
+
+<details open>
+<summary><b>Watch the trend</b></summary>
+
 Fourteen days per risk group: rising, stable or easing, with calm streaks. Pale bars are reconstructed from archives, solid bars were measured live.
 
-<img src="docs/img/trends.png" width="520" alt="The Trends tab: 14-day bar charts per risk group">
+<p align="center"><img src="docs/img/trends.png" width="520" alt="The Trends tab: 14-day bar charts per risk group"></p>
 
-### Use it on your phone
-Same page, same data, laid out for a small screen.
+</details>
 
-<img src="docs/img/phone.png" width="260" alt="Semaphore on a phone">
-
-## What it watches
+<details open>
+<summary><b>What it watches</b></summary>
 
 Weather vigilance and forecasts, floods (Seine), electricity (Ecowatt), fuel stations, water restrictions, air quality, pollen, wildfire, epidemics, nuclear incident notices, cyber and internet outages, and press. Paris gets the full set (16 sources, traffic, cooling places); other communes get the live local ones plus national signals. Power outages are not covered locally: no open feed exists, and the page says so.
 
-## Limits, plainly
+</details>
+
+<details open>
+<summary><b>Limits, plainly</b></summary>
 
 - Thresholds are starting defaults, not yet calibrated against real events. Compare with official warnings.
 - It cannot read FR-Alert or préfecture alerts automatically.
 - **It does not replace official alerts. When FR-Alert, your préfecture or the authorities say something different, follow them.** Emergency: 112 · 15 · 17 · 18.
 
-## Run it yourself
+</details>
+
+<details open>
+<summary><b>Run it yourself</b></summary>
 
 Python 3.9+, nothing to install.
 
@@ -64,6 +92,8 @@ python3 -m unittest -q          # tests
 ```
 
 On GitHub, an Action refreshes the data every 15 minutes and commits it; Pages serves the `docs/` folder.
+
+</details>
 
 <details>
 <summary><b>Technical overview</b> (scoring rules, architecture, sources, memory, review guide, known limits)</summary>
