@@ -1,7 +1,7 @@
 name: update
 on:
   schedule:
-    - cron: "*/15 * * * *"   # GitHub may delay or skip runs under load
+    - cron: "7 * * * *"   # hourly; GitHub may delay or skip runs under load (stale limit in app.js is 3 h)
   workflow_dispatch:
 permissions:
   contents: write

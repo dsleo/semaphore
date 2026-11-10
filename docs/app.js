@@ -175,7 +175,7 @@ function trafficBody() {
 }
 const why = id => { const i = S.hazards[id].indicators.filter(x => x.kind !== "context").sort((a, b) => b.s - a.s)[0]; return i ? `${tx(i.label)} : ${tx(i.value)}` : ""; };
 function today() {
-  const a = ageMin(S.generated), stale = a > 90, hd = S.headline;
+  const a = ageMin(S.generated), stale = a > 180, hd = S.headline;
   if (hd.level == null) return `<div class="alert au"><h1>${u().unknown}</h1><p>${u().err}</p></div>`;
   // stale = show the latest data with a warning (local hazards of a commune are computed live; only the national ones are old)
   const banners = (stale ? `<p class="muted">⚠ ${u().staleMsg(age(S.generated))}</p>` : "") + (S.shadow ? `<div class="notice">${u().shadow}</div>` : "") + (hd.systemic ? `<div class="notice">${u().systemic}</div>` : "");
