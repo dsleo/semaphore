@@ -23,7 +23,7 @@ const UI = {
     names: { meteo: "Météo et climat", power: "Électricité", fuel: "Carburant", cyber: "Cyberattaques", digital: "Réseaux et paiements", supply: "Alimentation", air: "Air et pollen", health: "Santé", nuclear: "Nucléaire" },
     hnames: { air: "Qualité de l'air", pollen: "Pollens", wildfire: "Feux de forêt", health: "Épidémies", nuclear: "Nucléaire", heat: "Chaleur", weather: "Vent, pluie, orages, froid", flood: "Crue de la Seine", drought: "Sécheresse", power: "Électricité", fuel: "Carburant", cyber: "Cyberattaques", digital: "Réseaux et paiements", supply: "Alimentation" },
     dMap: "Comment la carte des risques est construite", mapRules: ["Chaque département reçoit un niveau pour chaque risque, avec les mêmes règles publiques que le score d'une commune (voir « Comment le niveau est décidé »), sans lissage dans le temps.", "Météo (chaleur, vent, pluie, froid) : prévision Open-Meteo au point de la ville principale du département. Vigilance Météo-France (canicule, crues, vent, pluie…) : la vigilance du département. Sécheresse : restrictions VigiEau à la ville principale. Carburant : part des stations en rupture parmi celles du département (au moins 15).", "Qualité de l'air et pollens : indice ATMO de chaque commune ; on retient le troisième quartile des communes du département, pour qu'une ou deux communes atypiques ne colorent pas tout le département. Là où l'indice ATMO n'est pas publié, un indice européen modélisé le remplace.", "Feux de forêt : Météo des forêts (Météo-France), publié seulement en saison des feux ; hors saison, niveau 0. Épidémies : alerte de Santé publique France pour la région. Nucléaire : avis d'incident de l'ASNR des 30 derniers jours pour les installations du département ; les départements sans installation sont à 0.", "« Tous les risques » affiche, pour chaque département, le niveau le plus élevé parmi les risques cartographiés. Les risques nationaux (électricité, cyber, réseaux, alimentation) ont le même niveau partout : ils ne sont pas cartographiés et figurent dans la page de chaque commune.", "Gris : données indisponibles. L'absence de donnée n'est jamais affichée comme « aucune alerte ». La carte se recalcule environ toutes les heures."],
-    dMethod: "Comment le niveau est décidé", dNews: "Actualité surveillée", dSrc: "Sources de données", dHist: "Historique des changements",
+    dMethod: "Comment le niveau est décidé", dNews: "Actualité surveillée", dNewsN: "Actualités surveillées", dSrc: "Sources de données", dHist: "Historique des changements",
     howIntro: "Le niveau vient de règles publiques, sans intelligence artificielle. Chaque risque a un score de 0 à 100 :",
     lv: ["Aucune mesure ne sort de la normale, ou un seul signe isolé et faible.", "Quelque chose sort de l'ordinaire. Aucune action requise : restez informé, vérifiez votre kit.", "Plusieurs signes concordants, ou une alerte officielle orange. Faites les petites actions conseillées.", "Situation grave confirmée, ou alerte officielle rouge. Suivez les consignes officielles."],
     lvRange: ["moins de 25", "25 à 49", "50 à 74", "75 et plus"],
@@ -66,7 +66,7 @@ const UI = {
     names: { meteo: "Weather and climate", power: "Power", fuel: "Fuel", cyber: "Cyberattacks", digital: "Networks and payments", supply: "Food", air: "Air and pollen", health: "Health", nuclear: "Nuclear" },
     hnames: { air: "Air quality", pollen: "Pollen", wildfire: "Wildfires", health: "Epidemics", nuclear: "Nuclear", heat: "Heat", weather: "Wind, rain, storms, cold", flood: "Seine flood", drought: "Drought", power: "Power", fuel: "Fuel", cyber: "Cyberattacks", digital: "Networks and payments", supply: "Food" },
     dMap: "How the risk map is built", mapRules: ["Each département gets a level for every risk, using the same public rules as a commune's score (see “How the level is decided”), with no smoothing over time.", "Weather (heat, wind, rain, cold): Open-Meteo forecast at the département's main city. Météo-France vigilance (heatwave, floods, wind, rain…): the département's own vigilance. Drought: VigiEau restrictions at the main city. Fuel: share of the département's stations out of stock (at least 15 stations).", "Air quality and pollen: the ATMO index of each commune; we keep the third quartile across the département's communes, so one or two atypical communes do not colour the whole département. Where the ATMO index is not published, a modelled European index takes over.", "Wildfires: Météo des forêts (Météo-France), published only in fire season; off season it is level 0. Epidemics: the Santé publique France alert for the région. Nuclear: ASNR incident notices of the last 30 days for the département's facilities; départements without any are at 0.", "“All risks” shows, for each département, the highest level among the mapped risks. National risks (power, cyber, networks, food) have the same level everywhere: they are not mapped and appear on each commune's page.", "Grey: data unavailable. Missing data is never shown as “no alert”. The map is recomputed about hourly."],
-    dMethod: "How the level is decided", dNews: "Monitored news", dSrc: "Data sources", dHist: "Change history",
+    dMethod: "How the level is decided", dNews: "Monitored news", dNewsN: "Monitored news", dSrc: "Data sources", dHist: "Change history",
     howIntro: "The level comes from public rules, with no artificial intelligence. Each risk has a score from 0 to 100:",
     lv: ["No measurement is outside normal, or one isolated weak sign.", "Something is unusual. No action required: stay informed, check your kit.", "Several signs agree, or an official orange alert. Do the small recommended actions.", "Serious situation confirmed, or an official red alert. Follow official instructions."],
     lvRange: ["below 25", "25 to 49", "50 to 74", "75 and above"],
@@ -266,7 +266,7 @@ function methodBody() {
 }
 function newsBlock() {
   const N = S.context && S.context.news; if (!N) return "";
-  return col(`${u().dNews} (${N.items.length})`, newsBody());
+  return col(`${N.items.length > 1 ? u().dNewsN : u().dNews} (${N.items.length})`, newsBody());
 }
 function newsBody() {
   const N = S.context && S.context.news; if (!N) return "";
@@ -289,12 +289,14 @@ function more() {
 }
 
 // ---- shell
+const loadShell = nom => `<div class="alert au" role="status" aria-busy="true"><div class="eyebrow">${esc(nom)}</div><h1>${lu().load}</h1></div>`;
 function render() {
   document.documentElement.lang = lang; document.title = u().title; $("#title").textContent = u().title; $("#lang").textContent = lang === "fr" ? "EN" : "FR"; $(".skip").textContent = u().skip;
   const cb = $("#city"); cb.hidden = !C; if (C) { cb.textContent = `${C.nom} (${C.dep})`; cb.setAttribute("aria-label", lu().back + " : " + C.nom); document.title = `${C.nom} · ${u().title}`; }
   if (!N || !M || !P) { $("#view").innerHTML = `<p>${u().err}</p>`; return; }
+  if (!C && PEND) { $("#nav").innerHTML = ""; $("#view").innerHTML = loadShell(PEND.nom); return; }
   if (!C) { $("#nav").innerHTML = ""; $("#view").innerHTML = RM ? lRiskPage() : lLanding(); if (RM) document.title = `${lu().riskTitle} · ${u().title}`; $("#foot").innerHTML = `<details class="emerg"><summary>${u().emerg} 112 · 15 · 17 · 18</summary><p>${u().disclaimer}</p></details>${privLink()}`; if (RM) { lBindRisk(pickCommune); $("#back").onclick = goHome; } else { lBindLanding(pickCommune); $("#tomap").onclick = e => { e.preventDefault(); RM = true; history.pushState({}, "", "?map=risks"); render(); scrollTo(0, 0); }; } return; }
-  if (!S) { $("#view").innerHTML = `<p>${lu().load}</p>`; return; }
+  if (!S) { $("#view").innerHTML = loadShell(C.nom); return; }
   $("#view").innerHTML = tab === "today" ? today() : tab === "prep" ? prepare() : tab === "trend" ? trends() : more();
   const t = (k, l) => `<button class="tab" ${tab === k ? 'aria-current="page"' : ""} data-t="${k}">${l}</button>`;
   $("#nav").innerHTML = t("today", u().tToday) + t("prep", u().tPrep) + t("trend", u().tTrend) + t("more", u().tMore);
@@ -331,10 +333,15 @@ function dMerge(st, dep) {
   }
   return { ...st, hazards: hz, sources: { ...st.sources, ...D.sources }, headline: lHeadline(hz) };
 }
-async function refreshState() {
-  const [st0, loc] = await Promise.all([C.code === LPARIS ? lBuildParis(C, N) : lBuild(C, N), lLocal(C)]);
-  const st = dMerge(st0, C.dep);
-  S = { ...st, loc, sources: { ...st.sources, ...loc.sources } }; builtAt = Date.now();
+const CACHE = new Map();  // commune code -> { t, gen, st0, loc }: the network-heavy part, reused for 15 min while the national file is unchanged
+async function refreshState(force) {
+  let e = CACHE.get(C.code);
+  if (force || !e || Date.now() - e.t > 9e5 || e.gen !== N.generated) {
+    const [st0, loc] = await Promise.all([C.code === LPARIS ? lBuildParis(C, N) : lBuild(C, N), lLocal(C)]);
+    e = { t: Date.now(), gen: N.generated, st0, loc }; CACHE.set(C.code, e);
+  }
+  const st = dMerge(e.st0, C.dep);  // cheap, always redone with the latest départemental file
+  S = { ...st, loc: e.loc, sources: { ...st.sources, ...e.loc.sources } }; builtAt = e.t;
 }
 // no fresh/complete data (a local hazard or source that failed) -> re-run on its own, 30 s then doubling up to 5 min
 let rt = null, rn = 0;
@@ -342,19 +349,21 @@ const incomplete = () => N && ((C && !S) || (S && (Object.values(S.hazards).some
 function autoRetry() {
   clearTimeout(rt); if (!incomplete()) { rn = 0; return; }
   rt = setTimeout(async () => {
-    try { N = await j("state.json"); if (C) await refreshState(); const y = scrollY; render(); scrollTo(0, y); } catch { }
+    try { N = await j("state.json"); if (C) await refreshState(true); const y = scrollY; render(); scrollTo(0, y); } catch { }
     autoRetry();
   }, Math.min(3e5, 3e4 * 2 ** rn++));
 }
+let PEND = null;  // commune being opened: its page is shown at once, with a loading message instead of the summary
 async function pickCommune(code, push = true) {
   S = null; tab = "today"; sel = null; sec = null; RM = false;
+  const last = store("commune"); PEND = { code, nom: last && last.code === code ? last.nom : "" }; C = null; render(); scrollTo(0, 0);
   try {
     C = await lResolve(code);
     if (push) history.pushState({}, "", "?c=" + C.code);
     try { localStorage.setItem("commune", JSON.stringify({ code: C.code, nom: C.nom })); } catch { }
     render(); await refreshState();
   } catch { C = null; S = null; history.replaceState({}, "", location.pathname); }
-  render(); scrollTo(0, 0); rn = 0; autoRetry();
+  PEND = null; render(); scrollTo(0, 0); rn = 0; autoRetry();
 }
 const fromUrl = () => { const q = new URLSearchParams(location.search), c = q.get("c"); RM = !c && q.get("map") === "risks"; if (c) pickCommune(c, false); else { C = null; S = null; render(); } };
 const goHome = e => { e && e.preventDefault(); if (!C && !RM && !location.search) return; history.pushState({}, "", location.pathname); C = null; S = null; RM = false; render(); scrollTo(0, 0); };
