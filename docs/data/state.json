@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-10T07:39:30Z",
+ "generated": "2026-11-10T15:47:58Z",
  "repo": "https://github.com/dsleo/semaphore",
  "shadow": false,
  "coverage": {
@@ -25,16 +25,14 @@
    "link": "https://vigieau.gouv.fr",
    "area": "paris",
    "pub": null,
-   "fetched": "2026-11-10T07:39:31Z"
+   "fetched": "2026-11-10T15:47:59Z"
   }
  ],
  "headline": {
-  "level": 1,
+  "level": 0,
   "score": 22,
   "systemic": false,
-  "top": [
-   "fuel"
-  ]
+  "top": []
  },
  "hazards": {
   "heat": {
@@ -56,20 +54,20 @@
       "fr": "Chaleur prévue (7 jours)",
       "en": "Forecast heat (7 days)"
      },
-     "value": "Tmax max 17 °C · Tmin max 11 °C · 3 j. depuis 2026-11-10: 14.0/8.8 °C",
+     "value": "Tmax max 16 °C · Tmin max 12 °C · 3 j. depuis 2026-11-10: 13.6/8.4 °C",
      "s": 0.0,
      "w": 0.7,
      "source": "weather",
      "link": "https://open-meteo.com/",
      "query": "https://api.open-meteo.com/v1/forecast?latitude=48.85&longitude=2.35&timezone=Europe%2FParis&forecast_days=7&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_gusts_10m_max",
-     "sha": "80aa4ab4debec27e",
+     "sha": "6d3f61bc2fd39402",
      "rule": {
       "fr": "Seuil canicule Paris : moyenne 3 j. Tmax ≥ 31 °C et Tmin ≥ 21 °C (= 1). Un jour ≥ 40 °C = 1.",
       "en": "Paris heatwave criterion: 3-day mean Tmax ≥ 31 °C and Tmin ≥ 21 °C (= 1). A day ≥ 40 °C = 1."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-10T07:39:31Z",
+     "fetched": "2026-11-10T15:47:58Z",
      "pub": null,
      "kind": "forecast",
      "area": "paris",
@@ -96,20 +94,20 @@
       "fr": "Froid prévu (3 jours)",
       "en": "Forecast cold (3 days)"
      },
-     "value": "Tmin 7 °C",
+     "value": "Tmin 5 °C",
      "s": 0.0,
      "w": 0.7,
      "source": "weather",
      "link": "https://open-meteo.com/",
      "query": "https://api.open-meteo.com/v1/forecast?latitude=48.85&longitude=2.35&timezone=Europe%2FParis&forecast_days=7&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_gusts_10m_max",
-     "sha": "80aa4ab4debec27e",
+     "sha": "6d3f61bc2fd39402",
      "rule": {
       "fr": "0 °C = 0 ; −3 °C = 0,4 ; −8 °C = 1.",
       "en": "0 °C = 0; −3 °C = 0.4; −8 °C = 1."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-10T07:39:31Z",
+     "fetched": "2026-11-10T15:47:58Z",
      "pub": null,
      "kind": "forecast",
      "area": "paris",
@@ -122,20 +120,20 @@
       "fr": "Rafales prévues (3 jours)",
       "en": "Forecast gusts (3 days)"
      },
-     "value": "34 km/h",
+     "value": "49 km/h",
      "s": 0.0,
      "w": 0.7,
      "source": "weather",
      "link": "https://open-meteo.com/",
      "query": "https://api.open-meteo.com/v1/forecast?latitude=48.85&longitude=2.35&timezone=Europe%2FParis&forecast_days=7&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_gusts_10m_max",
-     "sha": "80aa4ab4debec27e",
+     "sha": "6d3f61bc2fd39402",
      "rule": {
       "fr": "60 km/h = 0 ; 80 = 0,4 ; 110 = 1.",
       "en": "60 km/h = 0; 80 = 0.4; 110 = 1."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-10T07:39:31Z",
+     "fetched": "2026-11-10T15:47:58Z",
      "pub": null,
      "kind": "forecast",
      "area": "paris",
@@ -148,20 +146,20 @@
       "fr": "Pluie prévue en 24 h (3 jours)",
       "en": "Forecast 24 h rain (3 days)"
      },
-     "value": "6 mm",
+     "value": "7 mm",
      "s": 0.0,
      "w": 0.7,
      "source": "weather",
      "link": "https://open-meteo.com/",
      "query": "https://api.open-meteo.com/v1/forecast?latitude=48.85&longitude=2.35&timezone=Europe%2FParis&forecast_days=7&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_gusts_10m_max",
-     "sha": "80aa4ab4debec27e",
+     "sha": "6d3f61bc2fd39402",
      "rule": {
       "fr": "20 mm = 0 ; 40 = 0,5 ; 60 = 1 (risque d'inondation rapide).",
       "en": "20 mm = 0; 40 = 0.5; 60 = 1 (flash-flood risk)."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-10T07:39:31Z",
+     "fetched": "2026-11-10T15:47:58Z",
      "pub": null,
      "kind": "forecast",
      "area": "paris",
@@ -183,15 +181,15 @@
      "source": "vigilance",
      "link": "https://vigilance.meteofrance.fr",
      "query": "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/weatherref-france-vigilance-meteo-departement/records?where=domain_id%3D%2275%22&limit=40",
-     "sha": "5ed4bd7bb3b22814",
+     "sha": "0b8ea872cd215624",
      "rule": {
       "fr": "Vert 0 ; jaune 0,25 ; orange 0,6 (plancher « Préparez-vous ») ; rouge 1 (plancher « Agissez »). Aujourd'hui et demain.",
       "en": "Green 0; yellow 0.25; orange 0.6 (floor “Prepare”); red 1 (floor “Act”). Today and tomorrow."
      },
      "official": true,
      "floor": 0,
-     "fetched": "2026-11-10T07:39:32Z",
-     "pub": "2026-11-10T05:00:00+00:00",
+     "fetched": "2026-11-10T15:47:59Z",
+     "pub": "2026-11-10T15:00:00+00:00",
      "kind": "official",
      "area": "paris",
      "fam": "weather"
@@ -233,7 +231,7 @@
      },
      "official": true,
      "floor": 0,
-     "fetched": "2026-11-10T07:39:31Z",
+     "fetched": "2026-11-10T15:47:59Z",
      "pub": "2026-11-09",
      "kind": "official",
      "area": "france",
@@ -246,21 +244,21 @@
       "fr": "Consommation nationale vs prévision",
       "en": "National load vs forecast"
      },
-     "value": "57067 / 58000 MW (98%)",
+     "value": "54688 / 54700 MW (100%)",
      "s": 0.0,
      "w": 0.8,
      "source": "eco2mix",
      "link": "https://www.rte-france.com/eco2mix",
      "query": "https://odre.opendatasoft.com/api/explore/v2.1/catalog/datasets/eco2mix-national-tr/records?limit=1&where=consommation+is+not+null&order_by=date_heure+desc&select=date_heure%2Cconsommation%2Cprevision_j",
-     "sha": "5984971db547b621",
+     "sha": "c2478c63d78d48ef",
      "rule": {
       "fr": "Écart > 6 % entre consommation réelle et prévue : anomalie ; > 20 % : effondrement ou pic extrême.",
       "en": "Gap > 6 % between actual and forecast load = anomaly; > 20 % = collapse or extreme peak."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-10T07:39:31Z",
-     "pub": "2026-11-10T07:15:00+00:00",
+     "fetched": "2026-11-10T15:47:59Z",
+     "pub": "2026-11-10T15:30:00+00:00",
      "kind": "observed",
      "area": "france",
      "fam": "rte"
@@ -268,18 +266,14 @@
    ]
   },
   "fuel": {
-   "level": 1,
-   "R": 22.4,
-   "H": 28.0,
+   "level": 0,
+   "R": 13.7,
+   "H": 17.1,
    "cand": 0,
-   "held": {
-    "why": "hysteresis",
-    "since": "2026-11-10T07:39:30Z",
-    "hours": 6
-   },
+   "held": null,
    "capped": false,
    "up": 0,
-   "down_since": "2026-11-10T07:39:30Z",
+   "down_since": null,
    "domain": "fuel",
    "missing": [],
    "indicators": [
@@ -290,20 +284,20 @@
       "fr": "Stations SP95-E10 en rupture (Île-de-France)",
       "en": "SP95-E10 stations out of stock (Île-de-France)"
      },
-     "value": "105 / 778 stations déclarantes (13.5%)",
-     "s": 0.35,
+     "value": "93 / 766 stations déclarantes (12.1%)",
+     "s": 0.214,
      "w": 0.8,
      "source": "fuel",
      "link": "https://data.economie.gouv.fr/explore/dataset/prix-des-carburants-en-france-flux-instantane-v2/",
      "query": "https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/prix-des-carburants-en-france-flux-instantane-v2/records?limit=0&where=%28code_departement+in+%28%2275%22%2C%2277%22%2C%2278%22%2C%2291%22%2C%2292%22%2C%2293%22%2C%2294%22%2C%2295%22%29%29+and+e10_rupture_type%3D%22temporaire%22+and+e10_rupture_debut+%3E%3D+date%272026-10-27%27",
-     "sha": "4ec3872a3e168b51d6ee639807dc8ff5",
+     "sha": "797c5727b789b68d3d2e68cca38b3414",
      "rule": {
       "fr": "Normal ≈ 8 %. 15 % = tension (0,5). 25 % = grave (1). Seules les ruptures temporaires déclarées depuis 14 jours comptent (les plus anciennes sont des lignes obsolètes). Mesure des ruptures déclarées par les stations, pas un recensement.",
       "en": "Normal ≈ 8 %. 15 % = tension (0.5). 25 % = severe (1). Only temporary stockouts declared in the last 14 days count (older ones are stale feed rows). Counts stockouts declared by stations, not a census."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-10T07:39:32Z",
+     "fetched": "2026-11-10T15:48:01Z",
      "pub": null,
      "kind": "observed",
      "area": "idf",
@@ -316,20 +310,20 @@
       "fr": "Stations Diesel en rupture (Île-de-France)",
       "en": "Diesel stations out of stock (Île-de-France)"
      },
-     "value": "43 / 822 stations déclarantes (5.2%)",
+     "value": "35 / 816 stations déclarantes (4.3%)",
      "s": 0.0,
      "w": 0.8,
      "source": "fuel",
      "link": "https://data.economie.gouv.fr/explore/dataset/prix-des-carburants-en-france-flux-instantane-v2/",
      "query": "https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/prix-des-carburants-en-france-flux-instantane-v2/records?limit=0&where=%28code_departement+in+%28%2275%22%2C%2277%22%2C%2278%22%2C%2291%22%2C%2292%22%2C%2293%22%2C%2294%22%2C%2295%22%29%29+and+gazole_rupture_type%3D%22temporaire%22+and+gazole_rupture_debut+%3E%3D+date%272026-10-27%27",
-     "sha": "46cab24101f7590f80275324cdeec223",
+     "sha": "0e8f50297ef8d8b570f844f8b35f73b0",
      "rule": {
       "fr": "Normal ≈ 8 %. 15 % = tension (0,5). 25 % = grave (1). Seules les ruptures temporaires déclarées depuis 14 jours comptent (les plus anciennes sont des lignes obsolètes). Mesure des ruptures déclarées par les stations, pas un recensement.",
       "en": "Normal ≈ 8 %. 15 % = tension (0.5). 25 % = severe (1). Only temporary stockouts declared in the last 14 days count (older ones are stale feed rows). Counts stockouts declared by stations, not a census."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-10T07:39:31Z",
+     "fetched": "2026-11-10T15:48:00Z",
      "pub": null,
      "kind": "observed",
      "area": "idf",
@@ -356,21 +350,21 @@
       "fr": "Seine à Paris-Austerlitz",
       "en": "Seine at Paris-Austerlitz"
      },
-     "value": "0.93 m · +0.08 m/jour",
+     "value": "0.98 m · +0.17 m/jour",
      "s": 0.0,
      "w": 0.6,
      "source": "seine",
      "link": "https://www.vigicrues.gouv.fr",
      "query": "https://hubeau.eaufrance.fr/api/v2/hydrometrie/observations_tr?code_entite=F700000103&grandeur_hydro=H&size=100&sort=desc&fields=date_obs,resultat_obs",
-     "sha": "02f0283901351fb9",
+     "sha": "6a51bf2399868db7",
      "rule": {
       "fr": "Niveau 3 m = 0 ; 4 m = 0,4 ; 5 m = 0,8 ; 6 m = 1 (repères de crues 2016/2018 : ≈ 6 m). Montée > 0,3 m/jour compte. Seuils à confirmer avec Vigicrues.",
       "en": "Level 3 m = 0; 4 m = 0.4; 5 m = 0.8; 6 m = 1 (2016/2018 floods ≈ 6 m). Rise > 0.3 m/day counts. Thresholds to confirm with Vigicrues."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-10T07:39:31Z",
-     "pub": "2026-11-10T07:20:00Z",
+     "fetched": "2026-11-10T15:48:00Z",
+     "pub": "2026-11-10T15:20:00Z",
      "kind": "observed",
      "area": "paris",
      "fam": "flood"
@@ -391,14 +385,14 @@
      "source": "vigicrues",
      "link": "https://www.vigicrues.gouv.fr/",
      "query": "https://www.vigicrues.gouv.fr/services/InfoVigiCru.geojson",
-     "sha": "f3af4c85e94e93b5",
+     "sha": "2cd103471adcaa8c",
      "rule": {
       "fr": "Vert 0 ; jaune 0,25 ; orange 0,6 (plancher « Préparez-vous ») ; rouge 1 (plancher « Agissez »). Vigilance officielle du service de prévision des crues.",
       "en": "Green 0; yellow 0.25; orange 0.6 (floor “Prepare”); red 1 (floor “Act”). Official flood-forecasting service vigilance."
      },
      "official": true,
      "floor": 0,
-     "fetched": "2026-11-10T07:39:33Z",
+     "fetched": "2026-11-10T15:48:01Z",
      "pub": null,
      "kind": "official",
      "area": "paris",
@@ -434,14 +428,14 @@
      "source": "vigieau",
      "link": "https://vigieau.gouv.fr",
      "query": "https://api.vigieau.beta.gouv.fr/api/zones?lon=2.35&lat=48.85",
-     "sha": "5557de3c3463e74a",
+     "sha": "d5771a5e4e7e7491",
      "rule": {
       "fr": "Vigilance 0,15 ; alerte 0,4 ; alerte renforcée 0,7 ; crise 1.",
       "en": "Watch 0.15; alert 0.4; heightened 0.7; crisis 1."
      },
      "official": true,
      "floor": 0,
-     "fetched": "2026-11-10T07:39:31Z",
+     "fetched": "2026-11-10T15:47:59Z",
      "pub": null,
      "kind": "official",
      "area": "paris",
@@ -451,8 +445,8 @@
   },
   "cyber": {
    "level": 0,
-   "R": 0.0,
-   "H": 0.0,
+   "R": 22.4,
+   "H": 28.0,
    "cand": 0,
    "held": null,
    "capped": false,
@@ -461,6 +455,32 @@
    "domain": "digital",
    "missing": [],
    "indicators": [
+    {
+     "id": "news.cyber",
+     "hazard": "cyber",
+     "label": {
+      "fr": "Cyberattaques en France relayées par la presse (36 h)",
+      "en": "Cyberattacks in France reported by the press (36 h)"
+     },
+     "value": "3 événement(s), 3 média(s) : Face à la cyberattaque en France attribuée à l'Iran, l'Union européenne se dit prête à une",
+     "s": 0.7,
+     "w": 0.4,
+     "source": "news",
+     "link": "https://www.franceinfo.fr/internet/securite-sur-internet/cyberattaques/face-a-la-cyberattaque-en-france-attribuee-a-l-iran-l-union-europeenne-se-dit-prete-a-une-reponse-rapide-et-unie_8276429.html#xtor=RSS-3-[lestitres]",
+     "query": "https://www.francetvinfo.fr/titres.rss, https://www.francebleu.fr/rss/a-la-une.xml, https://www.20minutes.fr/feeds/rss-une.xml, https://www.lefigaro.fr/rss/figaro_actualites-a-la-une.xml, https://www.rfi.fr/fr/france/rss, https://www.lemonde.fr/paris/rss_full.xml",
+     "sha": "125f00770c6629dc",
+     "rule": {
+      "fr": "Mots-clés cyber (cyberattaque, rançongiciel, piratage…) + secteur. On compte les événements distincts, pas les médias : plusieurs médias qui reprennent la même histoire valent un seul événement. 1 = 0,2 ; 2 = 0,5 ; 3+ = 0,7. Poids plafonné : la presse seule ne peut pas dépasser « À surveiller » ou « Préparez-vous ».",
+      "en": "Cyber keywords (cyberattack, ransomware, hacking…) + sector. Counts distinct events, not outlets: several outlets repeating one story are one event. 1 = 0.2; 2 = 0.5; 3+ = 0.7. Weight capped: press alone cannot go beyond “Be aware” or “Prepare”."
+     },
+     "official": false,
+     "floor": 0,
+     "fetched": "2026-11-10T15:48:01Z",
+     "pub": null,
+     "kind": "reported",
+     "area": "france",
+     "fam": "press"
+    },
     {
      "id": "cyber.kev7",
      "hazard": "cyber",
@@ -481,7 +501,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-10T07:39:31Z",
+     "fetched": "2026-11-10T15:47:58Z",
      "pub": null,
      "kind": "context",
      "area": "world",
@@ -507,7 +527,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-10T07:39:31Z",
+     "fetched": "2026-11-10T15:47:58Z",
      "pub": null,
      "kind": "context",
      "area": "world",
@@ -533,7 +553,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-10T07:39:31Z",
+     "fetched": "2026-11-10T15:47:58Z",
      "pub": null,
      "kind": "context",
      "area": "world",
@@ -552,44 +572,18 @@
      "source": "certfr",
      "link": "https://www.cert.ssi.gouv.fr/alerte/",
      "query": "https://www.cert.ssi.gouv.fr/alerte/feed/",
-     "sha": "04ce13c98216c945",
+     "sha": "b53f67b6590e077e",
      "rule": {
       "fr": "Alerte = faille activement exploitée. 1 = 0,3 ; 3 = 0,6.",
       "en": "Alert = actively exploited flaw. 1 = 0.3; 3 = 0.6."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-10T07:39:31Z",
+     "fetched": "2026-11-10T15:47:59Z",
      "pub": null,
      "kind": "context",
      "area": "france",
      "fam": "certfr"
-    },
-    {
-     "id": "news.cyber",
-     "hazard": "cyber",
-     "label": {
-      "fr": "Cyberattaques en France relayées par la presse (36 h)",
-      "en": "Cyberattacks in France reported by the press (36 h)"
-     },
-     "value": "0 événement(s), 0 média(s)",
-     "s": 0.0,
-     "w": 0.4,
-     "source": "news",
-     "link": "https://www.cybermalveillance.gouv.fr",
-     "query": "https://www.francetvinfo.fr/titres.rss, https://www.francebleu.fr/rss/a-la-une.xml, https://www.20minutes.fr/feeds/rss-une.xml, https://www.lefigaro.fr/rss/figaro_actualites-a-la-une.xml, https://www.rfi.fr/fr/france/rss, https://www.lemonde.fr/paris/rss_full.xml",
-     "sha": "a26f8d91075fa031",
-     "rule": {
-      "fr": "Mots-clés cyber (cyberattaque, rançongiciel, piratage…) + secteur. On compte les événements distincts, pas les médias : plusieurs médias qui reprennent la même histoire valent un seul événement. 1 = 0,2 ; 2 = 0,5 ; 3+ = 0,7. Poids plafonné : la presse seule ne peut pas dépasser « À surveiller » ou « Préparez-vous ».",
-      "en": "Cyber keywords (cyberattack, ransomware, hacking…) + sector. Counts distinct events, not outlets: several outlets repeating one story are one event. 1 = 0.2; 2 = 0.5; 3+ = 0.7. Weight capped: press alone cannot go beyond “Be aware” or “Prepare”."
-     },
-     "official": false,
-     "floor": 0,
-     "fetched": "2026-11-10T07:39:34Z",
-     "pub": null,
-     "kind": "reported",
-     "area": "france",
-     "fam": "press"
     }
    ]
   },
@@ -617,15 +611,15 @@
      "w": 0.8,
      "source": "ioda",
      "link": "https://ioda.inetintel.cc.gatech.edu/country/FR",
-     "query": "https://api.ioda.inetintel.cc.gatech.edu/v2/outages/summary?entityType=country&entityCode=FR&from=1794209971&until=1794296371",
-     "sha": "e8de33af005dd4e6",
+     "query": "https://api.ioda.inetintel.cc.gatech.edu/v2/outages/summary?entityType=country&entityCode=FR&from=1794239279&until=1794325679",
+     "sha": "e555aef964f92f45",
      "rule": {
       "fr": "Détection indépendante (Georgia Tech). 0 = 0 ; 1 = 0,5 ; 3 = 1.",
       "en": "Independent detection (Georgia Tech). 0 = 0; 1 = 0.5; 3 = 1."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-10T07:39:31Z",
+     "fetched": "2026-11-10T15:47:59Z",
      "pub": null,
      "kind": "observed",
      "area": "france",
@@ -651,7 +645,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-10T07:39:49Z",
+     "fetched": "2026-11-10T15:48:16Z",
      "pub": null,
      "kind": "observed",
      "area": "single",
@@ -677,7 +671,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-10T07:39:49Z",
+     "fetched": "2026-11-10T15:48:16Z",
      "pub": null,
      "kind": "observed",
      "area": "single",
@@ -703,7 +697,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-10T07:39:49Z",
+     "fetched": "2026-11-10T15:48:16Z",
      "pub": null,
      "kind": "observed",
      "area": "single",
@@ -729,7 +723,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-10T07:39:49Z",
+     "fetched": "2026-11-10T15:48:16Z",
      "pub": null,
      "kind": "observed",
      "area": "single",
@@ -755,7 +749,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-10T07:39:49Z",
+     "fetched": "2026-11-10T15:48:16Z",
      "pub": null,
      "kind": "observed",
      "area": "single",
@@ -774,14 +768,14 @@
      "source": "news",
      "link": "https://www.cybermalveillance.gouv.fr",
      "query": "https://www.francetvinfo.fr/titres.rss, https://www.francebleu.fr/rss/a-la-une.xml, https://www.20minutes.fr/feeds/rss-une.xml, https://www.lefigaro.fr/rss/figaro_actualites-a-la-une.xml, https://www.rfi.fr/fr/france/rss, https://www.lemonde.fr/paris/rss_full.xml",
-     "sha": "a26f8d91075fa031",
+     "sha": "125f00770c6629dc",
      "rule": {
       "fr": "Mots-clés cyber (cyberattaque, rançongiciel, piratage…) + secteur. On compte les événements distincts, pas les médias : plusieurs médias qui reprennent la même histoire valent un seul événement. 1 = 0,2 ; 2 = 0,5 ; 3+ = 0,7. Poids plafonné : la presse seule ne peut pas dépasser « À surveiller » ou « Préparez-vous ».",
       "en": "Cyber keywords (cyberattack, ransomware, hacking…) + sector. Counts distinct events, not outlets: several outlets repeating one story are one event. 1 = 0.2; 2 = 0.5; 3+ = 0.7. Weight capped: press alone cannot go beyond “Be aware” or “Prepare”."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-10T07:39:34Z",
+     "fetched": "2026-11-10T15:48:01Z",
      "pub": null,
      "kind": "reported",
      "area": "france",
@@ -791,8 +785,8 @@
   },
   "supply": {
    "level": 0,
-   "R": 0.0,
-   "H": 0.0,
+   "R": 20.0,
+   "H": 25.0,
    "cand": 0,
    "held": null,
    "capped": false,
@@ -801,6 +795,32 @@
    "domain": "supply",
    "missing": [],
    "indicators": [
+    {
+     "id": "news.cold",
+     "hazard": "supply",
+     "label": {
+      "fr": "Cyberattaque contre des chaînes du froid / logistique (presse, 36 h)",
+      "en": "Cyberattack on cold chains / logistics (press, 36 h)"
+     },
+     "value": "2 événement(s), 2 média(s) : Après la cyberattaque contre des frigos, la France veut riposter contre l’Iran et ne « s’i",
+     "s": 0.5,
+     "w": 0.5,
+     "source": "news",
+     "link": "https://www.20minutes.fr/societe/4261838-20261110-apres-cyberattaque-contre-frigos-france-veut-riposter-contre-iran-interdit-rien?at_medium=display&at_campaign=149",
+     "query": "https://www.francetvinfo.fr/titres.rss, https://www.francebleu.fr/rss/a-la-une.xml, https://www.20minutes.fr/feeds/rss-une.xml, https://www.lefigaro.fr/rss/figaro_actualites-a-la-une.xml, https://www.rfi.fr/fr/france/rss, https://www.lemonde.fr/paris/rss_full.xml",
+     "sha": "125f00770c6629dc",
+     "rule": {
+      "fr": "Mots-clés cyber (cyberattaque, rançongiciel, piratage…) + secteur. On compte les événements distincts, pas les médias : plusieurs médias qui reprennent la même histoire valent un seul événement. 1 = 0,2 ; 2 = 0,5 ; 3+ = 0,7. Poids plafonné : la presse seule ne peut pas dépasser « À surveiller » ou « Préparez-vous ».",
+      "en": "Cyber keywords (cyberattack, ransomware, hacking…) + sector. Counts distinct events, not outlets: several outlets repeating one story are one event. 1 = 0.2; 2 = 0.5; 3+ = 0.7. Weight capped: press alone cannot go beyond “Be aware” or “Prepare”."
+     },
+     "official": false,
+     "floor": 0,
+     "fetched": "2026-11-10T15:48:01Z",
+     "pub": null,
+     "kind": "reported",
+     "area": "france",
+     "fam": "press"
+    },
     {
      "id": "supply.ransom_fr",
      "hazard": "supply",
@@ -814,14 +834,14 @@
      "source": "ransomlook",
      "link": "https://www.ransomlook.io",
      "query": "https://www.ransomlook.io/api/recent",
-     "sha": "849aec083159b292",
+     "sha": "48ba3771ee6a1a81",
      "rule": {
       "fr": "Heuristique : domaine en .fr + mot-clé secteur. Les effets en rayon arrivent en 2-5 jours. 1 = 0,3 ; 3 = 0,6.",
       "en": "Heuristic: .fr domain + sector keyword. Shelf effects follow in 2-5 days. 1 = 0.3; 3 = 0.6."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-10T07:39:32Z",
+     "fetched": "2026-11-10T15:47:59Z",
      "pub": null,
      "kind": "context",
      "area": "world",
@@ -847,37 +867,11 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-10T07:39:49Z",
+     "fetched": "2026-11-10T15:48:16Z",
      "pub": null,
      "kind": "observed",
      "area": "single",
      "fam": "probes"
-    },
-    {
-     "id": "news.cold",
-     "hazard": "supply",
-     "label": {
-      "fr": "Cyberattaque contre des chaînes du froid / logistique (presse, 36 h)",
-      "en": "Cyberattack on cold chains / logistics (press, 36 h)"
-     },
-     "value": "0 événement(s), 0 média(s)",
-     "s": 0.0,
-     "w": 0.5,
-     "source": "news",
-     "link": "https://www.cert.ssi.gouv.fr/alerte/",
-     "query": "https://www.francetvinfo.fr/titres.rss, https://www.francebleu.fr/rss/a-la-une.xml, https://www.20minutes.fr/feeds/rss-une.xml, https://www.lefigaro.fr/rss/figaro_actualites-a-la-une.xml, https://www.rfi.fr/fr/france/rss, https://www.lemonde.fr/paris/rss_full.xml",
-     "sha": "a26f8d91075fa031",
-     "rule": {
-      "fr": "Mots-clés cyber (cyberattaque, rançongiciel, piratage…) + secteur. On compte les événements distincts, pas les médias : plusieurs médias qui reprennent la même histoire valent un seul événement. 1 = 0,2 ; 2 = 0,5 ; 3+ = 0,7. Poids plafonné : la presse seule ne peut pas dépasser « À surveiller » ou « Préparez-vous ».",
-      "en": "Cyber keywords (cyberattack, ransomware, hacking…) + sector. Counts distinct events, not outlets: several outlets repeating one story are one event. 1 = 0.2; 2 = 0.5; 3+ = 0.7. Weight capped: press alone cannot go beyond “Be aware” or “Prepare”."
-     },
-     "official": false,
-     "floor": 0,
-     "fetched": "2026-11-10T07:39:34Z",
-     "pub": null,
-     "kind": "reported",
-     "area": "france",
-     "fam": "press"
     }
    ]
   },
@@ -947,11 +941,11 @@
    "trend": "stable",
    "diff": 3.0,
    "calm": 18,
-   "z": null,
+   "z": 0.9,
    "unusual": false,
-   "n": 37,
-   "base": 34,
-   "recon": 30,
+   "n": 30,
+   "base": 27,
+   "recon": 23,
    "series": [
     [
      "2026-10-12",
@@ -1145,12 +1139,12 @@
   "power": {
    "trend": "stable",
    "diff": 0.0,
-   "calm": 37,
-   "z": null,
+   "calm": 30,
+   "z": 0.0,
    "unusual": false,
-   "n": 37,
-   "base": 34,
-   "recon": 30,
+   "n": 30,
+   "base": 27,
+   "recon": 23,
    "series": [
     [
      "2026-10-12",
@@ -1341,11 +1335,11 @@
    "trend": "rising",
    "diff": 15.6,
    "calm": 0,
-   "z": null,
-   "unusual": false,
-   "n": 37,
-   "base": 34,
-   "recon": 30,
+   "z": 2.3,
+   "unusual": true,
+   "n": 30,
+   "base": 27,
+   "recon": 23,
    "series": [
     [
      "2026-10-12",
@@ -1534,7 +1528,7 @@
   },
   "digital": {
    "trend": "stable",
-   "diff": -2.7,
+   "diff": 4.8,
    "calm": 7,
    "z": null,
    "unusual": false,
@@ -1718,7 +1712,7 @@
     ],
     [
      "2026-11-10",
-     0.0,
+     22.4,
      0,
      "live"
     ]
@@ -1729,8 +1723,8 @@
    ]
   },
   "supply": {
-   "trend": "stable",
-   "diff": -0.3,
+   "trend": "rising",
+   "diff": 6.3,
    "calm": 7,
    "z": null,
    "unusual": false,
@@ -1914,7 +1908,7 @@
     ],
     [
      "2026-11-10",
-     0.0,
+     20.0,
      0,
      "live"
     ]
@@ -2319,11 +2313,11 @@
    "trend": "rising",
    "diff": 15.6,
    "calm": 0,
-   "z": null,
-   "unusual": false,
-   "n": 37,
-   "base": 34,
-   "recon": 30,
+   "z": 2.0,
+   "unusual": true,
+   "n": 30,
+   "base": 27,
+   "recon": 23,
    "series": [
     [
      "2026-10-12",
@@ -2531,7 +2525,7 @@
    "ok": true,
    "err": null,
    "n": 2,
-   "last_ok": "2026-11-10T07:39:30Z",
+   "last_ok": "2026-11-10T15:47:58Z",
    "status": "current",
    "every": 30,
    "kind": "observed",
@@ -2544,7 +2538,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-10T07:39:30Z",
+   "last_ok": "2026-11-10T15:47:58Z",
    "status": "current",
    "every": 1440,
    "kind": "official",
@@ -2557,7 +2551,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-10T07:39:30Z",
+   "last_ok": "2026-11-10T15:47:58Z",
    "status": "current",
    "every": 60,
    "kind": "observed",
@@ -2570,7 +2564,7 @@
    "ok": true,
    "err": null,
    "n": 4,
-   "last_ok": "2026-11-10T07:39:30Z",
+   "last_ok": "2026-11-10T15:47:58Z",
    "status": "current",
    "every": 360,
    "kind": "forecast",
@@ -2583,7 +2577,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-10T07:39:30Z",
+   "last_ok": "2026-11-10T15:47:58Z",
    "status": "current",
    "every": 60,
    "kind": "observed",
@@ -2596,7 +2590,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-10T07:39:30Z",
+   "last_ok": "2026-11-10T15:47:58Z",
    "status": "current",
    "every": 1440,
    "kind": "official",
@@ -2609,7 +2603,7 @@
    "ok": true,
    "err": null,
    "n": 3,
-   "last_ok": "2026-11-10T07:39:30Z",
+   "last_ok": "2026-11-10T15:47:58Z",
    "status": "current",
    "every": 1440,
    "kind": "context",
@@ -2622,7 +2616,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-10T07:39:30Z",
+   "last_ok": "2026-11-10T15:47:58Z",
    "status": "current",
    "every": 1440,
    "kind": "context",
@@ -2635,7 +2629,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-10T07:39:30Z",
+   "last_ok": "2026-11-10T15:47:58Z",
    "status": "current",
    "every": 360,
    "kind": "context",
@@ -2648,7 +2642,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-10T07:39:30Z",
+   "last_ok": "2026-11-10T15:47:58Z",
    "status": "current",
    "every": 60,
    "kind": "observed",
@@ -2661,7 +2655,7 @@
    "ok": true,
    "err": null,
    "n": 6,
-   "last_ok": "2026-11-10T07:39:30Z",
+   "last_ok": "2026-11-10T15:47:58Z",
    "status": "current",
    "every": 30,
    "kind": "observed",
@@ -2674,7 +2668,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-10T07:39:30Z",
+   "last_ok": "2026-11-10T15:47:58Z",
    "status": "current",
    "every": 720,
    "kind": "official",
@@ -2687,7 +2681,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-10T07:39:30Z",
+   "last_ok": "2026-11-10T15:47:58Z",
    "status": "current",
    "every": 360,
    "kind": "official",
@@ -2700,7 +2694,7 @@
    "ok": true,
    "err": null,
    "n": 0,
-   "last_ok": "2026-11-10T07:39:30Z",
+   "last_ok": "2026-11-10T15:47:58Z",
    "status": "current",
    "every": 30,
    "kind": "observed",
@@ -2713,7 +2707,7 @@
    "ok": true,
    "err": null,
    "n": 3,
-   "last_ok": "2026-11-10T07:39:30Z",
+   "last_ok": "2026-11-10T15:47:58Z",
    "status": "current",
    "every": 60,
    "kind": "reported",
@@ -2726,7 +2720,7 @@
    "ok": true,
    "err": null,
    "n": 0,
-   "last_ok": "2026-11-10T07:39:30Z",
+   "last_ok": "2026-11-10T15:47:58Z",
    "status": "current",
    "every": 43200,
    "kind": "context",
@@ -2736,9 +2730,21 @@
  },
  "context": {
   "traffic": {
-   "n": 45,
-   "closed": 6,
+   "n": 48,
+   "closed": 8,
    "items": [
+    {
+     "street": "Bd de l'Hopital",
+     "what": "Education nationale",
+     "closed": true,
+     "until": "2026-11-10T16:25:00Z"
+    },
+    {
+     "street": "Av des Gobelins",
+     "what": "Education nationale",
+     "closed": true,
+     "until": "2026-11-10T16:25:00Z"
+    },
     {
      "street": "Bd Mortier",
      "what": "M.O CPCU  Raccordement réseau/supression branchement Date dé début antérieur : 24/02/2026",
@@ -2776,14 +2782,20 @@
      "until": "2027-08-28T17:00:00Z"
     },
     {
+     "street": "PI Champerret",
+     "what": "Panne pl voie de droite (1530)",
+     "closed": false,
+     "until": "2026-11-10T18:33:00Z"
+    },
+    {
      "street": "Bd Kellermann",
-     "what": "Bd Kellermann RATP : Tvx de renouvellement de rails du tram situés entre Pte d'Italie - Portene des peupliers",
+     "what": "MO RATP - Travaux de renouvellement de rails du tramway Circulation restreinte",
      "closed": false,
      "until": "2026-11-12T23:00:00Z"
     },
     {
      "street": "Bd Kellermann",
-     "what": "MO RATP - Travaux de renouvellement de rails du tramway Circulation restreinte",
+     "what": "Bd Kellermann RATP : Tvx de renouvellement de rails du tram situés entre Pte d'Italie - Portene des peupliers",
      "closed": false,
      "until": "2026-11-12T23:00:00Z"
     },
@@ -2900,49 +2912,31 @@
      "what": "Eiffage - Bd de Strasbourg Réhabilitation de bâtiment",
      "closed": false,
      "until": "2026-12-30T23:00:00Z"
-    },
-    {
-     "street": "Av Victoria",
-     "what": "APHP - Av Victoria Réhabilitation de bâtiment",
-     "closed": false,
-     "until": "2026-12-30T23:00:00Z"
-    },
-    {
-     "street": "Quai d'Austerlitz",
-     "what": "Quai d'Austerlitz - Réduction de la chaussée sens entrant.",
-     "closed": false,
-     "until": "2027-03-26T00:00:00Z"
-    },
-    {
-     "street": "Bd de l'Hopital",
-     "what": "MO A7A8  11 Boulevard de l'Hopital Neutralisation du trottoir.",
-     "closed": false,
-     "until": "2027-03-27T17:00:00Z"
     }
    ],
-   "fetched": "2026-11-10T07:39:31Z",
+   "fetched": "2026-11-10T15:47:59Z",
    "link": "https://opendata.paris.fr/explore/dataset/circulation_evenement/",
-   "sha": "4783626f895459b1"
+   "sha": "879e4954837d1aa4"
   },
   "news": {
    "items": [
     {
-     "title": "Manifestations du 10 novembre à Paris : un parcours et un rassemblement statique imposés par la préfecture",
-     "link": "https://www.franceinfo.fr/economie/greve/manifestations-du-9-novembre-a-paris-un-parcours-et-un-rassemblement-statique-imposes-mardi-par-la-prefecture_8275178.html#xtor=RSS-3-[lestitres]",
+     "title": "Mobilisation du 10 novembre : l'intersyndicale lycéenne et étudiante appelle à manifester de nouveau samedi et mardi prochain",
+     "link": "https://www.franceinfo.fr/societe/manifestations/direct-manifestations-du-10-novembre-etudiants-lyceens-et-enseignants-appellent-a-une-nouvelle-journee-d-action-mardi_8275703.html#xtor=RSS-3-[lestitres]",
      "source": "franceinfo",
-     "published": "2026-11-10T07:06:33Z",
-     "theme": "transport",
-     "scope": "paris",
-     "kw": "manifestation"
-    },
-    {
-     "title": "Le squelette de dinosaure unique au monde, découvert en Normandie, ne sera finalement pas vendu aux enchères",
-     "link": "https://www.ici.fr/normandie/calvados-14/le-squelette-de-dinosaure-unique-au-monde-decouvert-en-normandie-ne-sera-finalement-pas-vendu-aux-encheres-3985105?at_medium=lien_RSS&at_locale=56",
-     "source": "ici (France Bleu)",
-     "published": "2026-11-10T06:54:29Z",
+     "published": "2026-11-10T15:17:57Z",
      "theme": "transport",
      "scope": "paris",
      "kw": "mobilisation"
+    },
+    {
+     "title": "Cyberattaques attribuées à l'Iran: Téhéran nie, Paris à l'offensive",
+     "link": "https://www.rfi.fr/fr/france/20261110-cyberattaques-attribu%C3%A9es-%C3%A0-l-iran-t%C3%A9h%C3%A9ran-nie-paris-%C3%A0-l-offensive",
+     "source": "RFI France",
+     "published": "2026-11-10T13:22:25Z",
+     "theme": "digital",
+     "scope": "paris",
+     "kw": "cyberattaque"
     },
     {
      "title": "Marcel sur Franceinfo : « Macron est un c… », c’est vraiment grave si un enfant de 8 ans dit des gros mots ?",
@@ -2954,22 +2948,58 @@
      "kw": "manifestation"
     },
     {
-     "title": "La deuxième phase de la réforme des heures creuses va entrer en vigueur à partir du 1er décembre",
-     "link": "https://www.franceinfo.fr/environnement/energie/la-deuxieme-phase-de-la-reforme-des-heures-creuses-va-entrer-en-vigueur-a-partir-du-1er-decembre_8275172.html#xtor=RSS-3-[lestitres]",
+     "title": "Éducation nationale : grève, manifestations, blocages, une nouvelle journée de mobilisation ce mardi",
+     "link": "https://www.ici.fr/infos/education/education-nationale-greve-manifestations-une-nouvelle-journee-de-mobilisation-ce-mardi-3080914?at_medium=lien_RSS&at_locale=56",
+     "source": "ici (France Bleu)",
+     "published": "2026-11-10T15:29:59Z",
+     "theme": "transport",
+     "scope": "france",
+     "kw": "grève"
+    },
+    {
+     "title": "Face à la cyberattaque en France attribuée à l'Iran, l'Union européenne se dit prête à une réponse \"rapide et unie\"",
+     "link": "https://www.franceinfo.fr/internet/securite-sur-internet/cyberattaques/face-a-la-cyberattaque-en-france-attribuee-a-l-iran-l-union-europeenne-se-dit-prete-a-une-reponse-rapide-et-unie_8276429.html#xtor=RSS-3-[lestitres]",
      "source": "franceinfo",
-     "published": "2026-11-10T05:36:53Z",
+     "published": "2026-11-10T14:31:30Z",
+     "theme": "digital",
+     "scope": "france",
+     "kw": "cyberattaque"
+    },
+    {
+     "title": "DIRECT - Mobilisation en France: les étudiants, lycéens et enseignants battent le pavé partout en France",
+     "link": "https://www.rfi.fr/fr/france/20261110-direct-mobilisation-en-france-les-%C3%A9tudiants-lyc%C3%A9ens-et-enseignants-%C3%A0-nouveau-au-front",
+     "source": "RFI France",
+     "published": "2026-11-10T12:25:57Z",
+     "theme": "transport",
+     "scope": "france",
+     "kw": "grève"
+    },
+    {
+     "title": "Electricité : les heures creuses seront désormais différentes selon les saisons",
+     "link": "https://www.ici.fr/infos/economie-social/electricite-les-heures-creuses-seront-desormais-differentes-selon-les-saisons-5309330?at_medium=lien_RSS&at_locale=56",
+     "source": "ici (France Bleu)",
+     "published": "2026-11-10T10:44:58Z",
      "theme": "power",
      "scope": "france",
      "kw": "enedis"
     },
     {
-     "title": "Éducation nationale : un nouvel appel à la grève et manifestations ce mardi",
-     "link": "https://www.ici.fr/infos/economie-social/education-nationale-nouvel-appel-a-la-greve-pour-le-mardi-10-novembre-1641012?at_medium=lien_RSS&at_locale=56",
+     "title": "SNCF : la vente des billets pour la période pour les vacances d'hiver ouvrira ce jeudi",
+     "link": "https://www.ici.fr/infos/transports/sncf-la-vente-des-billets-pour-la-periode-du-7-janvier-au-2-juillet-2027-ouvrira-ce-jeudi-7120419?at_medium=lien_RSS&at_locale=56",
      "source": "ici (France Bleu)",
-     "published": "2026-11-10T04:59:18Z",
+     "published": "2026-11-10T10:00:06Z",
      "theme": "transport",
      "scope": "france",
-     "kw": "grève"
+     "kw": "sncf"
+    },
+    {
+     "title": "Après la cyberattaque contre des frigos, la France veut riposter contre l’Iran et ne « s’interdit rien »",
+     "link": "https://www.20minutes.fr/societe/4261838-20261110-apres-cyberattaque-contre-frigos-france-veut-riposter-contre-iran-interdit-rien?at_medium=display&at_campaign=149",
+     "source": "20 Minutes",
+     "published": "2026-11-10T08:59:19Z",
+     "theme": "digital",
+     "scope": "france",
+     "kw": "cyberattaque"
     }
    ],
    "feeds": [
@@ -2978,7 +3008,7 @@
      "name": "franceinfo",
      "link": "https://www.francetvinfo.fr/titres.rss",
      "ok": true,
-     "n": 30
+     "n": 31
     },
     {
      "id": "ici",
@@ -3016,7 +3046,7 @@
      "n": 20
     }
    ],
-   "fetched": "2026-11-10T07:39:34Z",
+   "fetched": "2026-11-10T15:48:01Z",
    "themes": {
     "transport": {
      "fr": "Transports et mobilisation",
@@ -3059,7 +3089,7 @@
      "en": "Health"
     }
    },
-   "sha": "a26f8d91075fa031",
+   "sha": "125f00770c6629dc",
    "rule": {
     "fr": "Titres de moins de 36 h contenant un mot-clé de crise ET une référence à Paris/Île-de-France (ou à la France). Aucune interprétation : le titre est affiché tel que publié, avec le mot déclencheur.",
     "en": "Headlines under 36 h old containing a crisis keyword AND a reference to Paris/Île-de-France (or France). No interpretation: the headline is shown as published, with the trigger word."
