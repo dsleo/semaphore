@@ -289,14 +289,19 @@ function more() {
 }
 
 // ---- shell
-const loadShell = nom => `<div class="alert au" role="status" aria-busy="true"><div class="eyebrow">${esc(nom)}</div><h1>${lu().load}</h1></div>`;
+// commune page skeleton, drawn at once: tabs, a loading banner where the level will be, and the empty section headers (filled when the data is ready)
+const loadShell = nom => {
+  const t = (k, l) => `<button class="tab" ${k === "today" ? 'aria-current="page"' : ""} disabled>${l}</button>`;
+  $("#nav").innerHTML = t("today", u().tToday) + t("prep", u().tPrep) + t("trend", u().tTrend) + t("more", u().tMore);
+  $("#view").innerHTML = `<div class="alert au" role="status" aria-busy="true"><div class="eyebrow">${esc(nom)}</div><h1>${lu().load}</h1></div>` + col(u().sAlerts, "") + col(lu().sLocal, "") + col(lu().sNews, "") + col(u().sRisks, "");
+};
 function render() {
   document.documentElement.lang = lang; document.title = u().title; $("#title").textContent = u().title; $("#lang").textContent = lang === "fr" ? "EN" : "FR"; $(".skip").textContent = u().skip;
   const cb = $("#city"); cb.hidden = !C; if (C) { cb.textContent = `${C.nom} (${C.dep})`; cb.setAttribute("aria-label", lu().back + " : " + C.nom); document.title = `${C.nom} · ${u().title}`; }
   if (!N || !M || !P) { $("#view").innerHTML = `<p>${u().err}</p>`; return; }
-  if (!C && PEND) { $("#nav").innerHTML = ""; $("#view").innerHTML = loadShell(PEND.nom); return; }
+  if (!C && PEND) { loadShell(PEND.nom); return; }
   if (!C) { $("#nav").innerHTML = ""; $("#view").innerHTML = RM ? lRiskPage() : lLanding(); if (RM) document.title = `${lu().riskTitle} · ${u().title}`; $("#foot").innerHTML = `<details class="emerg"><summary>${u().emerg} 112 · 15 · 17 · 18</summary><p>${u().disclaimer}</p></details>${privLink()}`; if (RM) { lBindRisk(pickCommune); $("#back").onclick = goHome; } else { lBindLanding(pickCommune); $("#tomap").onclick = e => { e.preventDefault(); RM = true; history.pushState({}, "", "?map=risks"); render(); scrollTo(0, 0); }; } return; }
-  if (!S) { $("#view").innerHTML = loadShell(C.nom); return; }
+  if (!S) { loadShell(C.nom); return; }
   $("#view").innerHTML = tab === "today" ? today() : tab === "prep" ? prepare() : tab === "trend" ? trends() : more();
   const t = (k, l) => `<button class="tab" ${tab === k ? 'aria-current="page"' : ""} data-t="${k}">${l}</button>`;
   $("#nav").innerHTML = t("today", u().tToday) + t("prep", u().tPrep) + t("trend", u().tTrend) + t("more", u().tMore);
