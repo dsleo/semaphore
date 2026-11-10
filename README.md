@@ -163,7 +163,7 @@ docs/                      the static site (GitHub Pages serves this folder)
   index.html, app.js, local.js, style.css    vanilla JS/CSS, no framework, no build step
   data/state.json          current scores, evidence, trends, sources (generated)
   data/history.json        level-change log (generated)
-  data/memory.json         one peak score per hazard per day, 400-day cap (generated)
+  data/memory.json         one peak score per hazard per day, 30-day cap (generated)
   data/depts.json          per-département levels for the risk map (generated, hourly)
   data/news-local.json, roads.json, transit.json   local layers (generated)
   data/places.json         cooling places and fountains, with last-checked date (generated daily)

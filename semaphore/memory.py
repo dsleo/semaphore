@@ -11,10 +11,10 @@ try:
 except Exception:  # no tz database: fall back to UTC days
     PARIS = None
 
-KEEP_DAYS = 400
+KEEP_DAYS = 30
 WINDOW = 30
-BASE_DAYS = 60   # an "unusual" label needs a real baseline; 2 weeks says nothing about a season
-LOOKBACK = 120
+BASE_DAYS = 20   # an "unusual" label needs a baseline; ~3 weeks is the minimum we keep (no seasonality: compares to the last month)
+LOOKBACK = WINDOW  # we only keep 30 days
 
 
 def day_of(t):
@@ -96,7 +96,7 @@ def trends(mem, cfgs, today):
         clusters.setdefault(c["domain"], []).append(hid)
     def one(hs):
         a = analyse(series(mem, hs, today, LOOKBACK))
-        a["series"] = a["series"][-WINDOW:]  # analysed over LOOKBACK days, 30 shipped to the page
+        a["series"] = a["series"][-WINDOW:]  # analysed and shipped over the same 30 days
         return dict(a, hazards=hs)
     out = {d: one(hs) for d, hs in clusters.items()}
     out["all"] = one(list(cfgs))

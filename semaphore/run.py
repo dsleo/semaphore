@@ -88,7 +88,7 @@ def main(out="docs/data"):
              "coverage": cov, "alerts": alerts, "headline": score.headline(hazards, cfg["hazards"]),
              "hazards": hazards, "trends": memory.trends(mem, cfg["hazards"], today), "sources": srcs, "context": ctx}
     (out / "state.json").write_text(json.dumps(state, ensure_ascii=False, indent=1))
-    (out / "history.json").write_text(json.dumps(hist[-500:], ensure_ascii=False, indent=1))
+    (out / "history.json").write_text(json.dumps([e for e in hist if e["ts"] >= sources.iso(t - sources.timedelta(days=30))], ensure_ascii=False, indent=1))
     h = state["headline"]
     print(f"{state['generated']} sources {ok}/{len(res)} headline level={h['level']} score={h['score']} top={h['top']}")
     for sid, s in srcs.items():

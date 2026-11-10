@@ -19,8 +19,8 @@ class Trend(unittest.TestCase):
         self.assertEqual(memory.analyse(ser([None] * 29 + [0]))["trend"], "nodata")
 
     def test_unusual_needs_history(self):
-        self.assertFalse(memory.analyse(ser([0] * 27 + [60, 60, 60]))["unusual"])  # 4 weeks is not a baseline
-        self.assertTrue(memory.analyse(ser([0] * 67 + [60, 60, 60]))["unusual"])
+        self.assertFalse(memory.analyse(ser([0] * 17 + [60, 60, 60]))["unusual"])  # under 20 days is not a baseline
+        self.assertTrue(memory.analyse(ser([0] * 27 + [60, 60, 60]))["unusual"])
 
     def test_live_replaces_recon_and_keeps_peak(self):
         m = {"days": {"2026-01-01": {"fuel": {"R": 5, "lvl": 0, "src": "recon"}}}}
