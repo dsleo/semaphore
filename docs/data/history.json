@@ -38,5 +38,21 @@
     "value": "93 / 766 stations déclarantes (12.1%)"
    }
   ]
+ },
+ {
+  "ts": "2026-11-10T22:44:44Z",
+  "hazard": "supply",
+  "from": 0,
+  "to": 1,
+  "R": 28.0,
+  "why": [
+   {
+    "label": {
+     "fr": "Cyberattaque contre des chaînes du froid / logistique (presse, 36 h)",
+     "en": "Cyberattack on cold chains / logistics (press, 36 h)"
+    },
+    "value": "3 événement(s), 3 média(s) : Cyberattaque contre des frigos de supermarchés : l'Iran rejette \"les accusations infondées"
+   }
+  ]
  }
 ]
