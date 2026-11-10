@@ -1,8 +1,10 @@
 """Scoring: deterministic rules, no LLM. Pure functions, easy to test."""
+import json
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 
 UTC = timezone.utc
-LEVEL_AT = (25, 50, 75)  # R thresholds for yellow / orange / red
+LEVEL_AT = tuple(json.loads((Path(__file__).parent / "config.json").read_text())["levels"])  # R thresholds for yellow / orange / red (config.json; the browser reads the same numbers)
 DOWN_HOURS = 6
 
 

@@ -1,0 +1,39 @@
+name: watchdog
+# Second line of defence behind the self-chaining update workflow: if the published data is over 12 h old the chain is broken.
+# It opens an issue assigned to the owner (GitHub notifies them) and closes it again once the data is fresh.
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+permissions:
+  issues: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Is the published data fresh?
+        run: |
+          owner="${GITHUB_REPOSITORY_OWNER}"; repo="${GITHUB_REPOSITORY#*/}"
+          gen=$(curl -fsS -m 20 "https://${owner}.github.io/${repo}/data/state.json?t=$(date +%s)" | python3 -c "import json,sys;print(json.load(sys.stdin)['generated'])") || gen=""
+          age=$(python3 - "$gen" <<'PY'
+          import sys
+          from datetime import datetime, timezone
+          g = sys.argv[1]
+          print(99999 if not g else int((datetime.now(timezone.utc) - datetime.strptime(g, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)).total_seconds() // 60))
+          PY
+          )
+          echo "published data age: ${age} min"
+          owner="${GITHUB_REPOSITORY_OWNER}"
+          if [ "$age" -gt 720 ]; then
+            gh label create data-stale --color D93F0B --description "Published data is stale" 2>/dev/null || true
+            gh issue list --label data-stale --state open --json number --jq length | grep -qx 0 \
+              && gh issue create --label data-stale --assignee "$owner" --title "Published data is stale (${age} min old)" \
+                   --body "@${owner} state.json is ${age} minutes old (limit 720). The update chain is probably broken: run the update workflow manually (Actions > update > Run workflow). This issue closes itself when the data is fresh again." || true
+          else
+            for n in $(gh issue list --label data-stale --state open --json number --jq '.[].number'); do
+              gh issue close "$n" --comment "Published data is fresh again (${age} min old)." || true
+            done
+          fi

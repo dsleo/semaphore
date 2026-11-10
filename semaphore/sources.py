@@ -8,7 +8,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
-from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
 from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
 
@@ -42,12 +42,26 @@ def T(fr, en):
     return {"fr": fr, "en": en}
 
 
+MAX_BYTES = 25 * 2**20  # no source we read is near this; a runaway or hostile response must not fill the runner's memory
+
+
+def parse_xml(text):
+    """ElementTree with entity expansion refused: stdlib parsers are open to "billion laughs" payloads, and RSS/DATEX
+    never need a DTD. Feeds that declare one are rejected rather than parsed."""
+    head = text[:4096].lower()
+    if "<!doctype" in head or "<!entity" in text.lower():
+        raise ValueError("XML with a DTD/entity declaration refused")
+    return ET.fromstring(text)
+
+
 def get(url, timeout=25):
     req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept-Encoding": "gzip"})
     for attempt in (1, 2):  # one retry for transient network errors (DNS blip, timeout); HTTP errors are not retried
         try:
             with urllib.request.urlopen(req, timeout=timeout) as r:
-                b = r.read()
+                b = r.read(MAX_BYTES + 1)
+            if len(b) > MAX_BYTES:
+                raise ValueError(f"response larger than {MAX_BYTES // 2**20} MB: {url[:80]}")
             break
         except urllib.error.HTTPError:
             raise
@@ -60,8 +74,8 @@ def get(url, timeout=25):
     return b.decode("utf-8", "replace"), hashlib.sha256(b).hexdigest()[:16]
 
 
-def jget(url):
-    t, h = get(url)
+def jget(url, timeout=25):
+    t, h = get(url, timeout)
     return json.loads(t), h
 
 
@@ -69,6 +83,7 @@ def jget(url):
 # its licence, and the evidence family. Indicators of one family are not independent (same underlying signal),
 # so the score keeps only the strongest of each family. "@hazard" = one family per hazard.
 # kind: observed | official | forecast | reported | context (shown, never scored)
+_CFG = json.loads((Path(__file__).parent / "config.json").read_text())
 META = {
     "fuel": dict(kind="observed", area="idf", every=30, lic="Licence Ouverte 2.0", fam="fuel"),
     "ecowatt": dict(kind="official", area="france", every=1440, lic="Licence Ouverte 2.0", fam="rte"),
@@ -82,7 +97,6 @@ META = {
     "certfr": dict(kind="context", area="france", every=1440, lic="voir la source", fam="certfr"),
     "ransomlook": dict(kind="context", area="world", every=360, lic="voir la source", fam="ransomlook"),
     "ioda": dict(kind="observed", area="france", every=60, lic="voir la source", fam="ioda"),
-    "probes": dict(kind="observed", area="single", every=30, lic="ce projet", fam="probes"),
     "news": dict(kind="reported", area="france", every=60, lic="titres et liens uniquement", fam="press"),
     "traffic": dict(kind="observed", area="paris", every=30, lic="ODbL (Ville de Paris)", fam="traffic"),
     "atmo": dict(kind="observed", area="dept", every=1440, lic="ODbL (Atmo France)", fam="atmo"),
@@ -106,6 +120,13 @@ def ind(id, hazard, label, value, s, w, source, link, query, sha, rule, official
 
 # ---------------------------------------------------------------- stress rules (shared with backfill.py)
 def fuel_s(r): return interp(r, [(0.10, 0), (0.15, 0.5), (0.25, 1.0)])
+def heat_thr(dep):
+    """(Tmax, Tmin) 3-day-mean heatwave criterion: Paris biometeorological values for Paris and the petite couronne, an
+    approximate national one elsewhere (the official canicule vigilance has the exact per-département values). Values in config.json, shared with docs/local.js."""
+    h = _CFG["heat_thr"]
+    return tuple(h["urban"] if dep in h["urban_deps"] else h["default"])
+
+
 def heat_s(mx, mn): return clamp(min((mx - 27) / 4, (mn - 17) / 4))   # 3-day mean Tmax / Tmin
 def heat_day_s(t): return clamp((t - 33) / 7)
 def cold_s(tmin): return interp(-tmin, [(0, 0), (3, 0.4), (8, 1.0)])
@@ -195,14 +216,21 @@ METEO = ("https://api.open-meteo.com/v1/forecast?latitude=48.85&longitude=2.35&t
          "&forecast_days=7&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_gusts_10m_max")
 
 
+def forecast_series(D, near=3):
+    """Daily forecast arrays with no silent zeros: a missing temperature, or a missing gust/rain in the first `near`
+    days (the ones we score), makes the source fail (= "unavailable") instead of reading as a calm 0."""
+    tx, tn = D["temperature_2m_max"], D["temperature_2m_min"]
+    gust, rain = D["wind_gusts_10m_max"], D["precipitation_sum"]
+    if None in tx or None in tn or None in gust[:near] or None in rain[:near]:
+        raise RuntimeError("forecast has missing values")
+    return tx, tn, [x or 0 for x in gust], [x or 0 for x in rain]
+
+
 def weather():
     d, h = jget(METEO)
     D = d["daily"]
     days = D["time"]
-    tx = [x if x is not None else 0 for x in D["temperature_2m_max"]]
-    tn = [x if x is not None else 0 for x in D["temperature_2m_min"]]
-    gust = [x or 0 for x in D["wind_gusts_10m_max"]]
-    rain = [x or 0 for x in D["precipitation_sum"]]
+    tx, tn, gust, rain = forecast_series(D)
     link = "https://open-meteo.com/"
     # heat: Paris biometeorological criterion = 3-day mean Tmax >= 31 and Tmin >= 21 (we ramp from 27/17)
     best_s, best_i = 0.0, 0
@@ -339,7 +367,7 @@ CERT = "https://www.cert.ssi.gouv.fr/alerte/feed/"
 
 def certfr():
     t, h = get(CERT)
-    items = ET.fromstring(t).findall("./channel/item")
+    items = parse_xml(t).findall("./channel/item")
     cut = now() - timedelta(hours=72)
     new = []
     for it in items:
@@ -384,52 +412,6 @@ def ioda():
                 T("Détection indépendante (Georgia Tech). 0 = 0 ; 1 = 0,5 ; 3 = 1.", "Independent detection (Georgia Tech). 0 = 0; 1 = 0.5; 3 = 1."))], {}
 
 
-SITES = {
-    "bank": ["https://www.credit-agricole.fr", "https://www.boursorama.com", "https://www.lcl.fr", "https://www.societegenerale.fr"],
-    "retail": ["https://www.carrefour.fr", "https://www.auchan.fr", "https://www.monoprix.fr", "https://www.leclercdrive.fr"],
-    "transit": ["https://www.iledefrance-mobilites.fr", "https://www.ratp.fr", "https://www.sncf-connect.com"],
-    "telecom": ["https://www.orange.fr", "https://www.free.fr", "https://www.sfr.fr", "https://www.bouyguestelecom.fr"],
-    "cloud": ["https://www.cloudflare.com", "https://aws.amazon.com", "https://azure.microsoft.com", "https://www.ovhcloud.com"],
-    "gov": ["https://www.service-public.fr", "https://www.impots.gouv.fr", "https://www.ameli.fr"],
-}
-CAT = {"bank": T("Banques", "Banks"), "retail": T("Supermarchés en ligne", "Online supermarkets"),
-       "transit": T("Transports", "Transit"), "telecom": T("Opérateurs télécom", "Telecom operators"),
-       "cloud": T("Cloud", "Cloud"), "gov": T("Services publics", "Public services")}
-
-
-def _up(url):
-    for attempt in (0, 1):
-        try:
-            urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (compatible; semaphore/1.0)"}), timeout=10).read(512)
-            return True
-        except urllib.error.HTTPError as e:
-            if e.code < 500:
-                return True
-        except Exception:
-            pass
-        if attempt == 0:
-            time.sleep(2)
-    return False
-
-
-def probes():
-    urls = [u for v in SITES.values() for u in v]
-    with ThreadPoolExecutor(12) as ex:
-        res = dict(zip(urls, ex.map(_up, urls)))
-    out = []
-    for cat, us in SITES.items():
-        down = [u.split("//")[1] for u in us if not res[u]]
-        frac = len(down) / len(us)
-        out.append(ind(f"probe.{cat}", "supply" if cat == "retail" else "digital",
-                       T(f"Accessibilité : {CAT[cat]['fr']}", f"Reachability: {CAT[cat]['en']}"),
-                       f"{len(us) - len(down)}/{len(us)} joignables" if not down else f"{len(us) - len(down)}/{len(us)}: " + ", ".join(down),
-                       interp(frac, [(0.25, 0), (0.5, 0.5), (0.75, 1.0)]), 0.6, "probes", "https://github.com/",
-                       ", ".join(us), hashlib.sha256(json.dumps(res, sort_keys=True).encode()).hexdigest()[:16],
-                       T("Un site est « en panne » s'il ne répond pas après 2 essais (une réponse HTTP < 500 = joignable). Un seul point de mesure : poids limité (0,6). ≥ 50 % en panne = 0,5.",
-                         "A site is “down” if it fails twice (any HTTP < 500 = reachable). Single vantage point: weight capped (0.6). ≥ 50 % down = 0.5.")))
-    return out, {}
-
-
 # ---------------------------------------------------------------- local news (headlines only, unscored)
 FEEDS = [("franceinfo", "franceinfo", "https://www.francetvinfo.fr/titres.rss"),
          ("ici", "ici (France Bleu)", "https://www.francebleu.fr/rss/a-la-une.xml"),
@@ -465,7 +447,7 @@ TAGS = re.compile(r"<[^>]+>")
 def _feed(fid, name, url):
     t, h = get(url)
     out = []
-    for it in ET.fromstring(t).findall(".//item"):
+    for it in parse_xml(t).findall(".//item"):
         try:
             when = parsedate_to_datetime(it.findtext("pubDate"))
             if when.tzinfo is None:
@@ -556,7 +538,7 @@ VIGICRUES = "https://www.vigicrues.gouv.fr/services/InfoVigiCru.geojson"
 
 
 def vigicrues():
-    d, h = jget(VIGICRUES)
+    d, h = jget(VIGICRUES, 60)  # 2 MB feed, the runner timed out at 25 s
     f = [x["properties"] for x in d["features"] if x["properties"].get("CdEntCru") == "IF5"]  # "Seine à Paris"
     if not f:
         raise RuntimeError("Vigicrues: section 'Seine à Paris' not found")
@@ -618,7 +600,6 @@ SOURCES = [
     ("certfr", "CERT-FR alerts (ANSSI)", "https://www.cert.ssi.gouv.fr/alerte/", certfr),
     ("ransomlook", "Ransomware leak posts (RansomLook)", "https://www.ransomlook.io", ransomlook),
     ("ioda", "Internet outages (IODA, Georgia Tech)", "https://ioda.inetintel.cc.gatech.edu/", ioda),
-    ("probes", "Reachability probes (this project)", "https://github.com/", probes),
     ("vigilance", "Météo-France vigilance (official, via Opendatasoft)", "https://vigilance.meteofrance.fr", vigilance),
     ("vigicrues", "Vigicrues flood vigilance (official)", "https://www.vigicrues.gouv.fr/", vigicrues),
     ("traffic", "Paris traffic events (Ville de Paris open data)", "https://opendata.paris.fr/explore/dataset/circulation_evenement/", traffic),

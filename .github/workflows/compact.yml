@@ -1,0 +1,50 @@
+name: compact-history
+# MANUAL ONLY. Never add a schedule: this REWRITES main (force-push). See scripts/compact-history.md.
+on:
+  workflow_dispatch:
+    inputs:
+      keep_days:
+        description: "Keep the last N days of history; squash everything older into one commit"
+        default: "30"
+      apply:
+        description: "false = dry run (default, changes nothing). true = rewrite and force-push main"
+        default: "false"
+      confirm:
+        description: "To apply, type REWRITE-MAIN"
+        default: ""
+permissions:
+  contents: write
+concurrency:
+  group: update   # same group as the data run, so they never overlap
+  cancel-in-progress: false
+jobs:
+  compact:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Plan (and rewrite only if apply=true and confirm=REWRITE-MAIN)
+        env:
+          KEEP: ${{ inputs.keep_days }}
+          APPLY: ${{ inputs.apply }}
+          CONFIRM: ${{ inputs.confirm }}
+        run: |
+          set -euo pipefail
+          case "$KEEP" in ''|*[!0-9]*) echo "keep_days must be a number"; exit 1;; esac
+          git config user.name "semaphore-bot"; git config user.email "semaphore-bot@users.noreply.github.com"
+          cut=$(git log --first-parent --before="$KEEP days ago" -n1 --format=%H main || true)
+          [ -n "$cut" ] || { echo "Nothing older than $KEEP days: nothing to squash."; exit 0; }
+          old=$(git rev-list --count "$cut"); new=$(git rev-list --count "$cut"..main)
+          echo "Commits to squash into one: $old   Commits kept after the cut: $new"
+          echo "Repo before: $(git count-objects -vH | grep size-pack)"
+          [ "$old" -gt 1 ] || { echo "Already compact."; exit 0; }
+          if [ "$APPLY" != "true" ] || [ "$CONFIRM" != "REWRITE-MAIN" ]; then echo "DRY RUN: nothing changed."; exit 0; fi
+          backup="backup/pre-compact-$(date -u +%Y%m%d-%H%M%S)"
+          git push origin "main:refs/heads/$backup"            # reversible: git push --force origin $backup:main
+          root=$(git commit-tree "$cut^{tree}" -m "History before $(git log -1 --format=%cs "$cut") squashed (backup branch: $backup)")
+          git rebase --onto "$root" "$cut" main                 # replays the kept commits on the new root (linear; merges are flattened)
+          git push --force-with-lease=main:"$(git rev-parse origin/main)" origin main
+          echo "Done. Old history is on branch $backup (delete it once you are sure, then GitHub garbage-collects it)."

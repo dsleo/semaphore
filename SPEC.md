@@ -2,7 +2,7 @@
 
 **One line:** a free, always-on, open service that tells any Parisian *how risky today is, for what, and the one thing to do about it*, built on continuously collected open data.
 **Companion:** [RISK_REGISTER.md](RISK_REGISTER.md) (58 hazards, 40 data sources, about 25 of them verified live 2026-11-03).
-**Status:** design. Items marked ⚠ are unverified.
+**Status:** original design document (v4, Paris only). The service has since grown to every commune in France, without accounts or a build step; `README.md` describes what is actually implemented and is the reference. Sections below that mention `config/*.toml`, 2-minute probes, crowd reports or multiple vantage points are aspirations, not features. Items marked ⚠ are unverified.
 
 ---
 

@@ -1,0 +1,15 @@
+{
+ "_doc": "Shared by tests/test_parity.py (semaphore/score.py) and tests/local.test.js (docs/local.js). If one side changes, both must still agree.",
+ "cases": [
+  {"name": "calm", "cfg": {"impact": 5}, "inds": [{"fam": "weather", "w": 0.7, "s": 0, "kind": "forecast"}], "H": 0, "R": 0, "level": 0},
+  {"name": "single forecast", "cfg": {"impact": 5}, "inds": [{"fam": "heat", "w": 0.7, "s": 1, "kind": "forecast"}], "H": 70, "R": 70, "level": 2},
+  {"name": "same family counts once", "cfg": {"impact": 2}, "inds": [{"fam": "heat", "w": 0.7, "s": 1, "kind": "forecast"}, {"fam": "heat", "w": 0.7, "s": 0.5, "kind": "forecast"}], "H": 70, "R": 49, "level": 1},
+  {"name": "independent families corroborate", "cfg": {"impact": 5}, "inds": [{"fam": "heat", "w": 0.7, "s": 0.6, "kind": "forecast"}, {"fam": "vig", "w": 1, "s": 0.6, "kind": "official", "official": true}], "H": 76.8, "R": 76.8, "level": 3},
+  {"name": "official floor wins", "cfg": {"impact": 2}, "inds": [{"fam": "vig", "w": 1, "s": 0.6, "kind": "official", "official": true, "floor": 50}], "H": 60, "R": 50, "level": 2},
+  {"name": "context is never scored", "cfg": {"impact": 5}, "inds": [{"fam": "kev", "w": 0.4, "s": 1, "kind": "context"}, {"fam": "x", "w": 1, "s": 0.2, "kind": "observed"}], "H": 20, "R": 20, "level": 0},
+  {"name": "fuel cap without official source", "cfg": {"impact": 5, "demand_sensitive": true}, "inds": [{"fam": "fuel", "w": 1, "s": 1, "kind": "observed"}], "H": 100, "R": 100, "level": 2, "capped": true},
+  {"name": "fuel cap lifted by official source", "cfg": {"impact": 5, "demand_sensitive": true}, "inds": [{"fam": "fuel", "w": 1, "s": 1, "kind": "observed", "official": true}], "H": 100, "R": 100, "level": 3},
+  {"name": "only context = unknown", "cfg": {"impact": 5}, "inds": [{"fam": "kev", "w": 0.4, "s": 1, "kind": "context"}], "H": null, "R": null, "level": null}
+ ],
+ "heat_thr": {"75": [31, 21], "92": [31, 21], "93": [31, 21], "94": [31, 21], "69": [34, 20], "2A": [34, 20], "13": [34, 20]}
+}

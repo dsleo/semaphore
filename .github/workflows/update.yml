@@ -1,33 +1,47 @@
 name: update
+# Self-chaining: each run collects every 15 min for ~5 h 40 min, then starts the next run itself, so freshness does not
+# depend on GitHub's (best-effort) cron. The hourly cron is only a restarter if the chain ever breaks; `concurrency` keeps
+# a single run active and at most one waiting, so restarts never pile up.
 on:
   schedule:
-    - cron: "7 * * * *"   # hourly; GitHub may delay or skip runs under load (stale limit in app.js is 3 h)
+    - cron: "7 * * * *"
   workflow_dispatch:
 permissions:
   contents: write
   issues: write
+  actions: write
 concurrency:
   group: update
   cancel-in-progress: false
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 355
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v5
       - run: python3 -m unittest -q          # stdlib only, no installs
-      - run: node tests/local.test.js        # browser-side scoring port
-      - run: python3 -m semaphore                # writes docs/data/*.json
-      - name: Commit data (each commit = a timestamped, auditable snapshot)
+      - run: for f in tests/*.test.js; do node "$f" || exit 1; done        # browser-side scoring port
+      - name: Collect, score and commit every 15 min (quiet iterations are not committed, see scripts/should_commit.py)
+        run: bash scripts/refresh-loop.sh
+      - name: Close the pipeline-down issue once a run succeeds
+        if: success()
         run: |
-          git config user.name "semaphore-bot"
-          git config user.email "semaphore-bot@users.noreply.github.com"
-          git add docs/data/state.json docs/data/history.json docs/data/memory.json docs/data/places.json docs/data/news-local.json docs/data/roads.json docs/data/transit.json docs/data/depts.json
-          git diff --cached --quiet || { git commit -m "data $(date -u +%FT%TZ)"; git pull --rebase -q; git push; }
-      - name: Alert on failure (open an issue once)
+          for n in $(gh issue list --label pipeline-down --state open --json number --jq '.[].number'); do
+            gh issue close "$n" --comment "Pipeline recovered: run $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID succeeded." || true
+          done
+      - name: Alert on failure (opens an issue assigned to the owner, once, so GitHub notifies them)
         if: failure()
-        env:
-          GH_TOKEN: ${{ github.token }}
         run: |
+          owner="$GITHUB_REPOSITORY_OWNER"
+          gh label create pipeline-down --color B60205 --description "Data pipeline failing" 2>/dev/null || true
           gh issue list --label pipeline-down --state open --json number --jq length | grep -qx 0 \
-            && gh issue create --label pipeline-down --title "Data pipeline failing" --body "Run $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID failed. The site is serving stale data." || true
+            && gh issue create --label pipeline-down --assignee "$owner" \
+                 --title "Data pipeline failing" \
+                 --body "@$owner the update run $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID failed 3 times in a row. The published data is going stale. This issue closes itself when a run succeeds." || true
+      - name: Start the next run (self-chaining; waits 10 min first after a failure)
+        if: always()
+        run: |
+          [ "${{ job.status }}" = success ] || sleep 600
+          gh workflow run update.yml --ref "$GITHUB_REF_NAME"

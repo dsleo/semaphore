@@ -1,9 +1,10 @@
 """Nationwide local layers, written as static JSON that the browser filters per commune:
-news-local.json (regional + local headlines), roads.json (Bison Futé road events), transit.json (GTFS-RT service alerts).
+news-local.json (regional + local headlines), roads.json (Bison Futé road events), transit.json (GTFS-RT service alerts),
+vigicrues.json (official flood vigilance, river sections above green).
 Stdlib only, no LLM. Each collector fails alone: a broken feed never stops the run."""
 import json
 import re
-import xml.etree.ElementTree as ET
+import time
 from concurrent.futures import ThreadPoolExecutor
 from datetime import timedelta
 from pathlib import Path
@@ -42,8 +43,8 @@ def news(out):
         feeds.append({"id": f[0], "name": f[1], "link": f[2], "ok": err is None, "n": len(rows), **({"err": err} if err else {})})
         for fid, name, title, link, desc, when in rows:
             text = title.lower()  # title only: descriptions drag in unrelated words (aéroport, perturbation…)
-            if when < cut or S.EXCLUDE.search(text):
-                continue
+            if when < cut or S.EXCLUDE.search(text) or not link.startswith(("http://", "https://")):
+                continue  # only web links reach an href (never javascript:/data:)
             hit = next(((k, m.group(0)) for k, (_, rx) in S.THEMES.items() if (m := re.search(rx, text)) and k != "prepare"), None)
             key = _norm(title)
             if not hit or key in seen:
@@ -73,7 +74,7 @@ def _l(tag):
 
 
 def roads(out):
-    root = ET.fromstring(S.get(ROADS, 60)[0])
+    root = S.parse_xml(S.get(ROADS, 60)[0])
     now = S.now()
     items = []
     for rec in root.iter():
@@ -195,24 +196,50 @@ def transit(out):
     now_ts = int(S.now().timestamp())
 
     def one(f):
-        try:
-            req = S.urllib.request.Request(f[2], headers={"User-Agent": S.UA})
-            with S.urllib.request.urlopen(req, timeout=12) as resp:
-                return f, alerts_pb(resp.read(), now_ts), None
-        except Exception as e:
-            return f, [], f"{type(e).__name__}: {e}"[:100]
+        for attempt in (1, 2):  # big feeds (Tisséo is 1 MB behind a data.gouv.fr redirect) time out now and then on the runner: one retry
+            try:
+                req = S.urllib.request.Request(f[2], headers={"User-Agent": S.UA})
+                with S.urllib.request.urlopen(req, timeout=30) as resp:
+                    return f, alerts_pb(resp.read(S.MAX_BYTES), now_ts), None
+            except Exception as e:
+                err = f"{type(e).__name__}: {e}"[:100]
+                time.sleep(3)  # 429 from the data.gouv.fr proxy: back off before the retry
+        return f, [], err
     with ThreadPoolExecutor(16) as ex:
         res = list(ex.map(one, feeds))
-    nets = [{"name": f[0], "area": [{"type": a["type"], "insee": a["insee"], "nom": a.get("nom", "")} for a in f[1]], "link": f[3], "ok": err is None, "alerts": al}
+    nets = [{"name": f[0], "area": [{"type": a["type"], "insee": a["insee"], "nom": a.get("nom", "")} for a in f[1]], "link": f[3], "ok": err is None, "err": err, "alerts": al}
             for f, al, err in res]
     (out / "transit.json").write_text(json.dumps({"generated": S.iso(S.now()), "feeds": len(nets), "ok": sum(n["ok"] for n in nets), "networks": [n for n in nets if n["alerts"] or not n["ok"]][:400],
-                                                  "all": [{"name": n["name"], "area": n["area"], "ok": n["ok"]} for n in nets]}, ensure_ascii=False, separators=(",", ":")))
+                                                  "all": [{"name": n["name"], "area": n["area"], "ok": n["ok"], **({"err": n["err"]} if not n["ok"] else {})} for n in nets]}, ensure_ascii=False, separators=(",", ":")))
     return f"transit {sum(n['ok'] for n in nets)}/{len(nets)} feeds, {sum(len(n['alerts']) for n in nets)} alerts"
+
+
+# ---------------------------------------------------------------- Vigicrues: official flood vigilance for every river section
+VIGICRUES = "https://www.vigicrues.gouv.fr/services/InfoVigiCru.geojson"
+
+
+def rivers(out):
+    """Sections above green (yellow/orange/red) with a thinned polyline; the browser matches communes within 5 km of one.
+    All green = empty list. The feed is 2 MB and sends no CORS headers, so a browser cannot read it: it is read here."""
+    d = json.loads(S.get(VIGICRUES, 60)[0])
+    feats = d["features"]
+    if len(feats) < 100:
+        raise RuntimeError(f"Vigicrues: only {len(feats)} sections, feed looks broken")  # never write an empty "all green" from a broken feed
+    items = []
+    for f in feats:
+        p = f["properties"]
+        lvl = int(p["NivInfViCr"])
+        if lvl >= 2:
+            pts = [[round(c[0], 3), round(c[1], 3)] for line in f["geometry"]["coordinates"] for c in line[::3] + line[-1:]]
+            items.append({"n": p["lbentcru"], "id": p["CdEntCru"], "l": lvl, "p": pts})
+    (out / "vigicrues.json").write_text(json.dumps({"generated": S.iso(S.now()), "pub": d.get("DtHrInfoVigiCru"), "total": len(feats), "link": "https://www.vigicrues.gouv.fr/", "items": items},
+                                                   ensure_ascii=False, separators=(",", ":")))
+    return f"vigicrues {len(items)} of {len(feats)} sections above green"
 
 
 def refresh(out):
     out = Path(out)
-    for fn in (news, roads, transit):
+    for fn in (news, roads, transit, rivers):
         try:
             print(" ", fn(out))
         except Exception as e:

@@ -1,0 +1,17 @@
+name: ci
+on:
+  pull_request:
+  push:
+    branches-ignore: [main]   # main is pushed by the data bot, which does not need re-testing
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - run: python3 -m unittest discover -s tests -t . -q
+      - run: for f in tests/*.test.js; do node "$f" || exit 1; done
+      - name: Generated JSON is still valid
+        run: for f in docs/data/*.json semaphore/*.json; do python3 -m json.tool "$f" > /dev/null || exit 1; done

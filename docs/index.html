@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Semaphore</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none' stroke='%23000091' stroke-width='1.9' stroke-linejoin='round' stroke-linecap='round'%3E%3Cpath d='M9 9.5 3 7M23 9.5l6-2.5M9 15H2M23 15h7'/%3E%3Crect x='12.5' y='10' width='7' height='5' rx='.6'/%3E%3Cpath d='M11.5 10 16 6l4.5 4z'/%3E%3Cpath d='M13 15 10.5 28h11L19 15'/%3E%3Cpath d='M12 20.5h8'/%3E%3Cpath d='M8 28h16'/%3E%3Ccircle cx='16' cy='12.5' r='1.4' fill='%2523000091' stroke='none'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none' stroke='%231D4ED8' stroke-width='1.9' stroke-linejoin='round' stroke-linecap='round'%3E%3Cpath d='M9 9.5 3 7M23 9.5l6-2.5M9 15H2M23 15h7'/%3E%3Crect x='12.5' y='10' width='7' height='5' rx='.6'/%3E%3Cpath d='M11.5 10 16 6l4.5 4z'/%3E%3Cpath d='M13 15 10.5 28h11L19 15'/%3E%3Cpath d='M12 20.5h8'/%3E%3Cpath d='M8 28h16'/%3E%3Ccircle cx='16' cy='12.5' r='1.4' fill='%251D4ED8' stroke='none'/%3E%3C/svg%3E">
 <meta name="description" content="Situation des risques près de chez vous (toute commune de France) en un coup d'œil et kit d'urgence 72 h recommandé par le gouvernement. Données ouvertes, sources vérifiables.">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://geo.api.gouv.fr https://api.open-meteo.com https://public.opendatasoft.com https://api.vigieau.beta.gouv.fr https://data.economie.gouv.fr https://georisques.gouv.fr; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://dsleo.goatcounter.com; font-src 'self'; connect-src 'self' https://geo.api.gouv.fr https://api.open-meteo.com https://public.opendatasoft.com https://api.vigieau.beta.gouv.fr https://data.economie.gouv.fr https://georisques.gouv.fr https://hubeau.eaufrance.fr https://odre.opendatasoft.com https://opendata.paris.fr; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Semaphore">
@@ -15,7 +15,7 @@
 <meta property="og:url" content="https://dsleo.github.io/semaphore/">
 <meta property="og:image" content="https://dsleo.github.io/semaphore/img/home.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#000091">
+<meta name="theme-color" content="#1D4ED8">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -28,9 +28,12 @@
   </div>
   <div class="wrap"><nav id="nav" class="tabs" aria-label="Navigation"></nav></div>
 </header>
-<main id="view" class="wrap"><p class="muted">…</p></main>
+<main id="view" class="wrap"><p class="muted">…</p>
+<noscript><p><b>Semaphore a besoin de JavaScript / Semaphore needs JavaScript.</b></p>
+<p>Urgence / Emergency : 112 · 15 · 17 · 18. Alertes officielles / Official alerts : <a href="https://vigilance.meteofrance.fr">Météo-France</a> · <a href="https://www.vigicrues.gouv.fr">Vigicrues</a> · <a href="https://www.gouvernement.fr/risques">FR-Alert</a>.</p></noscript></main>
 <footer><div class="wrap" id="foot"></div></footer>
 <script src="local.js"></script>
+<script src="banner.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

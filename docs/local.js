@@ -12,19 +12,22 @@ async function lget(u, ms = 15000) {
     catch (e) { if (i >= 2 || /HTTP 4(?!29)/.test(e.message)) throw e; await new Promise(r => setTimeout(r, 800 * 2 ** i)); }
   }
 }
+const safeUrl = h => /^https?:\/\//.test(h) ? h : "#";  // only web links reach an href
 const lclamp = (x, lo = 0, hi = 1) => Math.max(lo, Math.min(hi, x));
 const linterp = (x, p) => { if (x <= p[0][0]) return p[0][1]; for (let i = 1; i < p.length; i++) if (x <= p[i][0]) return p[i - 1][1] + (p[i][1] - p[i - 1][1]) * (x - p[i - 1][0]) / (p[i][0] - p[i - 1][0]); return p[p.length - 1][1]; };
 const lT = (fr, en) => ({ fr, en });
 
 // ---- scoring (port of semaphore/score.py, same rules, no damping)
-const LCFG = {
-  heat: { impact: 5, domain: "weather", src: ["weather", "vigilance"] },
-  weather: { impact: 2, domain: "weather", src: ["weather", "vigilance"] },
-  fuel: { impact: 3, domain: "fuel", src: ["fuel"], cap: true },
-  flood: { impact: 4, domain: "weather", src: ["vigilance"] },
-  drought: { impact: 2, domain: "weather", src: ["vigieau"] }
-};
-const lLevel = r => [25, 50, 75].filter(t => r >= t).length;
+// Every tunable rule (level thresholds, impact, sources, heat thresholds, source kind/refresh) comes from data/config.json, i.e.
+// semaphore/config.json: change it there, once. Not loaded -> LV is null and everything local is "unknown", never a calm default.
+let LV = null, LCFG = {}, LHEAT = null, LCM = {}, LPCFG = {};
+const LOCAL_HAZARDS = ["heat", "weather", "fuel", "flood", "drought"];  // the hazards this file can compute (which collectors exist here)
+function lConfigure(conf) {
+  LPCFG = Object.fromEntries(["heat", "weather", "power", "fuel", "flood", "drought"].map(h => [h, { impact: conf.hazards[h].impact, domain: conf.hazards[h].domain, cap: !!conf.hazards[h].demand_sensitive }]));  // hazards the Paris live overlay re-scores
+  LV = conf.levels; LHEAT = conf.heat_thr; LCM = conf.meta;
+  LCFG = Object.fromEntries(LOCAL_HAZARDS.map(h => [h, { impact: conf.hazards[h].impact, domain: conf.hazards[h].domain, src: conf.hazards[h].sources.filter(x => x !== "seine"), cap: !!conf.hazards[h].demand_sensitive }]));  // seine: Paris-only sensor
+}
+const lLevel = r => LV ? LV.filter(t => r >= t).length : null;
 function lH(inds) {  // noisy-OR across evidence families, strongest of each family
   const best = {};
   for (const i of inds) if (i.kind !== "context") best[i.fam] = Math.max(best[i.fam] ?? 0, lclamp(i.w * i.s));
@@ -38,7 +41,7 @@ function lScore(cfg, inds) {
   if (cfg.cap && cand === 3 && !inds.some(i => i.official && i.s > 0)) { cand = 2; capped = true; }
   return { level: cand, R: Math.round(R * 10) / 10, H: Math.round(H * 10) / 10, cand, held: null, capped, up: 0, down_since: null };
 }
-const lShown = s => s.level >= 3 || s.R == null ? s.R : Math.min(s.R, [25, 50, 75][s.level] - 0.1);  // port of score.shown_R
+const lShown = s => s.level >= 3 || s.R == null || !LV ? s.R : Math.min(s.R, LV[s.level] - 0.1);  // port of score.shown_R
 function lHeadline(hz) {
   const known = Object.entries(hz).filter(([, s]) => s.level != null);
   if (!known.length) return { level: null, score: null, systemic: false, top: [] };
@@ -48,16 +51,18 @@ function lHeadline(hz) {
 }
 
 // ---- local sources (kind/area/refresh mirror semaphore/sources.py META)
-const LMETA = { weather: ["forecast", "commune", 360, "@hazard"], vigilance: ["official", "dept", 720, "@hazard"], vigieau: ["official", "commune", 1440, "vigieau"], fuel: ["observed", "dept", 30, "fuel"] };
+const LAREA = { weather: "commune", vigilance: "dept", vigicrues: "commune", vigieau: "commune", fuel: "dept", seine: "paris", ecowatt: "france", eco2mix: "france" };  // what each source covers when read for a commune
 function lind(id, hazard, label, value, s, w, source, link, query, rule, o = {}) {
-  const [kind, area, , fam] = LMETA[source];
+  const { kind, fam } = LCM[source], area = o.area || LAREA[source];
   return { id, hazard, label, value, s: Math.round(lclamp(s) * 1000) / 1000, w, source, link, query, sha: "", rule, official: !!o.official, floor: o.floor || 0, fetched: new Date().toISOString(), pub: o.pub || null, kind, area, fam: fam === "@hazard" ? hazard : fam };
 }
-const lHeatThr = c => ["75", "92", "93", "94"].includes(c.dep) ? [31, 21] : [34, 20];  // Paris biometeo criterion; elsewhere an approximate national one (official canicule vigilance has the exact per-département values)
+const lHeatThr = c => LHEAT.urban_deps.includes(c.dep) ? LHEAT.urban : LHEAT.default;  // Paris biometeo criterion; elsewhere an approximate national one (official canicule vigilance has the exact per-département values)
 
 async function lWeather(c) {
   const q = `https://api.open-meteo.com/v1/forecast?latitude=${c.lat}&longitude=${c.lon}&timezone=Europe%2FParis&forecast_days=7&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_gusts_10m_max`;
   const D = (await lget(q)).daily, days = D.time, z = a => a.map(x => x ?? 0);
+  // same rule as sources.forecast_series: a missing value is "unavailable", never a calm 0
+  if (D.temperature_2m_max.includes(null) || D.temperature_2m_min.includes(null) || D.wind_gusts_10m_max.slice(0, 3).includes(null) || D.precipitation_sum.slice(0, 3).includes(null)) throw new Error("forecast has missing values");
   const tx = z(D.temperature_2m_max), tn = z(D.temperature_2m_min), gust = z(D.wind_gusts_10m_max), rain = z(D.precipitation_sum);
   const [X, N] = lHeatThr(c), avg = (a, i) => (a[i] + a[i + 1] + a[i + 2]) / 3;
   let bs = 0, bi = 0;
@@ -109,35 +114,38 @@ async function lVigieau(c) {
     lT("Vigilance 0,15 ; alerte 0,4 ; alerte renforcée 0,7 ; crise 1.", "Watch 0.15; alert 0.4; heightened 0.7; crisis 1."), { official: true })];
 }
 
+const LIDF = ["75", "77", "78", "91", "92", "93", "94", "95"];
 async function lFuel(c) {
   const base = "https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/prix-des-carburants-en-france-flux-instantane-v2/records?";
   const count = w => lget(base + new URLSearchParams({ limit: 0, where: w })).then(d => d.total_count);
-  const since = new Date(Date.now() - 14 * 864e5).toISOString().slice(0, 10), dep = `code_departement="${c.dep}"`;
+  const since = new Date(Date.now() - 14 * 864e5).toISOString().slice(0, 10), idf = c.code === LPARIS, dep = idf ? `(code_departement in (${LIDF.map(d => `"${d}"`).join(",")}))` : `code_departement="${c.dep}"`;
   return Promise.all([["gazole", "Diesel"], ["e10", "SP95-E10"]].map(async ([f, name]) => {
     const wk = `${dep} and ${f}_rupture_type="temporaire" and ${f}_rupture_debut >= date'${since}'`;
     const [n, k] = await Promise.all([count(`${dep} and (${f}_prix is not null or ${f}_rupture_type="temporaire")`), count(wk)]);
-    if (n < 15) throw new Error(`only ${n} stations carry ${name} in ${c.dep}`);
-    const r = k / n, d = c.depNom || c.dep;
+    if (n < (idf ? 30 : 15)) throw new Error(`only ${n} stations carry ${name} in ${idf ? "IdF" : c.dep}`);
+    const r = k / n, d = idf ? "Île-de-France" : c.depNom || c.dep;
     return lind(`fuel.${f}`, "fuel", lT(`Stations ${name} en rupture (${d})`, `${name} stations out of stock (${d})`), `${k} / ${n} stations déclarantes (${(r * 100).toFixed(1)} %)`, linterp(r, [[0.10, 0], [0.15, 0.5], [0.25, 1]]), 0.8, "fuel",
       "https://data.economie.gouv.fr/explore/dataset/prix-des-carburants-en-france-flux-instantane-v2/", base + wk,
-      lT("Normal ≈ 8 %. 15 % = tension (0,5). 25 % = grave (1). Seules les ruptures temporaires déclarées depuis 14 jours comptent. Mesure des ruptures déclarées par les stations du département, pas un recensement.", "Normal ≈ 8 %. 15 % = tension (0.5). 25 % = severe (1). Only temporary stockouts declared in the last 14 days count. Counts stockouts declared by the département's stations, not a census."));
+      lT("Normal ≈ 8 %. 15 % = tension (0,5). 25 % = grave (1). Seules les ruptures temporaires déclarées depuis 14 jours comptent. Mesure des ruptures déclarées par les stations du département, pas un recensement.", "Normal ≈ 8 %. 15 % = tension (0.5). 25 % = severe (1). Only temporary stockouts declared in the last 14 days count. Counts stockouts declared by the département's stations, not a census."), idf ? { area: "idf" } : {});
   }));
 }
 
 // ---- build a state.json-shaped object for a commune: local hazards live, national ones from state.json
 async function lBuild(c, N) {
-  const run = [["weather", lWeather], ["vigilance", lVigilance], ["vigieau", lVigieau], ["fuel", lFuel]];
+  if (!LV) throw new Error("rules not loaded");  // no config: the page shows its error state, never made-up levels
+  const run = [["weather", lWeather], ["vigilance", lVigilance], ["vigieau", lVigieau], ["fuel", lFuel], ["vigicrues", lVigicrues]];
   const res = await Promise.allSettled(run.map(([, f]) => f(c))), now = new Date().toISOString(), ok = {}, inds = [], sources = {};
   run.forEach(([id], k) => {
     const r = res[k]; ok[id] = r.status === "fulfilled"; if (ok[id]) inds.push(...r.value);
-    sources[id] = { ...N.sources[id], ok: ok[id], err: ok[id] ? null : String(r.reason).slice(0, 160), n: ok[id] ? r.value.length : 0, last_ok: ok[id] ? now : null, status: ok[id] ? "current" : "down", area: LMETA[id][1], kind: LMETA[id][0], every: LMETA[id][2] };
+    sources[id] = { ...N.sources[id], ok: ok[id], err: ok[id] ? null : String(r.reason).slice(0, 160), n: ok[id] ? r.value.length : 0, last_ok: ok[id] ? now : null, status: ok[id] ? "current" : "down", area: LAREA[id], kind: LCM[id].kind, every: LCM[id].every };
   });
   const NAT = ["weather", "vigilance", "vigieau", "fuel", "seine", "vigicrues", "traffic"];
   for (const [id, s] of Object.entries(N.sources)) if (!NAT.includes(id)) sources[id] = s;
   const hazards = {};
   for (const hid of Object.keys(N.hazards)) {
     const cfg = LCFG[hid];
-    if (!cfg) { hazards[hid] = N.hazards[hid]; continue; }
+    if (!LOCAL_HAZARDS.includes(hid)) { hazards[hid] = N.hazards[hid]; continue; }
+    if (!cfg) { hazards[hid] = { level: null, R: null, H: null, cand: null, held: null, up: 0, down_since: null, domain: N.hazards[hid].domain, missing: ["config"], indicators: [] }; continue; }
     const hi = inds.filter(i => i.hazard === hid), st = lScore(cfg, hi);
     hazards[hid] = { ...st, domain: cfg.domain, missing: cfg.src.filter(s => !ok[s]), indicators: hi.sort((a, b) => b.s * b.w - a.s * a.w) };
   }
@@ -150,6 +158,94 @@ async function lBuild(c, N) {
     coverage: { ok: st.filter(s => s.status === "current").length, late: st.filter(s => s.status === "late").length, down: st.filter(s => s.status === "down").length, total: st.length },
     alerts, headline: lHeadline(hazards), hazards, trends, sources,
     context: { ...(N.context || {}), traffic: undefined, news: news && { ...news, items: news.items.filter(i => i.scope !== "paris") } }
+  };
+}
+// Vigicrues (official flood vigilance): the 2 MB feed has no CORS headers, so the Action thins it into data/vigicrues.json (river sections
+// above green, with a polyline). A commune counts as concerned when a vertex of such a section is within 5 km. Green = nothing within 5 km
+// (this cannot tell "no river" from "river at green"); a file older than 12 h is "unavailable", never green.
+async function lVigicrues(c) {
+  const V = await lget(`data/vigicrues.json?t=${Math.floor(Date.now() / 3e5)}`, 20000);
+  if ((Date.now() - new Date(V.generated)) / 36e5 > 12) throw new Error("Vigicrues file older than 12 h");
+  const near = V.items.map(i => ({ ...i, km: Math.min(...i.p.map(([lo, la]) => lkm(c.lat, c.lon, la, lo))) })).filter(i => i.km <= 5).sort((a, b) => b.l - a.l || a.km - b.km);
+  const k = near.length ? near[0].l : 1, hot = k > 1;
+  const names = near.filter(i => i.l > 1).map(i => i.n).slice(0, 3).join(", ");
+  return [lind("flood.vigicrues", "flood", lT("Vigilance crues Vigicrues (cours d'eau à moins de 5 km)", "Vigicrues flood vigilance (rivers within 5 km)"),
+    hot ? lT(`${LCOL[k][0]} · ${names}`, `${LCOL[k][1]} · ${names}`) : lT("vert (aucun tronçon en vigilance à moins de 5 km)", "green (no section under watch within 5 km)"),
+    { 1: 0, 2: 0.25, 3: 0.6, 4: 1 }[k], 1.0, "vigicrues", V.link || "https://www.vigicrues.gouv.fr/", "data/vigicrues.json",
+    lT("Vert 0 ; jaune 0,25 ; orange 0,6 (plancher « Préparez-vous ») ; rouge 1 (plancher « Agissez »). Vigilance officielle du service de prévision des crues, tronçons à moins de 5 km ; mise à jour avec les données du site.", "Green 0; yellow 0.25; orange 0.6 (floor “Prepare”); red 1 (floor “Act”). Official flood-forecasting service vigilance, sections within 5 km; refreshed with the site's data run."),
+    { official: true, floor: { 3: 50, 4: 80 }[k] || 0, pub: V.pub })];
+}
+// ---- Paris: the server-built state.json is the base (damping, trends, history, press, cyber...). Every source a browser can read (all
+// CORS-open: Open-Meteo, Météo-France vigilance, VigiEau, Hub'Eau, Ecowatt and eco2mix on ODRE, fuel) is re-read live, and the hazards it
+// feeds are re-scored with the same rules, without damping (like every other commune). A live source that fails keeps its server value.
+// Not readable from a browser (no CORS headers): press RSS, CERT-FR, CISA KEV, RansomLook, NOAA ONI (Vigicrues goes through data/vigicrues.json). They stay server-side.
+const LODRE = "https://odre.opendatasoft.com/api/explore/v2.1/catalog/datasets/";
+async function lSeine() {
+  const q = "https://hubeau.eaufrance.fr/api/v2/hydrometrie/observations_tr?code_entite=F700000103&grandeur_hydro=H&size=100&sort=desc&fields=date_obs,resultat_obs";
+  const rows = (await lget(q)).data;
+  if (!rows.length) throw new Error("no Seine reading");
+  const t0 = new Date(rows[0].date_obs), last = rows[rows.length - 1];
+  if ((Date.now() - t0) / 36e5 > 3) throw new Error("latest Seine reading older than 3 h");
+  const lvl = rows[0].resultat_obs / 1000, hours = (t0 - new Date(last.date_obs)) / 36e5, rise = hours >= 6 ? (lvl - last.resultat_obs / 1000) / hours * 24 : 0;
+  const s = Math.max(linterp(lvl, [[3, 0], [4, 0.4], [5, 0.8], [6, 1]]), linterp(rise, [[0.3, 0], [0.8, 0.4], [1.5, 0.8]]));
+  return [lind("flood.seine", "flood", lT("Seine à Paris-Austerlitz", "Seine at Paris-Austerlitz"), `${lvl.toFixed(2)} m · ${rise >= 0 ? "+" : ""}${rise.toFixed(2)} m/jour`, s, 0.6, "seine", "https://www.vigicrues.gouv.fr", q,
+    lT("Niveau 3 m = 0 ; 4 m = 0,4 ; 5 m = 0,8 ; 6 m = 1 (repères de crues 2016/2018 : ≈ 6 m). Montée > 0,3 m/jour compte. Seuils à confirmer avec Vigicrues.", "Level 3 m = 0; 4 m = 0.4; 5 m = 0.8; 6 m = 1 (2016/2018 floods ≈ 6 m). Rise > 0.3 m/day counts. Thresholds to confirm with Vigicrues."), { pub: rows[0].date_obs })];
+}
+async function lEcowatt() {
+  const q = LODRE + "nouveau_signal_ecowatt/records?" + new URLSearchParams({ limit: 3, order_by: "date desc" });
+  const r = (await lget(q)).results[0], age = Math.floor((Date.now() - new Date(r.date + "T00:00:00Z")) / 864e5);
+  if (age > 3) throw new Error(`latest Ecowatt row is ${age} days old`);
+  const c = +r.couleur_du_jour, nm = { 1: ["vert", "green"], 2: ["orange", "orange"], 3: ["rouge", "red"] }[c] || ["vert", "green"];
+  return [lind("power.ecowatt", "power", lT("Signal Ecowatt (RTE)", "Ecowatt signal (RTE)"), lT(`${nm[0]} (${r.date})`, `${nm[1]} (${r.date})`), { 1: 0, 2: 0.6, 3: 1 }[c] || 0, 1.0, "ecowatt", "https://www.monecowatt.fr", q,
+    lT("Vert = 0. Orange = tension (plancher « Préparez-vous »). Rouge = coupures possibles (plancher « Agissez »).", "Green = 0. Orange = tension (floor “Prepare”). Red = outages possible (floor “Act”)."), { official: true, floor: { 2: 50, 3: 80 }[c] || 0, pub: r.date })];
+}
+async function lEco2mix() {
+  const q = LODRE + "eco2mix-national-tr/records?" + new URLSearchParams({ limit: 1, where: "consommation is not null", order_by: "date_heure desc", select: "date_heure,consommation,prevision_j" });
+  const r = (await lget(q)).results[0], age = (Date.now() - new Date(r.date_heure)) / 6e4;
+  if (age > 90) throw new Error(`latest eco2mix point is ${Math.round(age)} min old`);
+  const ratio = r.consommation / r.prevision_j;
+  return [lind("power.load", "power", lT("Consommation nationale vs prévision", "National load vs forecast"), `${r.consommation} / ${r.prevision_j} MW (${Math.round(ratio * 100)} %)`, linterp(Math.abs(ratio - 1), [[0.06, 0], [0.12, 0.5], [0.20, 1]]), 0.8, "eco2mix", "https://www.rte-france.com/eco2mix", q,
+    lT("Écart > 6 % entre consommation réelle et prévue : anomalie ; > 20 % : effondrement ou pic extrême.", "Gap > 6 % between actual and forecast load = anomaly; > 20 % = collapse or extreme peak."), { pub: r.date_heure })];
+}
+// Paris works and events (Ville de Paris open data, CORS-open): same filtering as sources.traffic() on the server. Listed, never scored.
+async function lTraffic() {
+  const base = "https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/circulation_evenement/records?", t = new Date(), rows = [];
+  for (const offset of [0, 100, 200]) {  // dates are text in this dataset, so filter here, not in the query
+    const d = await lget(base + new URLSearchParams({ limit: 100, offset, select: "description,street,type,starttime,endtime" }));
+    rows.push(...d.results); if (rows.length >= d.total_count) break;
+  }
+  const act = new Map();
+  for (const r of rows) {
+    const a = new Date(r.starttime), b = new Date(r.endtime);
+    if (isNaN(a) || isNaN(b) || !(a <= t && t <= b)) continue;
+    const x = { street: (r.street || "").replace(/_/g, " "), what: (r.description || "").replace(/_/g, " "), closed: r.type === "ROAD_CLOSED", until: b.toISOString().slice(0, 19) + "Z" };
+    act.set(x.street + "\u0000" + x.what, x);  // same works listed once per direction
+  }
+  const items = [...act.values()].sort((x, y) => (y.closed - x.closed) || x.until.localeCompare(y.until));
+  return { n: items.length, closed: items.filter(x => x.closed).length, items: items.slice(0, 30), fetched: t.toISOString(), link: "https://opendata.paris.fr/explore/dataset/circulation_evenement/", sha: "" };
+}
+async function lBuildParis(c, N) {
+  const run = [["weather", lWeather], ["vigilance", lVigilance], ["vigieau", lVigieau], ["fuel", lFuel], ["vigicrues", lVigicrues], ["seine", lSeine], ["ecowatt", lEcowatt], ["eco2mix", lEco2mix]];
+  const [res, traffic] = await Promise.all([Promise.allSettled(run.map(([, f]) => f(c))), lTraffic().catch(() => null)]), now = new Date().toISOString(), ok = {}, inds = [], sources = { ...N.sources };
+  if (traffic) sources.traffic = { ...N.sources.traffic, ok: true, err: null, n: traffic.n, last_ok: now, status: "current" };
+  run.forEach(([id], k) => {
+    const r = res[k]; ok[id] = r.status === "fulfilled"; if (!ok[id]) return;
+    inds.push(...r.value);
+    sources[id] = { ...N.sources[id], ok: true, err: null, n: r.value.length, last_ok: now, status: "current" };
+  });
+  const hazards = { ...N.hazards };
+  for (const [hid, cfg] of Object.entries(LPCFG)) {
+    const live = inds.filter(i => i.hazard === hid);
+    if (!live.length) continue;  // nothing live for this hazard: keep the server state (with its damping)
+    const hi = [...((N.hazards[hid] && N.hazards[hid].indicators) || []).filter(i => !ok[i.source]), ...live];
+    hazards[hid] = { ...lScore(cfg, hi), domain: cfg.domain, missing: ((N.hazards[hid] && N.hazards[hid].missing) || []).filter(s => !ok[s]), indicators: hi.sort((a, b) => b.s * b.w - a.s * a.w) };
+  }
+  const alerts = [...inds.filter(i => i.official && i.s > 0), ...(N.alerts || []).filter(a => !ok[a.source])]
+    .map(i => ({ id: i.id, label: i.label, value: i.value, s: i.s, floor: i.floor, source: i.source, link: i.link, area: i.area, pub: i.pub, fetched: i.fetched })).sort((a, b) => b.s - a.s);
+  const st = Object.values(sources);
+  return {
+    ...N, paris: true, commune: c, live: now, context: traffic ? { ...N.context, traffic } : N.context, alerts, headline: lHeadline(hazards), hazards, sources,
+    coverage: { ok: st.filter(s => s.status === "current").length, late: st.filter(s => s.status === "late").length, down: st.filter(s => s.status === "down").length, total: st.length }
   };
 }
 const lResolve = code => lget(`${LGEO}/communes/${encodeURIComponent(code)}?${LF}`).then(lNorm);
@@ -173,7 +269,7 @@ const LU = {
   fr: { h: "Quels risques près de chez vous ?", lede: "Choisissez votre commune : Semaphore affiche la vigilance météo, l'eau, le carburant, l'électricité, les routes, les transports et le numérique, avec des sources vérifiables.", lab: "Votre commune ou code postal", ph: "Ex. Lyon ou 33000", here: "Ma position", resume: n => `Reprendre : ${n}`, none: "Aucune commune trouvée.", loc: "Position introuvable.", load: "Chargement de la commune…", fail: "Impossible de charger cette commune.",
     cap: "Carte de la France métropolitaine par département", lay: "Risque affiché", layAll: "Tous", layMore: n => `Afficher ${n} autres risques`, layLess: "Moins de risques", riskOn: "Voir la carte des risques", riskTitle: "Carte des risques", back: "← Retour", sumNone: "aucun département concerné pour le moment (tous au niveau le plus bas)", unk: "Données indisponibles", noRisk: "Aucun risque notable", lvlBar: "Échelle de niveau", main: n => `Villes principales : ${n}`, close: "Fermer", noMap: "Carte indisponible.", dom: "Les départements d'outre-mer sont disponibles via la recherche de commune.",
     sNews: "Actualité locale surveillée", newsNote: "Titres de la presse régionale et locale (France 3 régions, ici, quotidiens régionaux), repérés par mot-clé de crise dans les 36 dernières heures, tels que publiés. Non vérifiés par nous, sans effet sur les niveaux.", newsNone: "Aucun titre de crise concernant votre commune ou votre région ces dernières 36 h.", scope: { commune: "Votre commune", dept: "Votre département", region: "Votre région" }, trigger: "mot repéré",
-    sLocal: "Perturbations autour de vous", roadsT: "Routes", roadsNone: "Aucun événement sur le réseau routier national à moins de 25 km.", roadsNote: "Bison Futé : réseau routier national non concédé (nationales). Les autoroutes concédées et les routes départementales ne sont pas toutes couvertes.", km: "à", closed: "route coupée",
+    sLocal: "Perturbations autour de vous", riversT: "Cours d'eau", cote: "cote", in24h: "en 24 h", riversNone: "Aucune station de mesure de cours d'eau en service à moins de 10 km.", riversNote: "Relevés bruts des stations Hub'Eau, sans seuil officiel : ils ne disent pas si un niveau est dangereux. Chaque station a sa propre référence : seule la variation est comparable. La vigilance Vigicrues, évaluée à part, fait foi.", roadsT: "Routes", roadsNone: "Aucun événement sur le réseau routier national à moins de 25 km.", roadsNote: "Bison Futé : réseau routier national non concédé (nationales). Les autoroutes concédées et les routes départementales ne sont pas toutes couvertes.", km: "à", closed: "route coupée",
     transitT: "Transports en commun", transitNone: n => `Aucune alerte en cours sur : ${n}.`, transitNo: "Aucun réseau de votre commune n'est suivi automatiquement : consultez le site de votre opérateur.", transitNote: "Alertes temps réel publiées par les réseaux sur transport.data.gouv.fr. Un réseau absent n'est pas « sans perturbation » : il n'est simplement pas lu.", transitNat: "Alertes SNCF citant votre commune",
     eff: { no_service: "service interrompu", reduced: "service réduit", delays: "retards importants", detour: "déviation", modified: "service modifié", stop_moved: "arrêt déplacé" },
     kind: { Accident: "Accident", AbnormalTraffic: "Circulation dense", VehicleObstruction: "Véhicule ou obstacle", RoadOrCarriagewayOrLaneManagement: "Restriction de circulation", GeneralObstruction: "Obstacle sur la route", WeatherRelatedRoadConditions: "Conditions météo", EnvironmentalObstruction: "Obstacle naturel", InfrastructureDamageObstruction: "Chaussée endommagée", AnimalPresenceObstruction: "Animaux sur la route", GeneralNetworkManagement: "Gestion du réseau" },
@@ -181,7 +277,7 @@ const LU = {
   en: { h: "What risks are near you?", lede: "Pick your commune: Semaphore shows weather vigilance, water, fuel, power, roads, transit and digital risks, with verifiable sources.", lab: "Your commune or postcode", ph: "E.g. Lyon or 33000", here: "My location", resume: n => `Resume: ${n}`, none: "No commune found.", loc: "Location not found.", load: "Loading the commune…", fail: "Could not load this commune.",
     cap: "Map of metropolitan France by département", lay: "Risk shown", layAll: "All", layMore: n => `Show ${n} more risks`, layLess: "Fewer risks", riskOn: "See the risk map", riskTitle: "Risk map", back: "← Back", sumNone: "no département affected right now (all at the lowest level)", unk: "Data unavailable", noRisk: "No notable risk", lvlBar: "Level scale", main: n => `Main towns: ${n}`, close: "Close", noMap: "Map unavailable.", dom: "Overseas départements are available through the commune search.",
     sNews: "Local news monitored", newsNote: "Headlines from regional and local press (France 3 regions, ici, regional dailies), picked up by crisis keyword in the last 36 hours, as published. Not verified by us, no effect on levels.", newsNone: "No crisis headline about your commune or region in the last 36 h.", scope: { commune: "Your commune", dept: "Your département", region: "Your region" }, trigger: "trigger word",
-    sLocal: "Disruptions around you", roadsT: "Roads", roadsNone: "No event on the national road network within 25 km.", roadsNote: "Bison Futé: the non-conceded national road network. Conceded motorways and departmental roads are not all covered.", km: "at", closed: "road closed",
+    sLocal: "Disruptions around you", riversT: "Rivers", cote: "reading", in24h: "in 24 h", riversNone: "No river gauge in service within 10 km.", riversNote: "Raw Hub'Eau gauge readings, with no official threshold: they do not tell whether a level is dangerous. Each station has its own reference: only the change is comparable. The Vigicrues vigilance, scored separately, prevails.", roadsT: "Roads", roadsNone: "No event on the national road network within 25 km.", roadsNote: "Bison Futé: the non-conceded national road network. Conceded motorways and departmental roads are not all covered.", km: "at", closed: "road closed",
     transitT: "Public transport", transitNone: n => `No current alert on: ${n}.`, transitNo: "No network serving your commune is read automatically: check your operator's site.", transitNote: "Real-time alerts published by networks on transport.data.gouv.fr. A missing network is not “no disruption”: it is simply not read.", transitNat: "SNCF alerts naming your commune",
     eff: { no_service: "no service", reduced: "reduced service", delays: "major delays", detour: "detour", modified: "modified service", stop_moved: "stop moved" },
     kind: { Accident: "Accident", AbnormalTraffic: "Heavy traffic", VehicleObstruction: "Vehicle or obstacle", RoadOrCarriagewayOrLaneManagement: "Traffic restriction", GeneralObstruction: "Obstacle on the road", WeatherRelatedRoadConditions: "Weather conditions", EnvironmentalObstruction: "Natural obstacle", InfrastructureDamageObstruction: "Damaged road", AnimalPresenceObstruction: "Animals on the road", GeneralNetworkManagement: "Network management" },
@@ -316,9 +412,23 @@ const lkm = (a, b, c, d) => { const r = x => x * Math.PI / 180, h = Math.sin(r(c
 const lsrc = (name, link, kind, area, every, lic, ok, err, at) => ({ name, link, ok, err: err || null, n: 0, last_ok: ok ? at : null, status: ok ? "current" : "down", every, kind, area, lic });
 // "Rhône" must not match "Bouches-du-Rhône", "Loire" not "Haute-Loire" / "Loire-Atlantique"
 const ldep = (t, dn) => { const i = t.indexOf(dn); if (i < 0) return false; const b = t.slice(0, i).trim().split(" ").pop(), a = t.slice(i + dn.length).trim().split(" ")[0]; return !["du", "de", "et", "haute", "hautes", "haut", "bas", "basse", "la"].includes(b) && !["atlantique", "maritime", "maritimes", "orientales", "et"].includes(a); };
+// River gauges near the commune (Hub'Eau, CORS-open): raw level and 24 h change of up to 4 stations within 10 km. Shown, never scored:
+// there is no generic flood threshold for an arbitrary river (the official one is Vigicrues, scored apart).
+async function lRivers(c) {
+  const h = p => lget(`https://hubeau.eaufrance.fr/api/v2/hydrometrie/${p}`, 20000), geo = `latitude=${c.lat}&longitude=${c.lon}&distance=10`;
+  const since = new Date(Date.now() - 24 * 36e5).toISOString().slice(0, 19) + "Z";
+  const [st, ob] = await Promise.all([h(`referentiel/stations?${geo}&en_service=1&size=50`), h(`observations_tr?${geo}&grandeur_hydro=H&date_debut_obs=${since}&size=1000&sort=desc&fields=code_station,date_obs,resultat_obs`)]);
+  const by = {};
+  for (const r of ob.data) (by[r.code_station] = by[r.code_station] || []).push(r);  // newest first
+  return st.data.filter(s => by[s.code_station] && s.latitude_station != null).map(s => {
+    const rows = by[s.code_station], last = rows[0], first = rows[rows.length - 1], span = (new Date(last.date_obs) - new Date(first.date_obs)) / 36e5;
+    return { name: s.libelle_station, river: s.libelle_cours_eau || "", km: lkm(c.lat, c.lon, s.latitude_station, s.longitude_station), at: last.date_obs, lvl: last.resultat_obs / 1000,
+      d24: span >= 12 ? (last.resultat_obs - first.resultat_obs) / 1000 : null, fresh: (Date.now() - new Date(last.date_obs)) / 36e5 <= 3 };
+  }).filter(x => x.fresh).sort((a, b) => a.km - b.km).filter((x, i, all) => !all.slice(0, i).some(y => y.river === x.river && Math.abs(y.km - x.km) < 0.3)).slice(0, 4);  // one line per site (several gauges share a spot)
+}
 async function lLocal(c) {
   const g = p => lget(`https://georisques.gouv.fr/api/v1/${p}`), j = f => lget(`data/${f}?t=${Math.floor(Date.now() / 3e5)}`, 20000);
-  const [nw, rd, tr, gr, sz, cn] = await Promise.allSettled([j("news-local.json"), j("roads.json"), j("transit.json"), g(`gaspar/risques?code_insee=${c.code}`), g(`zonage_sismique?code_insee=${c.code}`), g(`gaspar/catnat?code_insee=${c.code}&page_size=1`)]);
+  const [nw, rd, tr, gr, sz, cn, rv] = await Promise.allSettled([j("news-local.json"), j("roads.json"), j("transit.json"), g(`gaspar/risques?code_insee=${c.code}`), g(`zonage_sismique?code_insee=${c.code}`), g(`gaspar/catnat?code_insee=${c.code}&page_size=1`), lRivers(c)]);
   const L = { sources: {} }, now = new Date().toISOString(), val = r => r.status === "fulfilled" ? r.value : null;
   const nm = lnorm(c.nom), dn = lnorm(c.depNom);
   const N = val(nw);
@@ -343,13 +453,15 @@ async function lLocal(c) {
     const by = {}; for (const r of G.data[0].risques_detail) { const k = r.num_risque.slice(0, 2); (by[k] = by[k] || { label: null, sub: [] }); r.num_risque.length === 2 ? by[k].label = r.libelle_risque_long : by[k].sub.push(r.libelle_risque_long.replace(/^Par /, "par ")); }
     L.geo = { risks: Object.values(by).filter(x => x.label), seismic: val(sz)?.data?.[0]?.zone_sismicite || null, catnat: val(cn)?.results ?? null };
   } else if (G) L.geo = { risks: [], seismic: val(sz)?.data?.[0]?.zone_sismicite || null, catnat: val(cn)?.results ?? null };
+  L.rivers = val(rv);
+  L.sources.rivers = lsrc("River gauges (Hub'Eau)", "https://hubeau.eaufrance.fr/", "observed", "commune", 60, "Licence Ouverte 2.0", !!L.rivers, rv.reason, now);
   L.sources.georisques = lsrc("Natural and technological risks (Géorisques)", "https://georisques.gouv.fr", "official", "commune", 43200, "Licence Ouverte 2.0", !!G, gr.reason, now);
   return L;
 }
 function lNewsBlock() {
   const t = lu(), n = S.loc && S.loc.news;
   if (!n) return "";
-  const items = n.length ? `<ul class="links">${n.map(i => `<li><span class="muted">${esc(tx(S.loc.newsMeta.themes[i.th]))} · ${esc(t.scope[i.scope])}</span><br><a href="${esc(i.l)}" target="_blank" rel="noopener">${esc(i.t)}</a><br><span class="muted">${esc(i.s)} · ${fmt(i.p)} · ${t.trigger} : « ${esc(i.kw)} »</span></li>`).join("")}</ul>` : `<p>${t.newsNone}</p>`;
+  const items = n.length ? `<ul class="links">${n.map(i => `<li><span class="muted">${esc(tx(S.loc.newsMeta.themes[i.th]))} · ${esc(t.scope[i.scope])}</span><br><a href="${esc(safeUrl(i.l))}" target="_blank" rel="noopener">${esc(i.t)}</a><br><span class="muted">${esc(i.s)} · ${fmt(i.p)} · ${t.trigger} : « ${esc(i.kw)} »</span></li>`).join("")}</ul>` : `<p>${t.newsNone}</p>`;
   return col(`${t.sNews} (${n.length})`, `<p class="muted">${t.newsNote}</p>${items}`);
 }
 const lsub = (k, title, body) => `<details class="sub" data-k="sub-${k}" ${OP.has("sub-" + k) ? "open" : ""}><summary>${title}</summary><div class="in">${body}</div></details>`;
@@ -357,6 +469,7 @@ function lLocalBlock() {
   const t = lu(), L = S.loc; if (!L) return "";
   const parts = [];
   if (L.roads) parts.push(lsub("roads", t.roadsT, `${L.roads.length ? `<ul class="meas">${L.roads.map(i => `<li><b>${esc(i.road || i.town || "")}</b>${i.x ? ` <span class="badge b1">${t.closed}</span>` : ""} <span class="muted">· ${esc(t.kind[i.k] || i.k)} · ${t.km} ${Math.round(i.km)} km${i.town ? " · " + esc(i.town) : ""}</span><br><span class="muted">${esc(i.t)}</span></li>`).join("")}</ul>` : `<p>${t.roadsNone}</p>`}<p class="muted">${t.roadsNote}</p>`));
+  if (L.rivers) parts.push(lsub("rivers", t.riversT, `${L.rivers.length ? `<ul class="meas">${L.rivers.map(r => `<li><b>${esc(r.river || r.name)}</b> <span class="muted">· ${esc(r.name)} · ${t.km} ${Math.round(r.km)} km</span><br>${t.cote} ${r.lvl.toFixed(2)} m${r.d24 == null ? "" : ` <span class="muted">· ${r.d24 >= 0 ? "+" : "−"}${Math.abs(r.d24).toFixed(2)} m ${t.in24h}</span>`} <span class="muted">· ${fmt(r.at)}</span></li>`).join("")}</ul>` : `<p>${t.riversNone}</p>`}<p class="muted">${t.riversNote}</p>`));
   if (S.paris) parts.push(lsub("works", u().trafficT, trafficBody()));
   if (L.transit) {
     const tn = L.transit, body = tn.nets.map(n => `<li><b>${link(n.name, n.link)}</b> <span class="muted">(${n.n})</span><ul class="plainl">${n.alerts.map(a => `<li>${a.e ? `<span class="badge b1">${esc(t.eff[a.e])}</span> ` : ""}${esc(a.t)}</li>`).join("")}</ul></li>`).join("");
@@ -372,4 +485,4 @@ function lGeoBlock() {
     <p class="muted">${t.geoNote}</p><p>${link(t.geoLink, "https://www.georisques.gouv.fr/")}</p>`;
   return col(t.geoT, body);
 }
-if (typeof module !== "undefined") module.exports = { lShown, lScore, lH, lHeadline, lLevel, linterp };
+if (typeof module !== "undefined") module.exports = { lRivers, lConfigure, lVigicrues, lBuildParis, lHeatThr, safeUrl, lShown, lScore, lH, lHeadline, lLevel, linterp };

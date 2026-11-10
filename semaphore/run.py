@@ -16,6 +16,13 @@ def load(path, default):
         return default
 
 
+def browser_config(cfg):
+    """The rules docs/local.js scores with, so a rule change is made once, in config.json. Same file the Python side reads."""
+    return {"levels": cfg["levels"], "heat_thr": cfg["heat_thr"],
+            "hazards": {h: {k: c[k] for k in ("domain", "impact", "sources") } | ({"demand_sensitive": True} if c.get("demand_sensitive") else {}) for h, c in cfg["hazards"].items()},
+            "meta": {s: {k: m[k] for k in ("kind", "every", "fam")} for s, m in sources.META.items()}}
+
+
 def collect():
     def one(s):
         sid, _, _, fn = s
@@ -37,6 +44,7 @@ def main(out="docs/data"):
     prev = load(out / "state.json", {})
     hist = load(out / "history.json", [])
     t = sources.now()
+    (out / "config.json").write_text(json.dumps(browser_config(cfg), ensure_ascii=False, separators=(",", ":")))
     res = collect()
 
     srcs, ctx = {}, {}

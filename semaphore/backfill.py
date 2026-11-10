@@ -3,7 +3,7 @@ Reconstructed days are marked src="recon" and never overwrite a live reading. Ho
  - fuel: the feed only holds stations *currently* in stockout, so past ratios are lower bounds;
  - weather: uses observed values (the live collector uses forecasts);
  - cyber is not backfilled: CISA KEV is context only, not a score input;
- - no archive exists for VigiEau, IODA, RansomLook or our probes: those days stay empty ("no data").
+ - no archive exists for VigiEau, IODA or RansomLook: those days stay empty ("no data").
 Weights come from the latest live state.json so thresholds and weights are never duplicated."""
 import json
 import sys

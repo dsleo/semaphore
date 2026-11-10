@@ -22,6 +22,12 @@ DETAIL = ("air", "pollen", "wildfire", "health", "nuclear")  # indicators kept i
 MIN_GAP = timedelta(minutes=50)  # Open-Meteo is rate limited (96 points per run): recompute at most hourly
 
 
+def paris_day():
+    """Atmo publishes one index per Paris-time day; the runner's clock is UTC, which is still "yesterday" until 01-02 h."""
+    from .memory import day_of
+    return day_of(now())
+
+
 def dep_of(code):
     """INSEE commune code -> département code."""
     return code[:3] if code[:2] == "97" else code[:2]  # Corsica keeps '2A'/'2B'; DOM not mapped
@@ -42,9 +48,11 @@ def weather():
     link, out = "https://open-meteo.com/", {}
     for k, d in zip(ks, rows):
         D = d["daily"]
-        z = lambda a: [x or 0 for x in a]
-        tx, tn, gust, rain = z(D["temperature_2m_max"]), z(D["temperature_2m_min"]), z(D["wind_gusts_10m_max"]), z(D["precipitation_sum"])
-        X, N = (31, 21) if k in ("75", "92", "93", "94") else (34, 20)
+        try:
+            tx, tn, gust, rain = S.forecast_series(D)
+        except RuntimeError:
+            continue  # missing values for this point: that département stays unknown for weather
+        X, N = S.heat_thr(k)
         bs = max(clamp(min((sum(tx[i:i + 3]) / 3 - (X - 4)) / 4, (sum(tn[i:i + 3]) / 3 - (N - 4)) / 4)) for i in range(len(tx) - 2))
         mk = lambda id, hz, fr, en, v, s, rf, re_: ind(id, hz, T(fr, en), v, s, 0.7, "weather", link, q, h, T(rf, re_), area="dept")
         out[k] = [
@@ -157,7 +165,7 @@ def _per_dep(best, level):
 
 
 def air():
-    day = now().astimezone().strftime("%Y-%m-%d")
+    day = paris_day()
     best, q, h = _atmo("ind", "ind_atmo", day)
     if len(best) < 5000:
         raise RuntimeError(f"only {len(best)} communes in the Atmo air index for {day}")
@@ -198,7 +206,7 @@ def _air_atmo(best, q, h, lab, lae):
 
 
 def pollen():
-    day = now().astimezone().strftime("%Y-%m-%d")
+    day = paris_day()
     best, q, h = _atmo("ind_pol", "ind_pol", day)
     if len(best) < 5000:
         raise RuntimeError(f"only {len(best)} communes in the Atmo pollen index for {day}")
@@ -248,7 +256,7 @@ def wildfire():
 def urllib_get_bytes(url):
     import urllib.request
     with urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": S.UA}), timeout=40) as r:
-        return r.read()
+        return r.read(S.MAX_BYTES)
 
 
 # ---------------------------------------------------------------- health: Santé publique France epidemic alert level per région (flu, bronchiolitis)
@@ -289,11 +297,10 @@ def _norm(t):
 
 
 def nuclear():
-    import xml.etree.ElementTree as ET
     from email.utils import parsedate_to_datetime
     txt, h = get(ASNR_RSS)
     items = []
-    for it in ET.fromstring(txt.encode()).iter("item"):
+    for it in S.parse_xml(txt).iter("item"):
         d = parsedate_to_datetime(it.findtext("pubDate"))
         if now() - d <= timedelta(days=30):
             items.append({"t": it.findtext("title") or "", "l": it.findtext("link") or "", "d": d, "x": _norm((it.findtext("title") or "") + " " + (it.findtext("description") or ""))})

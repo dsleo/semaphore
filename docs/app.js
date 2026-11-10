@@ -5,7 +5,7 @@ const UI = {
     tToday: "Aujourd'hui", tPrep: "Se préparer", tTrend: "Tendances", tMore: "Détails",
     ok: "Aucune alerte prioritaire détectée", lede0: () => `Rien à signaler dans les sources que nous surveillons. Ce n'est pas un feu vert : suivez toujours les alertes officielles.`, calm: n => `${n} jours calmes d'affilée.`,
     ledeN: n => n === 1 ? "Un point demande votre attention aujourd'hui." : `${n} points demandent votre attention aujourd'hui.`,
-    unknown: "Statut inconnu", staleMsg: m => `Les dernières données datent d'il y a ${m}. Ne vous fiez pas à une ancienne absence d'alerte.`,
+    unknown: "Statut inconnu",
     updated: m => `Mis à jour il y a ${m}`, err: "Impossible de charger les données.",
     risks: "Risques surveillés", tapRisk: "Touchez un risque pour voir le détail.", score: "Score",
     todo: min => min ? `À faire (environ ${min} min)` : "À faire", dont: "À éviter", why: "Pourquoi, sources et références", refs: "Références officielles",
@@ -48,7 +48,7 @@ const UI = {
     tToday: "Today", tPrep: "Get ready", tTrend: "Trends", tMore: "Details",
     ok: "No priority alert detected", lede0: () => `Nothing to report in the sources we monitor. This is not an all-clear: always follow official alerts.`, calm: n => `${n} calm days in a row.`,
     ledeN: n => n === 1 ? "One thing needs your attention today." : `${n} things need your attention today.`,
-    unknown: "Status unknown", staleMsg: m => `The latest data is ${m} old. Do not rely on an earlier “no alert”.`,
+    unknown: "Status unknown",
     updated: m => `Updated ${m} ago`, err: "Could not load data.",
     risks: "Monitored risks", tapRisk: "Tap a risk to see details.", score: "Score",
     todo: min => min ? `What to do (about ${min} min)` : "What to do", dont: "What to avoid", why: "Why, sources and references", refs: "Official references",
@@ -175,10 +175,9 @@ function trafficBody() {
 }
 const why = id => { const i = S.hazards[id].indicators.filter(x => x.kind !== "context").sort((a, b) => b.s - a.s)[0]; return i ? `${tx(i.label)} : ${tx(i.value)}` : ""; };
 function today() {
-  const a = ageMin(S.generated), stale = a > 180, hd = S.headline;
+  const hd = S.headline;
   if (hd.level == null) return `<div class="alert au"><h1>${u().unknown}</h1><p>${u().err}</p></div>`;
-  // stale = show the latest data with a warning (local hazards of a commune are computed live; only the national ones are old)
-  const banners = (stale ? `<p class="muted">⚠ ${u().staleMsg(age(S.generated))}</p>` : "") + (S.shadow ? `<div class="notice">${u().shadow}</div>` : "") + (hd.systemic ? `<div class="notice">${u().systemic}</div>` : "");
+  const banners = (S.shadow ? `<div class="notice">${u().shadow}</div>` : "") + (hd.systemic ? `<div class="notice">${u().systemic}</div>` : "");
   const cls = CL.map(clState);
   const bad = cls.filter(c => c.level >= 1).sort((x, y) => y.level - x.level || y.R - x.R);
   if (sel === null) sel = bad[0] ? bad[0].id : "";
@@ -191,7 +190,7 @@ function today() {
     ${n ? `<ul class="plainl">${Object.keys(S.hazards).filter(id => S.hazards[id].level >= 1).sort((a, b) => S.hazards[b].level - S.hazards[a].level).map(id => `<li><b>${esc(hn(id))}</b> : ${esc(why(id))}</li>`).join("")}</ul>` : ""}
     ${cv.late || cv.down ? `<p class="muted">${esc(u().cov(cv))} · <a href="#" data-go="more" data-sec="src">${u().dSrc}</a></p>` : ""}
     <ol class="scale" aria-hidden="true">${M.levels[lang].map((x, i) => `<li class="${i === cur ? "on" : ""}${n && i === 0 ? " off" : ""}">${esc(x)}</li>`).join("")}</ol></div>
-    ${alertsBlock()}${lLocalBlock()}${S.paris ? newsBlock() : lNewsBlock()}
+    ${askHTML(lang)}${alertsBlock()}${lLocalBlock()}${S.paris ? newsBlock() : lNewsBlock()}
     ${col(u().sRisks, `<p class="muted">${u().riskNote}</p><div class="grid">${cls.map(tile).join("")}</div>${cc ? detailPanel(cc) : ""}`)}
     ${unk.length ? `<p class="muted">${esc(u().missing(unk.join(", ")))}</p>` : ""}`;
 }
@@ -271,7 +270,7 @@ function newsBlock() {
 }
 function newsBody() {
   const N = S.context && S.context.news; if (!N) return "";
-  const items = N.items.length ? `<ul class="links">${N.items.map(i => `<li><span class="muted">${esc(tx(N.themes[i.theme]))} · ${i.scope === "paris" ? u().inParis : u().inFrance}</span><br><a href="${esc(i.link)}" target="_blank" rel="noopener">${esc(i.title)}</a><br><span class="muted">${esc(i.source)} · ${fmt(i.published)} · ${u().trigger} : « ${esc(i.kw)} »</span></li>`).join("")}</ul>` : `<p>${u().newsNone}</p>`;
+  const items = N.items.length ? `<ul class="links">${N.items.map(i => `<li><span class="muted">${esc(tx(N.themes[i.theme]))} · ${i.scope === "paris" ? u().inParis : u().inFrance}</span><br><a href="${esc(safeUrl(i.link))}" target="_blank" rel="noopener">${esc(i.title)}</a><br><span class="muted">${esc(i.source)} · ${fmt(i.published)} · ${u().trigger} : « ${esc(i.kw)} »</span></li>`).join("")}</ul>` : `<p>${u().newsNone}</p>`;
   return `<p class="muted">${u().newsNote}</p>${items}<p class="muted">${u().feeds} : ${N.feeds.map(f => link(f.name, f.link)).join(", ")}</p>`;
 }
 function srcBody() {
@@ -299,7 +298,7 @@ function render() {
   $("#view").innerHTML = tab === "today" ? today() : tab === "prep" ? prepare() : tab === "trend" ? trends() : more();
   const t = (k, l) => `<button class="tab" ${tab === k ? 'aria-current="page"' : ""} data-t="${k}">${l}</button>`;
   $("#nav").innerHTML = t("today", u().tToday) + t("prep", u().tPrep) + t("trend", u().tTrend) + t("more", u().tMore);
-  $("#foot").innerHTML = `<details class="emerg"><summary>${u().emerg} 112 · 15 · 17 · 18</summary><p>${u().disclaimer}</p></details><p class="upd">${u().updated(age(S.generated))}</p>${privLink()}`;
+  $("#foot").innerHTML = `<details class="emerg"><summary>${u().emerg} 112 · 15 · 17 · 18</summary><p>${u().disclaimer}</p></details><p class="upd">${u().updated(age(S.live || S.generated))}</p>${privLink()}`;
   const go = (k, s) => { tab = k; sec = s || null; render(); window.scrollTo(0, 0); if (s) document.getElementById("s-" + s)?.scrollIntoView(); else { const h = document.querySelector("#view h1"); if (h) { h.tabIndex = -1; h.focus({ preventScroll: true }); } } };
   document.querySelectorAll("[data-t]").forEach(b => b.onclick = () => go(b.dataset.t));
   document.querySelectorAll("[data-go]").forEach(b => b.onclick = e => { e.preventDefault(); go(b.dataset.go, b.dataset.sec); });
@@ -333,13 +332,13 @@ function dMerge(st, dep) {
   return { ...st, hazards: hz, sources: { ...st.sources, ...D.sources }, headline: lHeadline(hz) };
 }
 async function refreshState() {
-  const [st0, loc] = await Promise.all([C.code === LPARIS ? { ...N, paris: true } : lBuild(C, N), lLocal(C)]);
+  const [st0, loc] = await Promise.all([C.code === LPARIS ? lBuildParis(C, N) : lBuild(C, N), lLocal(C)]);
   const st = dMerge(st0, C.dep);
   S = { ...st, loc, sources: { ...st.sources, ...loc.sources } }; builtAt = Date.now();
 }
-// no fresh/complete data (stale national file, a local hazard or source that failed) -> re-run on its own, 30 s then doubling up to 5 min
+// no fresh/complete data (a local hazard or source that failed) -> re-run on its own, 30 s then doubling up to 5 min
 let rt = null, rn = 0;
-const incomplete = () => N && (ageMin(N.generated) > 180 || (C && !S) || (S && (Object.values(S.hazards).some(h => h.level == null) || Object.values(S.loc?.sources || {}).some(x => !x.ok))));
+const incomplete = () => N && ((C && !S) || (S && (Object.values(S.hazards).some(h => h.level == null) || Object.values(S.loc?.sources || {}).some(x => !x.ok))));
 function autoRetry() {
   clearTimeout(rt); if (!incomplete()) { rn = 0; return; }
   rt = setTimeout(async () => {
@@ -361,11 +360,11 @@ const fromUrl = () => { const q = new URLSearchParams(location.search), c = q.ge
 const goHome = e => { e && e.preventDefault(); if (!C && !RM && !location.search) return; history.pushState({}, "", location.pathname); C = null; S = null; RM = false; render(); scrollTo(0, 0); };
 $("#city").onclick = $("#home").onclick = goHome;
 addEventListener("popstate", fromUrl);
-Promise.all([j("state.json"), j("messages.json"), j("prepare.json"), j("history.json").catch(() => []), j("places.json").catch(() => null), j("depts.json").catch(() => null)]).then(([s, m, p, h, pl, dp]) => { N = s; M = m; P = p; H = h; PL = pl; D = dp; fromUrl(); autoRetry(); }).catch(() => { $("#view").innerHTML = `<p>${u().err}</p>`; });
+Promise.all([j("state.json"), j("messages.json"), j("prepare.json"), j("history.json").catch(() => []), j("places.json").catch(() => null), j("depts.json").catch(() => null), j("config.json").catch(() => null)]).then(([s, m, p, h, pl, dp, cf]) => { if (cf) lConfigure(cf); N = s; M = m; P = p; H = h; PL = pl; D = dp; fromUrl(); autoRetry(); }).catch(() => { $("#view").innerHTML = `<p>${u().err}</p>`; });
 // every 5 min: fetch fresh national data; rebuild the local view if it changed or is 15 min old
 setInterval(() => {
   if (!N) return;
   j("depts.json").then(d => { D = d; }).catch(() => { });
-  j("state.json").then(async n => { if (n.generated !== N.generated || (C && !S?.paris && Date.now() - builtAt > 9e5)) { N = n; if (C) { await refreshState(); const y = scrollY; render(); scrollTo(0, y); } } }).catch(() => { });
+  j("state.json").then(async n => { if (n.generated !== N.generated || (C && Date.now() - builtAt > 9e5)) { N = n; if (C) { await refreshState(); const y = scrollY; render(); scrollTo(0, y); } } }).catch(() => { });
 }, 3e5);
-setInterval(() => { if (S && M) { const f = $("#foot .upd"); if (f) f.textContent = u().updated(age(S.generated)); } }, 6e4);
+setInterval(() => { if (S && M) { const f = $("#foot .upd"); if (f) f.textContent = u().updated(age(S.live || S.generated)); } }, 6e4);
