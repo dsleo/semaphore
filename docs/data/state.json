@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-11T22:59:36Z",
+ "generated": "2026-11-11T23:30:47Z",
  "repo": "https://github.com/dsleo/semaphore",
  "shadow": false,
  "coverage": {
@@ -25,7 +25,7 @@
    "link": "https://vigieau.gouv.fr",
    "area": "paris",
    "pub": null,
-   "fetched": "2026-11-11T22:59:37Z"
+   "fetched": "2026-11-11T23:30:48Z"
   }
  ],
  "headline": {
@@ -56,20 +56,20 @@
       "fr": "Chaleur prévue (7 jours)",
       "en": "Forecast heat (7 days)"
      },
-     "value": "Tmax max 16 °C · Tmin max 10 °C · 3 j. depuis 2026-11-11: 12.4/6.3 °C",
+     "value": "Tmax max 16 °C · Tmin max 11 °C · 3 j. depuis 2026-11-12: 10.4/3.7 °C",
      "s": 0.0,
      "w": 0.7,
      "source": "weather",
      "link": "https://open-meteo.com/",
      "query": "https://api.open-meteo.com/v1/forecast?latitude=48.85&longitude=2.35&timezone=Europe%2FParis&forecast_days=7&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_gusts_10m_max",
-     "sha": "9d249d994c9b3b95",
+     "sha": "e4e4402b971c967e",
      "rule": {
       "fr": "Seuil canicule Paris : moyenne 3 j. Tmax ≥ 31 °C et Tmin ≥ 21 °C (= 1). Un jour ≥ 40 °C = 1.",
       "en": "Paris heatwave criterion: 3-day mean Tmax ≥ 31 °C and Tmin ≥ 21 °C (= 1). A day ≥ 40 °C = 1."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-11T22:59:36Z",
+     "fetched": "2026-11-11T23:30:48Z",
      "pub": null,
      "kind": "forecast",
      "area": "paris",
@@ -96,20 +96,20 @@
       "fr": "Froid prévu (3 jours)",
       "en": "Forecast cold (3 days)"
      },
-     "value": "Tmin 4 °C",
+     "value": "Tmin 1 °C",
      "s": 0.0,
      "w": 0.7,
      "source": "weather",
      "link": "https://open-meteo.com/",
      "query": "https://api.open-meteo.com/v1/forecast?latitude=48.85&longitude=2.35&timezone=Europe%2FParis&forecast_days=7&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_gusts_10m_max",
-     "sha": "9d249d994c9b3b95",
+     "sha": "e4e4402b971c967e",
      "rule": {
       "fr": "0 °C = 0 ; −3 °C = 0,4 ; −8 °C = 1.",
       "en": "0 °C = 0; −3 °C = 0.4; −8 °C = 1."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-11T22:59:36Z",
+     "fetched": "2026-11-11T23:30:48Z",
      "pub": null,
      "kind": "forecast",
      "area": "paris",
@@ -128,14 +128,14 @@
      "source": "weather",
      "link": "https://open-meteo.com/",
      "query": "https://api.open-meteo.com/v1/forecast?latitude=48.85&longitude=2.35&timezone=Europe%2FParis&forecast_days=7&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_gusts_10m_max",
-     "sha": "9d249d994c9b3b95",
+     "sha": "e4e4402b971c967e",
      "rule": {
       "fr": "60 km/h = 0 ; 80 = 0,4 ; 110 = 1.",
       "en": "60 km/h = 0; 80 = 0.4; 110 = 1."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-11T22:59:36Z",
+     "fetched": "2026-11-11T23:30:48Z",
      "pub": null,
      "kind": "forecast",
      "area": "paris",
@@ -154,14 +154,14 @@
      "source": "weather",
      "link": "https://open-meteo.com/",
      "query": "https://api.open-meteo.com/v1/forecast?latitude=48.85&longitude=2.35&timezone=Europe%2FParis&forecast_days=7&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_gusts_10m_max",
-     "sha": "9d249d994c9b3b95",
+     "sha": "e4e4402b971c967e",
      "rule": {
       "fr": "20 mm = 0 ; 40 = 0,5 ; 60 = 1 (risque d'inondation rapide).",
       "en": "20 mm = 0; 40 = 0.5; 60 = 1 (flash-flood risk)."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-11T22:59:36Z",
+     "fetched": "2026-11-11T23:30:48Z",
      "pub": null,
      "kind": "forecast",
      "area": "paris",
@@ -183,14 +183,14 @@
      "source": "vigilance",
      "link": "https://vigilance.meteofrance.fr",
      "query": "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/weatherref-france-vigilance-meteo-departement/records?where=domain_id%3D%2275%22&limit=40",
-     "sha": "9d69472f9aa6238b",
+     "sha": "8c82116cbc241543",
      "rule": {
       "fr": "Vert 0 ; jaune 0,25 ; orange 0,6 (plancher « Préparez-vous ») ; rouge 1 (plancher « Agissez »). Aujourd'hui et demain.",
       "en": "Green 0; yellow 0.25; orange 0.6 (floor “Prepare”); red 1 (floor “Act”). Today and tomorrow."
      },
      "official": true,
      "floor": 0,
-     "fetched": "2026-11-11T22:59:37Z",
+     "fetched": "2026-11-11T23:30:48Z",
      "pub": "2026-11-11T15:00:00+00:00",
      "kind": "official",
      "area": "paris",
@@ -218,23 +218,23 @@
       "en": "Ecowatt signal (RTE)"
      },
      "value": {
-      "fr": "vert (2026-11-10)",
-      "en": "green (2026-11-10)"
+      "fr": "vert (2026-11-11)",
+      "en": "green (2026-11-11)"
      },
      "s": 0.0,
      "w": 1.0,
      "source": "ecowatt",
      "link": "https://www.monecowatt.fr",
      "query": "https://odre.opendatasoft.com/api/explore/v2.1/catalog/datasets/nouveau_signal_ecowatt/records?limit=3&order_by=date+desc",
-     "sha": "b43702cfc6bf67e3",
+     "sha": "a1e068924c25e3ff",
      "rule": {
       "fr": "Vert = 0. Orange = tension (plancher « Préparez-vous »). Rouge = coupures possibles (plancher « Agissez »).",
       "en": "Green = 0. Orange = tension (floor “Prepare”). Red = outages possible (floor “Act”)."
      },
      "official": true,
      "floor": 0,
-     "fetched": "2026-11-11T22:59:36Z",
-     "pub": "2026-11-10",
+     "fetched": "2026-11-11T23:30:48Z",
+     "pub": "2026-11-11",
      "kind": "official",
      "area": "france",
      "fam": "rte"
@@ -246,21 +246,21 @@
       "fr": "Consommation nationale vs prévision",
       "en": "National load vs forecast"
      },
-     "value": "47742 / 48100 MW (99%)",
+     "value": "47463 / 46600 MW (102%)",
      "s": 0.0,
      "w": 0.8,
      "source": "eco2mix",
      "link": "https://www.rte-france.com/eco2mix",
      "query": "https://odre.opendatasoft.com/api/explore/v2.1/catalog/datasets/eco2mix-national-tr/records?limit=1&where=consommation+is+not+null&order_by=date_heure+desc&select=date_heure%2Cconsommation%2Cprevision_j",
-     "sha": "45e436c08bbc3adf",
+     "sha": "4757d9ed93891221",
      "rule": {
       "fr": "Écart > 6 % entre consommation réelle et prévue : anomalie ; > 20 % : effondrement ou pic extrême.",
       "en": "Gap > 6 % between actual and forecast load = anomaly; > 20 % = collapse or extreme peak."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-11T22:59:37Z",
-     "pub": "2026-11-11T22:30:00+00:00",
+     "fetched": "2026-11-11T23:30:48Z",
+     "pub": "2026-11-11T23:15:00+00:00",
      "kind": "observed",
      "area": "france",
      "fam": "rte"
@@ -299,7 +299,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-11T22:59:38Z",
+     "fetched": "2026-11-11T23:30:49Z",
      "pub": null,
      "kind": "observed",
      "area": "idf",
@@ -325,7 +325,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-11T22:59:37Z",
+     "fetched": "2026-11-11T23:30:48Z",
      "pub": null,
      "kind": "observed",
      "area": "idf",
@@ -352,21 +352,21 @@
       "fr": "Seine à Paris-Austerlitz",
       "en": "Seine at Paris-Austerlitz"
      },
-     "value": "0.90 m · +0.08 m/jour",
+     "value": "0.91 m · +0.10 m/jour",
      "s": 0.0,
      "w": 0.6,
      "source": "seine",
      "link": "https://www.vigicrues.gouv.fr",
      "query": "https://hubeau.eaufrance.fr/api/v2/hydrometrie/observations_tr?code_entite=F700000103&grandeur_hydro=H&size=100&sort=desc&fields=date_obs,resultat_obs",
-     "sha": "a1282b9fd3315640",
+     "sha": "2ce49e0f47288bd7",
      "rule": {
       "fr": "Niveau 3 m = 0 ; 4 m = 0,4 ; 5 m = 0,8 ; 6 m = 1 (repères de crues 2016/2018 : ≈ 6 m). Montée > 0,3 m/jour compte. Seuils à confirmer avec Vigicrues.",
       "en": "Level 3 m = 0; 4 m = 0.4; 5 m = 0.8; 6 m = 1 (2016/2018 floods ≈ 6 m). Rise > 0.3 m/day counts. Thresholds to confirm with Vigicrues."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-11T22:59:37Z",
-     "pub": "2026-11-11T22:40:00Z",
+     "fetched": "2026-11-11T23:30:50Z",
+     "pub": "2026-11-11T23:20:00Z",
      "kind": "observed",
      "area": "paris",
      "fam": "flood"
@@ -394,7 +394,7 @@
      },
      "official": true,
      "floor": 0,
-     "fetched": "2026-11-11T22:59:39Z",
+     "fetched": "2026-11-11T23:30:50Z",
      "pub": null,
      "kind": "official",
      "area": "paris",
@@ -437,7 +437,7 @@
      },
      "official": true,
      "floor": 0,
-     "fetched": "2026-11-11T22:59:37Z",
+     "fetched": "2026-11-11T23:30:48Z",
      "pub": null,
      "kind": "official",
      "area": "paris",
@@ -470,14 +470,14 @@
      "source": "news",
      "link": "https://www.franceinfo.fr/monde/russie/les-menaces-d-ingerence-de-la-russie-sont-a-prendre-tres-au-serieux-reagit-le-depute-sacha-houlie-apres-son-interdiction-de-territoire-par-moscou_8278337.html#xtor=RSS-3-[lestitres]",
      "query": "https://www.francetvinfo.fr/titres.rss, https://www.francebleu.fr/rss/a-la-une.xml, https://www.20minutes.fr/feeds/rss-une.xml, https://www.lefigaro.fr/rss/figaro_actualites-a-la-une.xml, https://www.rfi.fr/fr/france/rss, https://www.lemonde.fr/paris/rss_full.xml",
-     "sha": "60914d0c033a4eba",
+     "sha": "3b8fc336afee2216",
      "rule": {
       "fr": "Mots-clés cyber (cyberattaque, rançongiciel, piratage…) + secteur. On compte les événements distincts, pas les médias : plusieurs médias qui reprennent la même histoire valent un seul événement. 1 = 0,2 ; 2 = 0,5 ; 3+ = 0,7. Poids plafonné : la presse seule ne peut pas dépasser « À surveiller » ou « Préparez-vous ».",
       "en": "Cyber keywords (cyberattack, ransomware, hacking…) + sector. Counts distinct events, not outlets: several outlets repeating one story are one event. 1 = 0.2; 2 = 0.5; 3+ = 0.7. Weight capped: press alone cannot go beyond “Be aware” or “Prepare”."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-11T22:59:39Z",
+     "fetched": "2026-11-11T23:30:51Z",
      "pub": null,
      "kind": "reported",
      "area": "france",
@@ -503,7 +503,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-11T22:59:36Z",
+     "fetched": "2026-11-11T23:30:48Z",
      "pub": null,
      "kind": "context",
      "area": "world",
@@ -529,7 +529,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-11T22:59:36Z",
+     "fetched": "2026-11-11T23:30:48Z",
      "pub": null,
      "kind": "context",
      "area": "world",
@@ -555,7 +555,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-11T22:59:36Z",
+     "fetched": "2026-11-11T23:30:48Z",
      "pub": null,
      "kind": "context",
      "area": "world",
@@ -581,7 +581,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-11T22:59:36Z",
+     "fetched": "2026-11-11T23:30:48Z",
      "pub": null,
      "kind": "context",
      "area": "france",
@@ -613,15 +613,15 @@
      "w": 0.8,
      "source": "ioda",
      "link": "https://ioda.inetintel.cc.gatech.edu/country/FR",
-     "query": "https://api.ioda.inetintel.cc.gatech.edu/v2/outages/summary?entityType=country&entityCode=FR&from=1794351576&until=1794437976",
-     "sha": "fa092ff66e2d45e4",
+     "query": "https://api.ioda.inetintel.cc.gatech.edu/v2/outages/summary?entityType=country&entityCode=FR&from=1794353448&until=1794439848",
+     "sha": "33c97f26d0dabba5",
      "rule": {
       "fr": "Détection indépendante (Georgia Tech). 0 = 0 ; 1 = 0,5 ; 3 = 1.",
       "en": "Independent detection (Georgia Tech). 0 = 0; 1 = 0.5; 3 = 1."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-11T22:59:37Z",
+     "fetched": "2026-11-11T23:30:48Z",
      "pub": null,
      "kind": "observed",
      "area": "france",
@@ -640,14 +640,14 @@
      "source": "news",
      "link": "https://www.cybermalveillance.gouv.fr",
      "query": "https://www.francetvinfo.fr/titres.rss, https://www.francebleu.fr/rss/a-la-une.xml, https://www.20minutes.fr/feeds/rss-une.xml, https://www.lefigaro.fr/rss/figaro_actualites-a-la-une.xml, https://www.rfi.fr/fr/france/rss, https://www.lemonde.fr/paris/rss_full.xml",
-     "sha": "60914d0c033a4eba",
+     "sha": "3b8fc336afee2216",
      "rule": {
       "fr": "Mots-clés cyber (cyberattaque, rançongiciel, piratage…) + secteur. On compte les événements distincts, pas les médias : plusieurs médias qui reprennent la même histoire valent un seul événement. 1 = 0,2 ; 2 = 0,5 ; 3+ = 0,7. Poids plafonné : la presse seule ne peut pas dépasser « À surveiller » ou « Préparez-vous ».",
       "en": "Cyber keywords (cyberattack, ransomware, hacking…) + sector. Counts distinct events, not outlets: several outlets repeating one story are one event. 1 = 0.2; 2 = 0.5; 3+ = 0.7. Weight capped: press alone cannot go beyond “Be aware” or “Prepare”."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-11T22:59:39Z",
+     "fetched": "2026-11-11T23:30:51Z",
      "pub": null,
      "kind": "reported",
      "area": "france",
@@ -680,14 +680,14 @@
      "source": "news",
      "link": "https://www.rfi.fr/fr/france/20261110-cyberattaques-attribu%C3%A9es-%C3%A0-l-iran-t%C3%A9h%C3%A9ran-nie-paris-%C3%A0-l-offensive",
      "query": "https://www.francetvinfo.fr/titres.rss, https://www.francebleu.fr/rss/a-la-une.xml, https://www.20minutes.fr/feeds/rss-une.xml, https://www.lefigaro.fr/rss/figaro_actualites-a-la-une.xml, https://www.rfi.fr/fr/france/rss, https://www.lemonde.fr/paris/rss_full.xml",
-     "sha": "60914d0c033a4eba",
+     "sha": "3b8fc336afee2216",
      "rule": {
       "fr": "Mots-clés cyber (cyberattaque, rançongiciel, piratage…) + secteur. On compte les événements distincts, pas les médias : plusieurs médias qui reprennent la même histoire valent un seul événement. 1 = 0,2 ; 2 = 0,5 ; 3+ = 0,7. Poids plafonné : la presse seule ne peut pas dépasser « À surveiller » ou « Préparez-vous ».",
       "en": "Cyber keywords (cyberattack, ransomware, hacking…) + sector. Counts distinct events, not outlets: several outlets repeating one story are one event. 1 = 0.2; 2 = 0.5; 3+ = 0.7. Weight capped: press alone cannot go beyond “Be aware” or “Prepare”."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-11T22:59:39Z",
+     "fetched": "2026-11-11T23:30:51Z",
      "pub": null,
      "kind": "reported",
      "area": "france",
@@ -713,7 +713,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-11T22:59:38Z",
+     "fetched": "2026-11-11T23:30:49Z",
      "pub": null,
      "kind": "context",
      "area": "world",
@@ -785,20 +785,14 @@
  "trends": {
   "weather": {
    "trend": "stable",
-   "diff": 3.8,
-   "calm": 19,
-   "z": 1.2,
+   "diff": 2.3,
+   "calm": 20,
+   "z": 1.1,
    "unusual": false,
    "n": 30,
    "base": 27,
-   "recon": 22,
+   "recon": 21,
    "series": [
-    [
-     "2026-10-13",
-     0.0,
-     0,
-     "recon"
-    ],
     [
      "2026-10-14",
      0.0,
@@ -972,6 +966,12 @@
      10.5,
      0,
      "live"
+    ],
+    [
+     "2026-11-12",
+     10.5,
+     0,
+     "live"
     ]
    ],
    "hazards": [
@@ -990,14 +990,8 @@
    "unusual": false,
    "n": 30,
    "base": 27,
-   "recon": 22,
+   "recon": 21,
    "series": [
-    [
-     "2026-10-13",
-     0.0,
-     0,
-     "recon"
-    ],
     [
      "2026-10-14",
      0.0,
@@ -1171,6 +1165,12 @@
      0.0,
      0,
      "live"
+    ],
+    [
+     "2026-11-12",
+     0.0,
+     0,
+     "live"
     ]
    ],
    "hazards": [
@@ -1179,20 +1179,14 @@
   },
   "fuel": {
    "trend": "rising",
-   "diff": 20.5,
+   "diff": 13.6,
    "calm": 0,
-   "z": 2.8,
+   "z": 2.3,
    "unusual": true,
    "n": 30,
    "base": 27,
-   "recon": 22,
+   "recon": 21,
    "series": [
-    [
-     "2026-10-13",
-     0.0,
-     0,
-     "recon"
-    ],
     [
      "2026-10-14",
      0.0,
@@ -1366,6 +1360,12 @@
      45.1,
      1,
      "live"
+    ],
+    [
+     "2026-11-12",
+     45.1,
+     1,
+     "live"
     ]
    ],
    "hazards": [
@@ -1374,20 +1374,14 @@
   },
   "digital": {
    "trend": "rising",
-   "diff": 13.9,
-   "calm": 8,
+   "diff": 12.3,
+   "calm": 9,
    "z": null,
    "unusual": false,
-   "n": 8,
-   "base": 5,
+   "n": 9,
+   "base": 6,
    "recon": 0,
    "series": [
-    [
-     "2026-10-13",
-     null,
-     null,
-     null
-    ],
     [
      "2026-10-14",
      null,
@@ -1561,6 +1555,12 @@
      22.4,
      0,
      "live"
+    ],
+    [
+     "2026-11-12",
+     16.0,
+     0,
+     "live"
     ]
    ],
    "hazards": [
@@ -1570,20 +1570,14 @@
   },
   "supply": {
    "trend": "rising",
-   "diff": 19.7,
-   "calm": 0,
+   "diff": 13.3,
+   "calm": 1,
    "z": null,
    "unusual": false,
-   "n": 8,
-   "base": 5,
+   "n": 9,
+   "base": 6,
    "recon": 0,
    "series": [
-    [
-     "2026-10-13",
-     null,
-     null,
-     null
-    ],
     [
      "2026-10-14",
      null,
@@ -1757,6 +1751,12 @@
      28.0,
      1,
      "live"
+    ],
+    [
+     "2026-11-12",
+     8.0,
+     0,
+     "live"
     ]
    ],
    "hazards": [
@@ -1773,12 +1773,6 @@
    "base": 0,
    "recon": 0,
    "series": [
-    [
-     "2026-10-13",
-     null,
-     null,
-     null
-    ],
     [
      "2026-10-14",
      null,
@@ -1949,6 +1943,12 @@
     ],
     [
      "2026-11-11",
+     null,
+     null,
+     null
+    ],
+    [
+     "2026-11-12",
      null,
      null,
      null
@@ -1971,12 +1971,6 @@
    "recon": 0,
    "series": [
     [
-     "2026-10-13",
-     null,
-     null,
-     null
-    ],
-    [
      "2026-10-14",
      null,
      null,
@@ -2149,6 +2143,12 @@
      null,
      null,
      null
+    ],
+    [
+     "2026-11-12",
+     null,
+     null,
+     null
     ]
    ],
    "hazards": [
@@ -2157,20 +2157,14 @@
   },
   "all": {
    "trend": "rising",
-   "diff": 20.5,
+   "diff": 13.6,
    "calm": 0,
-   "z": 2.5,
+   "z": 2.1,
    "unusual": true,
    "n": 30,
    "base": 27,
-   "recon": 22,
+   "recon": 21,
    "series": [
-    [
-     "2026-10-13",
-     0.0,
-     0,
-     "recon"
-    ],
     [
      "2026-10-14",
      0.0,
@@ -2344,6 +2338,12 @@
      45.1,
      1,
      "live"
+    ],
+    [
+     "2026-11-12",
+     45.1,
+     1,
+     "live"
     ]
    ],
    "hazards": [
@@ -2371,7 +2371,7 @@
    "ok": true,
    "err": null,
    "n": 2,
-   "last_ok": "2026-11-11T22:59:36Z",
+   "last_ok": "2026-11-11T23:30:47Z",
    "status": "current",
    "every": 30,
    "kind": "observed",
@@ -2384,7 +2384,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-11T22:59:36Z",
+   "last_ok": "2026-11-11T23:30:47Z",
    "status": "current",
    "every": 1440,
    "kind": "official",
@@ -2397,7 +2397,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-11T22:59:36Z",
+   "last_ok": "2026-11-11T23:30:47Z",
    "status": "current",
    "every": 60,
    "kind": "observed",
@@ -2410,7 +2410,7 @@
    "ok": true,
    "err": null,
    "n": 4,
-   "last_ok": "2026-11-11T22:59:36Z",
+   "last_ok": "2026-11-11T23:30:47Z",
    "status": "current",
    "every": 360,
    "kind": "forecast",
@@ -2423,7 +2423,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-11T22:59:36Z",
+   "last_ok": "2026-11-11T23:30:47Z",
    "status": "current",
    "every": 60,
    "kind": "observed",
@@ -2436,7 +2436,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-11T22:59:36Z",
+   "last_ok": "2026-11-11T23:30:47Z",
    "status": "current",
    "every": 1440,
    "kind": "official",
@@ -2449,7 +2449,7 @@
    "ok": true,
    "err": null,
    "n": 3,
-   "last_ok": "2026-11-11T22:59:36Z",
+   "last_ok": "2026-11-11T23:30:47Z",
    "status": "current",
    "every": 1440,
    "kind": "context",
@@ -2462,7 +2462,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-11T22:59:36Z",
+   "last_ok": "2026-11-11T23:30:47Z",
    "status": "current",
    "every": 1440,
    "kind": "context",
@@ -2475,7 +2475,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-11T22:59:36Z",
+   "last_ok": "2026-11-11T23:30:47Z",
    "status": "current",
    "every": 360,
    "kind": "context",
@@ -2488,7 +2488,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-11T22:59:36Z",
+   "last_ok": "2026-11-11T23:30:47Z",
    "status": "current",
    "every": 60,
    "kind": "observed",
@@ -2501,7 +2501,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-11T22:59:36Z",
+   "last_ok": "2026-11-11T23:30:47Z",
    "status": "current",
    "every": 720,
    "kind": "official",
@@ -2514,7 +2514,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-11T22:59:36Z",
+   "last_ok": "2026-11-11T23:30:47Z",
    "status": "current",
    "every": 360,
    "kind": "official",
@@ -2527,7 +2527,7 @@
    "ok": true,
    "err": null,
    "n": 0,
-   "last_ok": "2026-11-11T22:59:36Z",
+   "last_ok": "2026-11-11T23:30:47Z",
    "status": "current",
    "every": 30,
    "kind": "observed",
@@ -2540,7 +2540,7 @@
    "ok": true,
    "err": null,
    "n": 3,
-   "last_ok": "2026-11-11T22:59:36Z",
+   "last_ok": "2026-11-11T23:30:47Z",
    "status": "current",
    "every": 60,
    "kind": "reported",
@@ -2553,7 +2553,7 @@
    "ok": true,
    "err": null,
    "n": 0,
-   "last_ok": "2026-11-11T22:59:36Z",
+   "last_ok": "2026-11-11T23:30:47Z",
    "status": "current",
    "every": 43200,
    "kind": "context",
@@ -2747,7 +2747,7 @@
      "until": "2027-03-27T17:00:00Z"
     }
    ],
-   "fetched": "2026-11-11T22:59:37Z",
+   "fetched": "2026-11-11T23:30:48Z",
    "link": "https://opendata.paris.fr/explore/dataset/circulation_evenement/",
    "sha": "5401da8830dbe185"
   },
@@ -2852,7 +2852,7 @@
      "n": 20
     }
    ],
-   "fetched": "2026-11-11T22:59:39Z",
+   "fetched": "2026-11-11T23:30:51Z",
    "themes": {
     "transport": {
      "fr": "Transports et mobilisation",
@@ -2895,7 +2895,7 @@
      "en": "Health"
     }
    },
-   "sha": "60914d0c033a4eba",
+   "sha": "3b8fc336afee2216",
    "rule": {
     "fr": "Titres de moins de 36 h contenant un mot-clé de crise ET une référence à Paris/Île-de-France (ou à la France). Aucune interprétation : le titre est affiché tel que publié, avec le mot déclencheur.",
     "en": "Headlines under 36 h old containing a crisis keyword AND a reference to Paris/Île-de-France (or France). No interpretation: the headline is shown as published, with the trigger word."
