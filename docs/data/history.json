@@ -70,5 +70,21 @@
     "value": "111 / 790 stations déclarantes (14.1%)"
    }
   ]
+ },
+ {
+  "ts": "2026-11-11T16:34:44Z",
+  "hazard": "supply",
+  "from": 1,
+  "to": 0,
+  "R": 8.0,
+  "why": [
+   {
+    "label": {
+     "fr": "Cyberattaque contre des chaînes du froid / logistique (presse, 36 h)",
+     "en": "Cyberattack on cold chains / logistics (press, 36 h)"
+    },
+    "value": "1 événement(s), 1 média(s) : Cyberattaques attribuées à l'Iran: Téhéran nie, Paris à l'offensive"
+   }
+  ]
  }
 ]
