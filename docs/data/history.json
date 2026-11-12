@@ -86,5 +86,21 @@
     "value": "1 événement(s), 1 média(s) : Cyberattaques attribuées à l'Iran: Téhéran nie, Paris à l'offensive"
    }
   ]
+ },
+ {
+  "ts": "2026-11-12T21:16:13Z",
+  "hazard": "fuel",
+  "from": 1,
+  "to": 0,
+  "R": 11.3,
+  "why": [
+   {
+    "label": {
+     "fr": "Stations SP95-E10 en rupture (Île-de-France)",
+     "en": "SP95-E10 stations out of stock (Île-de-France)"
+    },
+    "value": "88 / 748 stations déclarantes (11.8%)"
+   }
+  ]
  }
 ]
