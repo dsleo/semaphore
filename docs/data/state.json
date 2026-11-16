@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-16T18:58:02Z",
+ "generated": "2026-11-16T19:28:43Z",
  "repo": "https://github.com/dsleo/semaphore",
  "shadow": false,
  "coverage": {
@@ -25,7 +25,7 @@
    "link": "https://vigilance.meteofrance.fr",
    "area": "paris",
    "pub": "2026-11-16T15:00:00+00:00",
-   "fetched": "2026-11-16T18:58:03Z"
+   "fetched": "2026-11-16T19:28:44Z"
   },
   {
    "id": "drought.restrictions",
@@ -43,7 +43,7 @@
    "link": "https://vigieau.gouv.fr",
    "area": "paris",
    "pub": null,
-   "fetched": "2026-11-16T18:58:03Z"
+   "fetched": "2026-11-16T19:28:44Z"
   }
  ],
  "headline": {
@@ -80,14 +80,14 @@
      "source": "weather",
      "link": "https://open-meteo.com/",
      "query": "https://api.open-meteo.com/v1/forecast?latitude=48.85&longitude=2.35&timezone=Europe%2FParis&forecast_days=7&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_gusts_10m_max",
-     "sha": "cba3a1d83d3ac045",
+     "sha": "7f785266d1296074",
      "rule": {
       "fr": "Seuil canicule Paris : moyenne 3 j. Tmax ≥ 31 °C et Tmin ≥ 21 °C (= 1). Un jour ≥ 40 °C = 1.",
       "en": "Paris heatwave criterion: 3-day mean Tmax ≥ 31 °C and Tmin ≥ 21 °C (= 1). A day ≥ 40 °C = 1."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T18:58:03Z",
+     "fetched": "2026-11-16T19:28:44Z",
      "pub": null,
      "kind": "forecast",
      "area": "paris",
@@ -130,7 +130,7 @@
      },
      "official": true,
      "floor": 0,
-     "fetched": "2026-11-16T18:58:03Z",
+     "fetched": "2026-11-16T19:28:44Z",
      "pub": "2026-11-16T15:00:00+00:00",
      "kind": "official",
      "area": "paris",
@@ -149,14 +149,14 @@
      "source": "weather",
      "link": "https://open-meteo.com/",
      "query": "https://api.open-meteo.com/v1/forecast?latitude=48.85&longitude=2.35&timezone=Europe%2FParis&forecast_days=7&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_gusts_10m_max",
-     "sha": "cba3a1d83d3ac045",
+     "sha": "7f785266d1296074",
      "rule": {
       "fr": "0 °C = 0 ; −3 °C = 0,4 ; −8 °C = 1.",
       "en": "0 °C = 0; −3 °C = 0.4; −8 °C = 1."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T18:58:03Z",
+     "fetched": "2026-11-16T19:28:44Z",
      "pub": null,
      "kind": "forecast",
      "area": "paris",
@@ -175,14 +175,14 @@
      "source": "weather",
      "link": "https://open-meteo.com/",
      "query": "https://api.open-meteo.com/v1/forecast?latitude=48.85&longitude=2.35&timezone=Europe%2FParis&forecast_days=7&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_gusts_10m_max",
-     "sha": "cba3a1d83d3ac045",
+     "sha": "7f785266d1296074",
      "rule": {
       "fr": "60 km/h = 0 ; 80 = 0,4 ; 110 = 1.",
       "en": "60 km/h = 0; 80 = 0.4; 110 = 1."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T18:58:03Z",
+     "fetched": "2026-11-16T19:28:44Z",
      "pub": null,
      "kind": "forecast",
      "area": "paris",
@@ -201,14 +201,14 @@
      "source": "weather",
      "link": "https://open-meteo.com/",
      "query": "https://api.open-meteo.com/v1/forecast?latitude=48.85&longitude=2.35&timezone=Europe%2FParis&forecast_days=7&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_gusts_10m_max",
-     "sha": "cba3a1d83d3ac045",
+     "sha": "7f785266d1296074",
      "rule": {
       "fr": "20 mm = 0 ; 40 = 0,5 ; 60 = 1 (risque d'inondation rapide).",
       "en": "20 mm = 0; 40 = 0.5; 60 = 1 (flash-flood risk)."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T18:58:03Z",
+     "fetched": "2026-11-16T19:28:44Z",
      "pub": null,
      "kind": "forecast",
      "area": "paris",
@@ -251,7 +251,7 @@
      },
      "official": true,
      "floor": 0,
-     "fetched": "2026-11-16T18:58:03Z",
+     "fetched": "2026-11-16T19:28:44Z",
      "pub": "2026-11-15",
      "kind": "official",
      "area": "france",
@@ -264,21 +264,21 @@
       "fr": "Consommation nationale vs prévision",
       "en": "National load vs forecast"
      },
-     "value": "61905 / 62500 MW (99%)",
+     "value": "59954 / 60400 MW (99%)",
      "s": 0.0,
      "w": 0.8,
      "source": "eco2mix",
      "link": "https://www.rte-france.com/eco2mix",
      "query": "https://odre.opendatasoft.com/api/explore/v2.1/catalog/datasets/eco2mix-national-tr/records?limit=1&where=consommation+is+not+null&order_by=date_heure+desc&select=date_heure%2Cconsommation%2Cprevision_j",
-     "sha": "074644e631966bba",
+     "sha": "ec4327011bcab70d",
      "rule": {
       "fr": "Écart > 6 % entre consommation réelle et prévue : anomalie ; > 20 % : effondrement ou pic extrême.",
       "en": "Gap > 6 % between actual and forecast load = anomaly; > 20 % = collapse or extreme peak."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T18:58:03Z",
-     "pub": "2026-11-16T18:30:00+00:00",
+     "fetched": "2026-11-16T19:28:44Z",
+     "pub": "2026-11-16T19:00:00+00:00",
      "kind": "observed",
      "area": "france",
      "fam": "rte"
@@ -321,7 +321,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T18:58:04Z",
+     "fetched": "2026-11-16T19:28:45Z",
      "pub": null,
      "kind": "observed",
      "area": "idf",
@@ -347,7 +347,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T18:58:03Z",
+     "fetched": "2026-11-16T19:28:44Z",
      "pub": null,
      "kind": "observed",
      "area": "idf",
@@ -374,21 +374,21 @@
       "fr": "Seine à Paris-Austerlitz",
       "en": "Seine at Paris-Austerlitz"
      },
-     "value": "1.01 m · +0.23 m/jour",
+     "value": "1.02 m · +0.27 m/jour",
      "s": 0.0,
      "w": 0.6,
      "source": "seine",
      "link": "https://www.vigicrues.gouv.fr",
      "query": "https://hubeau.eaufrance.fr/api/v2/hydrometrie/observations_tr?code_entite=F700000103&grandeur_hydro=H&size=100&sort=desc&fields=date_obs,resultat_obs",
-     "sha": "1f71098019b2dbc7",
+     "sha": "75a80afdee9ecba0",
      "rule": {
       "fr": "Niveau 3 m = 0 ; 4 m = 0,4 ; 5 m = 0,8 ; 6 m = 1 (repères de crues 2016/2018 : ≈ 6 m). Montée > 0,3 m/jour compte. Seuils à confirmer avec Vigicrues.",
       "en": "Level 3 m = 0; 4 m = 0.4; 5 m = 0.8; 6 m = 1 (2016/2018 floods ≈ 6 m). Rise > 0.3 m/day counts. Thresholds to confirm with Vigicrues."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T18:58:03Z",
-     "pub": "2026-11-16T18:40:00Z",
+     "fetched": "2026-11-16T19:28:44Z",
+     "pub": "2026-11-16T19:00:00Z",
      "kind": "observed",
      "area": "paris",
      "fam": "flood"
@@ -416,7 +416,7 @@
      },
      "official": true,
      "floor": 0,
-     "fetched": "2026-11-16T18:58:05Z",
+     "fetched": "2026-11-16T19:28:45Z",
      "pub": null,
      "kind": "official",
      "area": "paris",
@@ -459,7 +459,7 @@
      },
      "official": true,
      "floor": 0,
-     "fetched": "2026-11-16T18:58:03Z",
+     "fetched": "2026-11-16T19:28:44Z",
      "pub": null,
      "kind": "official",
      "area": "paris",
@@ -492,14 +492,14 @@
      "source": "news",
      "link": "https://www.franceinfo.fr/internet/securite-sur-internet/cyberattaques/cyberattaques-pourquoi-la-france-est-elle-autant-ciblee-par-les-pirates-informatiques_8284895.html#xtor=RSS-3-[lestitres]",
      "query": "https://www.francetvinfo.fr/titres.rss, https://www.francebleu.fr/rss/a-la-une.xml, https://www.20minutes.fr/feeds/rss-une.xml, https://www.lefigaro.fr/rss/figaro_actualites-a-la-une.xml, https://www.rfi.fr/fr/france/rss, https://www.lemonde.fr/paris/rss_full.xml",
-     "sha": "ce32df4bd458ead8",
+     "sha": "0135f3d1a9fb742e",
      "rule": {
       "fr": "Mots-clés cyber (cyberattaque, rançongiciel, piratage…) + secteur. On compte les événements distincts, pas les médias : plusieurs médias qui reprennent la même histoire valent un seul événement. 1 = 0,2 ; 2 = 0,5 ; 3+ = 0,7. Poids plafonné : la presse seule ne peut pas dépasser « À surveiller » ou « Préparez-vous ».",
       "en": "Cyber keywords (cyberattack, ransomware, hacking…) + sector. Counts distinct events, not outlets: several outlets repeating one story are one event. 1 = 0.2; 2 = 0.5; 3+ = 0.7. Weight capped: press alone cannot go beyond “Be aware” or “Prepare”."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T18:58:05Z",
+     "fetched": "2026-11-16T19:28:46Z",
      "pub": null,
      "kind": "reported",
      "area": "france",
@@ -525,7 +525,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T18:58:03Z",
+     "fetched": "2026-11-16T19:28:44Z",
      "pub": null,
      "kind": "context",
      "area": "world",
@@ -551,7 +551,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T18:58:03Z",
+     "fetched": "2026-11-16T19:28:44Z",
      "pub": null,
      "kind": "context",
      "area": "world",
@@ -577,7 +577,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T18:58:03Z",
+     "fetched": "2026-11-16T19:28:44Z",
      "pub": null,
      "kind": "context",
      "area": "world",
@@ -603,7 +603,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T18:58:03Z",
+     "fetched": "2026-11-16T19:28:44Z",
      "pub": null,
      "kind": "context",
      "area": "france",
@@ -636,14 +636,14 @@
      "source": "news",
      "link": "https://www.franceinfo.fr/internet/securite-sur-internet/cyberattaques/cyberattaques-pourquoi-la-france-est-elle-autant-ciblee-par-les-pirates-informatiques_8284895.html#xtor=RSS-3-[lestitres]",
      "query": "https://www.francetvinfo.fr/titres.rss, https://www.francebleu.fr/rss/a-la-une.xml, https://www.20minutes.fr/feeds/rss-une.xml, https://www.lefigaro.fr/rss/figaro_actualites-a-la-une.xml, https://www.rfi.fr/fr/france/rss, https://www.lemonde.fr/paris/rss_full.xml",
-     "sha": "ce32df4bd458ead8",
+     "sha": "0135f3d1a9fb742e",
      "rule": {
       "fr": "Mots-clés cyber (cyberattaque, rançongiciel, piratage…) + secteur. On compte les événements distincts, pas les médias : plusieurs médias qui reprennent la même histoire valent un seul événement. 1 = 0,2 ; 2 = 0,5 ; 3+ = 0,7. Poids plafonné : la presse seule ne peut pas dépasser « À surveiller » ou « Préparez-vous ».",
       "en": "Cyber keywords (cyberattack, ransomware, hacking…) + sector. Counts distinct events, not outlets: several outlets repeating one story are one event. 1 = 0.2; 2 = 0.5; 3+ = 0.7. Weight capped: press alone cannot go beyond “Be aware” or “Prepare”."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T18:58:05Z",
+     "fetched": "2026-11-16T19:28:46Z",
      "pub": null,
      "kind": "reported",
      "area": "france",
@@ -661,15 +661,15 @@
      "w": 0.8,
      "source": "ioda",
      "link": "https://ioda.inetintel.cc.gatech.edu/country/FR",
-     "query": "https://api.ioda.inetintel.cc.gatech.edu/v2/outages/summary?entityType=country&entityCode=FR&from=1794769083&until=1794855483",
-     "sha": "58024b129472f674",
+     "query": "https://api.ioda.inetintel.cc.gatech.edu/v2/outages/summary?entityType=country&entityCode=FR&from=1794770924&until=1794857324",
+     "sha": "51c24d45ad2673e5",
      "rule": {
       "fr": "Détection indépendante (Georgia Tech). 0 = 0 ; 1 = 0,5 ; 3 = 1.",
       "en": "Independent detection (Georgia Tech). 0 = 0; 1 = 0.5; 3 = 1."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T18:58:03Z",
+     "fetched": "2026-11-16T19:28:44Z",
      "pub": null,
      "kind": "observed",
      "area": "france",
@@ -702,14 +702,14 @@
      "source": "news",
      "link": "https://www.franceinfo.fr/internet/securite-sur-internet/cyberattaques/cyberattaques-pourquoi-la-france-est-elle-autant-ciblee-par-les-pirates-informatiques_8284895.html#xtor=RSS-3-[lestitres]",
      "query": "https://www.francetvinfo.fr/titres.rss, https://www.francebleu.fr/rss/a-la-une.xml, https://www.20minutes.fr/feeds/rss-une.xml, https://www.lefigaro.fr/rss/figaro_actualites-a-la-une.xml, https://www.rfi.fr/fr/france/rss, https://www.lemonde.fr/paris/rss_full.xml",
-     "sha": "ce32df4bd458ead8",
+     "sha": "0135f3d1a9fb742e",
      "rule": {
       "fr": "Mots-clés cyber (cyberattaque, rançongiciel, piratage…) + secteur. On compte les événements distincts, pas les médias : plusieurs médias qui reprennent la même histoire valent un seul événement. 1 = 0,2 ; 2 = 0,5 ; 3+ = 0,7. Poids plafonné : la presse seule ne peut pas dépasser « À surveiller » ou « Préparez-vous ».",
       "en": "Cyber keywords (cyberattack, ransomware, hacking…) + sector. Counts distinct events, not outlets: several outlets repeating one story are one event. 1 = 0.2; 2 = 0.5; 3+ = 0.7. Weight capped: press alone cannot go beyond “Be aware” or “Prepare”."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T18:58:05Z",
+     "fetched": "2026-11-16T19:28:46Z",
      "pub": null,
      "kind": "reported",
      "area": "france",
@@ -728,14 +728,14 @@
      "source": "ransomlook",
      "link": "https://www.ransomlook.io",
      "query": "https://www.ransomlook.io/api/recent",
-     "sha": "4686331758258460",
+     "sha": "2bf2decf09c9f314",
      "rule": {
       "fr": "Heuristique : domaine en .fr + mot-clé secteur. Les effets en rayon arrivent en 2-5 jours. 1 = 0,3 ; 3 = 0,6.",
       "en": "Heuristic: .fr domain + sector keyword. Shelf effects follow in 2-5 days. 1 = 0.3; 3 = 0.6."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T18:58:03Z",
+     "fetched": "2026-11-16T19:28:45Z",
      "pub": null,
      "kind": "context",
      "area": "world",
@@ -2393,7 +2393,7 @@
    "ok": true,
    "err": null,
    "n": 2,
-   "last_ok": "2026-11-16T18:58:02Z",
+   "last_ok": "2026-11-16T19:28:43Z",
    "status": "current",
    "every": 30,
    "kind": "observed",
@@ -2406,7 +2406,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-16T18:58:02Z",
+   "last_ok": "2026-11-16T19:28:43Z",
    "status": "current",
    "every": 1440,
    "kind": "official",
@@ -2419,7 +2419,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-16T18:58:02Z",
+   "last_ok": "2026-11-16T19:28:43Z",
    "status": "current",
    "every": 60,
    "kind": "observed",
@@ -2432,7 +2432,7 @@
    "ok": true,
    "err": null,
    "n": 4,
-   "last_ok": "2026-11-16T18:58:02Z",
+   "last_ok": "2026-11-16T19:28:43Z",
    "status": "current",
    "every": 360,
    "kind": "forecast",
@@ -2445,7 +2445,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-16T18:58:02Z",
+   "last_ok": "2026-11-16T19:28:43Z",
    "status": "current",
    "every": 60,
    "kind": "observed",
@@ -2458,7 +2458,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-16T18:58:02Z",
+   "last_ok": "2026-11-16T19:28:43Z",
    "status": "current",
    "every": 1440,
    "kind": "official",
@@ -2471,7 +2471,7 @@
    "ok": true,
    "err": null,
    "n": 3,
-   "last_ok": "2026-11-16T18:58:02Z",
+   "last_ok": "2026-11-16T19:28:43Z",
    "status": "current",
    "every": 1440,
    "kind": "context",
@@ -2484,7 +2484,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-16T18:58:02Z",
+   "last_ok": "2026-11-16T19:28:43Z",
    "status": "current",
    "every": 1440,
    "kind": "context",
@@ -2497,7 +2497,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-16T18:58:02Z",
+   "last_ok": "2026-11-16T19:28:43Z",
    "status": "current",
    "every": 360,
    "kind": "context",
@@ -2510,7 +2510,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-16T18:58:02Z",
+   "last_ok": "2026-11-16T19:28:43Z",
    "status": "current",
    "every": 60,
    "kind": "observed",
@@ -2523,7 +2523,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-16T18:58:02Z",
+   "last_ok": "2026-11-16T19:28:43Z",
    "status": "current",
    "every": 720,
    "kind": "official",
@@ -2536,7 +2536,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-16T18:58:02Z",
+   "last_ok": "2026-11-16T19:28:43Z",
    "status": "current",
    "every": 360,
    "kind": "official",
@@ -2549,7 +2549,7 @@
    "ok": true,
    "err": null,
    "n": 0,
-   "last_ok": "2026-11-16T18:58:02Z",
+   "last_ok": "2026-11-16T19:28:43Z",
    "status": "current",
    "every": 30,
    "kind": "observed",
@@ -2562,7 +2562,7 @@
    "ok": true,
    "err": null,
    "n": 3,
-   "last_ok": "2026-11-16T18:58:02Z",
+   "last_ok": "2026-11-16T19:28:43Z",
    "status": "current",
    "every": 60,
    "kind": "reported",
@@ -2575,7 +2575,7 @@
    "ok": true,
    "err": null,
    "n": 0,
-   "last_ok": "2026-11-16T18:58:02Z",
+   "last_ok": "2026-11-16T19:28:43Z",
    "status": "current",
    "every": 43200,
    "kind": "context",
@@ -2585,7 +2585,7 @@
  },
  "context": {
   "traffic": {
-   "n": 44,
+   "n": 45,
    "closed": 6,
    "items": [
     {
@@ -2623,6 +2623,12 @@
      "what": "Travaux",
      "closed": true,
      "until": "2027-08-28T17:00:00Z"
+    },
+    {
+     "street": "PI Pantin",
+     "what": "VL panne FD",
+     "closed": false,
+     "until": "2026-11-16T19:29:00Z"
     },
     {
      "street": "Bd Kellermann",
@@ -2761,20 +2767,32 @@
      "what": "MO A7A8  11 Boulevard de l'Hopital Neutralisation du trottoir.",
      "closed": false,
      "until": "2027-03-27T17:00:00Z"
-    },
-    {
-     "street": "Quai Celestins",
-     "what": "M.O SAP - 40 quai des Célestins Réduction de voie",
-     "closed": false,
-     "until": "2027-05-13T23:00:00Z"
     }
    ],
-   "fetched": "2026-11-16T18:58:03Z",
+   "fetched": "2026-11-16T19:28:44Z",
    "link": "https://opendata.paris.fr/explore/dataset/circulation_evenement/",
-   "sha": "887b94d380082087"
+   "sha": "3dc4ddeda5bcc331"
   },
   "news": {
    "items": [
+    {
+     "title": "Éducation nationale, transports, manifestations : à quoi s'attendre lors de la journée de grève du 17 novembre ?",
+     "link": "https://www.ici.fr/infos/societe/education-nationale-transports-manifestations-a-quoi-s-attendre-lors-de-la-journee-de-greve-de-17-novembre-1346810?at_medium=lien_RSS&at_locale=56",
+     "source": "ici (France Bleu)",
+     "published": "2026-11-16T19:24:49Z",
+     "theme": "transport",
+     "scope": "france",
+     "kw": "grève"
+    },
+    {
+     "title": "Grève dans la fonction publique, perturbations dans les transports, manifestations… A quoi s'attendre pour la mobilisation du 17 novembre ?",
+     "link": "https://www.franceinfo.fr/societe/manifestations/greves-dans-la-fonction-publique-mouvement-lyceen-manifestations-a-quoi-s-attendre-pour-la-mobilisation-du-17-novembre_8284415.html#xtor=RSS-3-[lestitres]",
+     "source": "franceinfo",
+     "published": "2026-11-16T19:20:42Z",
+     "theme": "transport",
+     "scope": "france",
+     "kw": "grève"
+    },
     {
      "title": "Cyberattaques : pourquoi la France est-elle autant ciblée par les pirates informatiques ?",
      "link": "https://www.franceinfo.fr/internet/securite-sur-internet/cyberattaques/cyberattaques-pourquoi-la-france-est-elle-autant-ciblee-par-les-pirates-informatiques_8284895.html#xtor=RSS-3-[lestitres]",
@@ -2783,24 +2801,6 @@
      "theme": "digital",
      "scope": "france",
      "kw": "cyberattaque"
-    },
-    {
-     "title": "Éducation nationale, transports, manifestations : à quoi s'attendre lors de la journée de grève du 17 novembre ?",
-     "link": "https://www.ici.fr/infos/societe/education-nationale-transports-manifestations-a-quoi-s-attendre-lors-de-la-journee-de-greve-de-17-novembre-1346810?at_medium=lien_RSS&at_locale=56",
-     "source": "ici (France Bleu)",
-     "published": "2026-11-16T14:31:11Z",
-     "theme": "transport",
-     "scope": "france",
-     "kw": "grève"
-    },
-    {
-     "title": "Grèves dans la fonction publique, mouvement lycéen, manifestations… A quoi s'attendre pour la mobilisation du 17 novembre ?",
-     "link": "https://www.franceinfo.fr/societe/manifestations/greves-dans-la-fonction-publique-mouvement-lyceen-manifestations-a-quoi-s-attendre-pour-la-mobilisation-du-17-novembre_8284415.html#xtor=RSS-3-[lestitres]",
-     "source": "franceinfo",
-     "published": "2026-11-16T13:40:49Z",
-     "theme": "transport",
-     "scope": "france",
-     "kw": "grève"
     }
    ],
    "feeds": [
@@ -2847,7 +2847,7 @@
      "n": 20
     }
    ],
-   "fetched": "2026-11-16T18:58:05Z",
+   "fetched": "2026-11-16T19:28:46Z",
    "themes": {
     "transport": {
      "fr": "Transports et mobilisation",
@@ -2890,7 +2890,7 @@
      "en": "Health"
     }
    },
-   "sha": "ce32df4bd458ead8",
+   "sha": "0135f3d1a9fb742e",
    "rule": {
     "fr": "Titres de moins de 36 h contenant un mot-clé de crise ET une référence à Paris/Île-de-France (ou à la France). Aucune interprétation : le titre est affiché tel que publié, avec le mot déclencheur.",
     "en": "Headlines under 36 h old containing a crisis keyword AND a reference to Paris/Île-de-France (or France). No interpretation: the headline is shown as published, with the trigger word."
