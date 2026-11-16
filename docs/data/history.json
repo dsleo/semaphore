@@ -118,5 +118,21 @@
     "value": "111 / 790 stations déclarantes (14.1%)"
    }
   ]
+ },
+ {
+  "ts": "2026-11-16T21:34:13Z",
+  "hazard": "fuel",
+  "from": 1,
+  "to": 0,
+  "R": 20.2,
+  "why": [
+   {
+    "label": {
+     "fr": "Stations SP95-E10 en rupture (Île-de-France)",
+     "en": "SP95-E10 stations out of stock (Île-de-France)"
+    },
+    "value": "99 / 753 stations déclarantes (13.1%)"
+   }
+  ]
  }
 ]
