@@ -1,10 +1,10 @@
 {
- "generated": "2026-11-16T01:46:23Z",
+ "generated": "2026-11-16T01:48:17Z",
  "repo": "https://github.com/dsleo/semaphore",
  "shadow": false,
  "coverage": {
-  "ok": 14,
-  "late": 1,
+  "ok": 15,
+  "late": 0,
   "down": 0,
   "total": 15
  },
@@ -25,7 +25,7 @@
    "link": "https://vigilance.meteofrance.fr",
    "area": "paris",
    "pub": "2026-11-15T15:00:00+00:00",
-   "fetched": "2026-11-16T01:46:24Z"
+   "fetched": "2026-11-16T01:48:18Z"
   },
   {
    "id": "drought.restrictions",
@@ -43,7 +43,7 @@
    "link": "https://vigieau.gouv.fr",
    "area": "paris",
    "pub": null,
-   "fetched": "2026-11-16T01:46:24Z"
+   "fetched": "2026-11-16T01:48:18Z"
   }
  ],
  "headline": {
@@ -56,18 +56,44 @@
  },
  "hazards": {
   "heat": {
-   "level": null,
-   "R": null,
-   "H": null,
-   "cand": null,
+   "level": 0,
+   "R": 0.0,
+   "H": 0.0,
+   "cand": 0,
    "held": null,
+   "capped": false,
    "up": 0,
    "down_since": null,
    "domain": "weather",
-   "missing": [
-    "weather"
-   ],
-   "indicators": []
+   "missing": [],
+   "indicators": [
+    {
+     "id": "heat.forecast",
+     "hazard": "heat",
+     "label": {
+      "fr": "Chaleur prévue (7 jours)",
+      "en": "Forecast heat (7 days)"
+     },
+     "value": "Tmax max 17 °C · Tmin max 12 °C · 3 j. depuis 2026-11-16: 14.9/11.4 °C",
+     "s": 0.0,
+     "w": 0.7,
+     "source": "weather",
+     "link": "https://open-meteo.com/",
+     "query": "https://api.open-meteo.com/v1/forecast?latitude=48.85&longitude=2.35&timezone=Europe%2FParis&forecast_days=7&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_gusts_10m_max",
+     "sha": "0309e456f3515f1d",
+     "rule": {
+      "fr": "Seuil canicule Paris : moyenne 3 j. Tmax ≥ 31 °C et Tmin ≥ 21 °C (= 1). Un jour ≥ 40 °C = 1.",
+      "en": "Paris heatwave criterion: 3-day mean Tmax ≥ 31 °C and Tmin ≥ 21 °C (= 1). A day ≥ 40 °C = 1."
+     },
+     "official": false,
+     "floor": 0,
+     "fetched": "2026-11-16T01:48:17Z",
+     "pub": null,
+     "kind": "forecast",
+     "area": "paris",
+     "fam": "heat"
+    }
+   ]
   },
   "weather": {
    "level": 0,
@@ -79,9 +105,7 @@
    "up": 0,
    "down_since": null,
    "domain": "weather",
-   "missing": [
-    "weather"
-   ],
+   "missing": [],
    "indicators": [
     {
      "id": "vigilance.weather",
@@ -106,9 +130,87 @@
      },
      "official": true,
      "floor": 0,
-     "fetched": "2026-11-16T01:46:24Z",
+     "fetched": "2026-11-16T01:48:18Z",
      "pub": "2026-11-15T15:00:00+00:00",
      "kind": "official",
+     "area": "paris",
+     "fam": "weather"
+    },
+    {
+     "id": "weather.cold",
+     "hazard": "weather",
+     "label": {
+      "fr": "Froid prévu (3 jours)",
+      "en": "Forecast cold (3 days)"
+     },
+     "value": "Tmin 11 °C",
+     "s": 0.0,
+     "w": 0.7,
+     "source": "weather",
+     "link": "https://open-meteo.com/",
+     "query": "https://api.open-meteo.com/v1/forecast?latitude=48.85&longitude=2.35&timezone=Europe%2FParis&forecast_days=7&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_gusts_10m_max",
+     "sha": "0309e456f3515f1d",
+     "rule": {
+      "fr": "0 °C = 0 ; −3 °C = 0,4 ; −8 °C = 1.",
+      "en": "0 °C = 0; −3 °C = 0.4; −8 °C = 1."
+     },
+     "official": false,
+     "floor": 0,
+     "fetched": "2026-11-16T01:48:17Z",
+     "pub": null,
+     "kind": "forecast",
+     "area": "paris",
+     "fam": "weather"
+    },
+    {
+     "id": "weather.wind",
+     "hazard": "weather",
+     "label": {
+      "fr": "Rafales prévues (3 jours)",
+      "en": "Forecast gusts (3 days)"
+     },
+     "value": "58 km/h",
+     "s": 0.0,
+     "w": 0.7,
+     "source": "weather",
+     "link": "https://open-meteo.com/",
+     "query": "https://api.open-meteo.com/v1/forecast?latitude=48.85&longitude=2.35&timezone=Europe%2FParis&forecast_days=7&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_gusts_10m_max",
+     "sha": "0309e456f3515f1d",
+     "rule": {
+      "fr": "60 km/h = 0 ; 80 = 0,4 ; 110 = 1.",
+      "en": "60 km/h = 0; 80 = 0.4; 110 = 1."
+     },
+     "official": false,
+     "floor": 0,
+     "fetched": "2026-11-16T01:48:17Z",
+     "pub": null,
+     "kind": "forecast",
+     "area": "paris",
+     "fam": "weather"
+    },
+    {
+     "id": "weather.rain",
+     "hazard": "weather",
+     "label": {
+      "fr": "Pluie prévue en 24 h (3 jours)",
+      "en": "Forecast 24 h rain (3 days)"
+     },
+     "value": "6 mm",
+     "s": 0.0,
+     "w": 0.7,
+     "source": "weather",
+     "link": "https://open-meteo.com/",
+     "query": "https://api.open-meteo.com/v1/forecast?latitude=48.85&longitude=2.35&timezone=Europe%2FParis&forecast_days=7&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_gusts_10m_max",
+     "sha": "0309e456f3515f1d",
+     "rule": {
+      "fr": "20 mm = 0 ; 40 = 0,5 ; 60 = 1 (risque d'inondation rapide).",
+      "en": "20 mm = 0; 40 = 0.5; 60 = 1 (flash-flood risk)."
+     },
+     "official": false,
+     "floor": 0,
+     "fetched": "2026-11-16T01:48:17Z",
+     "pub": null,
+     "kind": "forecast",
      "area": "paris",
      "fam": "weather"
     }
@@ -149,7 +251,7 @@
      },
      "official": true,
      "floor": 0,
-     "fetched": "2026-11-16T01:46:23Z",
+     "fetched": "2026-11-16T01:48:18Z",
      "pub": "2026-11-15",
      "kind": "official",
      "area": "france",
@@ -175,7 +277,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T01:46:23Z",
+     "fetched": "2026-11-16T01:48:18Z",
      "pub": "2026-11-16T01:30:00+00:00",
      "kind": "observed",
      "area": "france",
@@ -215,7 +317,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T01:46:25Z",
+     "fetched": "2026-11-16T01:48:19Z",
      "pub": null,
      "kind": "observed",
      "area": "idf",
@@ -241,7 +343,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T01:46:24Z",
+     "fetched": "2026-11-16T01:48:18Z",
      "pub": null,
      "kind": "observed",
      "area": "idf",
@@ -281,7 +383,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T01:46:25Z",
+     "fetched": "2026-11-16T01:48:19Z",
      "pub": "2026-11-16T01:20:00Z",
      "kind": "observed",
      "area": "paris",
@@ -310,7 +412,7 @@
      },
      "official": true,
      "floor": 0,
-     "fetched": "2026-11-16T01:46:26Z",
+     "fetched": "2026-11-16T01:48:20Z",
      "pub": null,
      "kind": "official",
      "area": "paris",
@@ -353,7 +455,7 @@
      },
      "official": true,
      "floor": 0,
-     "fetched": "2026-11-16T01:46:24Z",
+     "fetched": "2026-11-16T01:48:18Z",
      "pub": null,
      "kind": "official",
      "area": "paris",
@@ -386,14 +488,14 @@
      "source": "news",
      "link": "https://www.franceinfo.fr/internet/securite-sur-internet/cyberattaques/des-courriers-ont-pu-etre-lus-ce-que-l-on-sait-de-la-cyberattaque-contre-maileva-filiale-de-la-poste-qui-a-conduit-au-vol-de-donnees-de-22-millions-de-personnes_8283266.html#xtor=RSS-3-[lestitres]",
      "query": "https://www.francetvinfo.fr/titres.rss, https://www.francebleu.fr/rss/a-la-une.xml, https://www.20minutes.fr/feeds/rss-une.xml, https://www.lefigaro.fr/rss/figaro_actualites-a-la-une.xml, https://www.rfi.fr/fr/france/rss, https://www.lemonde.fr/paris/rss_full.xml",
-     "sha": "8640e564c73e70b2",
+     "sha": "2765d47f5ea13ee2",
      "rule": {
       "fr": "Mots-clés cyber (cyberattaque, rançongiciel, piratage…) + secteur. On compte les événements distincts, pas les médias : plusieurs médias qui reprennent la même histoire valent un seul événement. 1 = 0,2 ; 2 = 0,5 ; 3+ = 0,7. Poids plafonné : la presse seule ne peut pas dépasser « À surveiller » ou « Préparez-vous ».",
       "en": "Cyber keywords (cyberattack, ransomware, hacking…) + sector. Counts distinct events, not outlets: several outlets repeating one story are one event. 1 = 0.2; 2 = 0.5; 3+ = 0.7. Weight capped: press alone cannot go beyond “Be aware” or “Prepare”."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T01:46:26Z",
+     "fetched": "2026-11-16T01:48:20Z",
      "pub": null,
      "kind": "reported",
      "area": "france",
@@ -419,7 +521,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T01:46:24Z",
+     "fetched": "2026-11-16T01:48:17Z",
      "pub": null,
      "kind": "context",
      "area": "world",
@@ -445,7 +547,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T01:46:24Z",
+     "fetched": "2026-11-16T01:48:17Z",
      "pub": null,
      "kind": "context",
      "area": "world",
@@ -471,7 +573,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T01:46:24Z",
+     "fetched": "2026-11-16T01:48:17Z",
      "pub": null,
      "kind": "context",
      "area": "world",
@@ -497,7 +599,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T01:46:24Z",
+     "fetched": "2026-11-16T01:48:18Z",
      "pub": null,
      "kind": "context",
      "area": "france",
@@ -529,15 +631,15 @@
      "w": 0.8,
      "source": "ioda",
      "link": "https://ioda.inetintel.cc.gatech.edu/country/FR",
-     "query": "https://api.ioda.inetintel.cc.gatech.edu/v2/outages/summary?entityType=country&entityCode=FR&from=1794707184&until=1794793584",
-     "sha": "e3d6318dacd0c88e",
+     "query": "https://api.ioda.inetintel.cc.gatech.edu/v2/outages/summary?entityType=country&entityCode=FR&from=1794707298&until=1794793698",
+     "sha": "044bdbd68eecaa9c",
      "rule": {
       "fr": "Détection indépendante (Georgia Tech). 0 = 0 ; 1 = 0,5 ; 3 = 1.",
       "en": "Independent detection (Georgia Tech). 0 = 0; 1 = 0.5; 3 = 1."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T01:46:24Z",
+     "fetched": "2026-11-16T01:48:18Z",
      "pub": null,
      "kind": "observed",
      "area": "france",
@@ -556,14 +658,14 @@
      "source": "news",
      "link": "https://www.cybermalveillance.gouv.fr",
      "query": "https://www.francetvinfo.fr/titres.rss, https://www.francebleu.fr/rss/a-la-une.xml, https://www.20minutes.fr/feeds/rss-une.xml, https://www.lefigaro.fr/rss/figaro_actualites-a-la-une.xml, https://www.rfi.fr/fr/france/rss, https://www.lemonde.fr/paris/rss_full.xml",
-     "sha": "8640e564c73e70b2",
+     "sha": "2765d47f5ea13ee2",
      "rule": {
       "fr": "Mots-clés cyber (cyberattaque, rançongiciel, piratage…) + secteur. On compte les événements distincts, pas les médias : plusieurs médias qui reprennent la même histoire valent un seul événement. 1 = 0,2 ; 2 = 0,5 ; 3+ = 0,7. Poids plafonné : la presse seule ne peut pas dépasser « À surveiller » ou « Préparez-vous ».",
       "en": "Cyber keywords (cyberattack, ransomware, hacking…) + sector. Counts distinct events, not outlets: several outlets repeating one story are one event. 1 = 0.2; 2 = 0.5; 3+ = 0.7. Weight capped: press alone cannot go beyond “Be aware” or “Prepare”."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T01:46:26Z",
+     "fetched": "2026-11-16T01:48:20Z",
      "pub": null,
      "kind": "reported",
      "area": "france",
@@ -603,7 +705,7 @@
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T01:46:25Z",
+     "fetched": "2026-11-16T01:48:19Z",
      "pub": null,
      "kind": "context",
      "area": "world",
@@ -622,14 +724,14 @@
      "source": "news",
      "link": "https://www.cert.ssi.gouv.fr/alerte/",
      "query": "https://www.francetvinfo.fr/titres.rss, https://www.francebleu.fr/rss/a-la-une.xml, https://www.20minutes.fr/feeds/rss-une.xml, https://www.lefigaro.fr/rss/figaro_actualites-a-la-une.xml, https://www.rfi.fr/fr/france/rss, https://www.lemonde.fr/paris/rss_full.xml",
-     "sha": "8640e564c73e70b2",
+     "sha": "2765d47f5ea13ee2",
      "rule": {
       "fr": "Mots-clés cyber (cyberattaque, rançongiciel, piratage…) + secteur. On compte les événements distincts, pas les médias : plusieurs médias qui reprennent la même histoire valent un seul événement. 1 = 0,2 ; 2 = 0,5 ; 3+ = 0,7. Poids plafonné : la presse seule ne peut pas dépasser « À surveiller » ou « Préparez-vous ».",
       "en": "Cyber keywords (cyberattack, ransomware, hacking…) + sector. Counts distinct events, not outlets: several outlets repeating one story are one event. 1 = 0.2; 2 = 0.5; 3+ = 0.7. Weight capped: press alone cannot go beyond “Be aware” or “Prepare”."
      },
      "official": false,
      "floor": 0,
-     "fetched": "2026-11-16T01:46:26Z",
+     "fetched": "2026-11-16T01:48:20Z",
      "pub": null,
      "kind": "reported",
      "area": "france",
@@ -2287,7 +2389,7 @@
    "ok": true,
    "err": null,
    "n": 2,
-   "last_ok": "2026-11-16T01:46:23Z",
+   "last_ok": "2026-11-16T01:48:17Z",
    "status": "current",
    "every": 30,
    "kind": "observed",
@@ -2300,7 +2402,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-16T01:46:23Z",
+   "last_ok": "2026-11-16T01:48:17Z",
    "status": "current",
    "every": 1440,
    "kind": "official",
@@ -2313,7 +2415,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-16T01:46:23Z",
+   "last_ok": "2026-11-16T01:48:17Z",
    "status": "current",
    "every": 60,
    "kind": "observed",
@@ -2323,11 +2425,11 @@
   "weather": {
    "name": "Forecast (Open-Meteo)",
    "link": "https://open-meteo.com/",
-   "ok": false,
-   "err": "URLError: <urlopen error _ssl.c:1063: The handshake operation timed out>",
-   "n": 0,
-   "last_ok": "2026-11-16T01:30:53Z",
-   "status": "late",
+   "ok": true,
+   "err": null,
+   "n": 4,
+   "last_ok": "2026-11-16T01:48:17Z",
+   "status": "current",
    "every": 360,
    "kind": "forecast",
    "area": "paris",
@@ -2339,7 +2441,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-16T01:46:23Z",
+   "last_ok": "2026-11-16T01:48:17Z",
    "status": "current",
    "every": 60,
    "kind": "observed",
@@ -2352,7 +2454,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-16T01:46:23Z",
+   "last_ok": "2026-11-16T01:48:17Z",
    "status": "current",
    "every": 1440,
    "kind": "official",
@@ -2365,7 +2467,7 @@
    "ok": true,
    "err": null,
    "n": 3,
-   "last_ok": "2026-11-16T01:46:23Z",
+   "last_ok": "2026-11-16T01:48:17Z",
    "status": "current",
    "every": 1440,
    "kind": "context",
@@ -2378,7 +2480,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-16T01:46:23Z",
+   "last_ok": "2026-11-16T01:48:17Z",
    "status": "current",
    "every": 1440,
    "kind": "context",
@@ -2391,7 +2493,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-16T01:46:23Z",
+   "last_ok": "2026-11-16T01:48:17Z",
    "status": "current",
    "every": 360,
    "kind": "context",
@@ -2404,7 +2506,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-16T01:46:23Z",
+   "last_ok": "2026-11-16T01:48:17Z",
    "status": "current",
    "every": 60,
    "kind": "observed",
@@ -2417,7 +2519,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-16T01:46:23Z",
+   "last_ok": "2026-11-16T01:48:17Z",
    "status": "current",
    "every": 720,
    "kind": "official",
@@ -2430,7 +2532,7 @@
    "ok": true,
    "err": null,
    "n": 1,
-   "last_ok": "2026-11-16T01:46:23Z",
+   "last_ok": "2026-11-16T01:48:17Z",
    "status": "current",
    "every": 360,
    "kind": "official",
@@ -2443,7 +2545,7 @@
    "ok": true,
    "err": null,
    "n": 0,
-   "last_ok": "2026-11-16T01:46:23Z",
+   "last_ok": "2026-11-16T01:48:17Z",
    "status": "current",
    "every": 30,
    "kind": "observed",
@@ -2456,7 +2558,7 @@
    "ok": true,
    "err": null,
    "n": 3,
-   "last_ok": "2026-11-16T01:46:23Z",
+   "last_ok": "2026-11-16T01:48:17Z",
    "status": "current",
    "every": 60,
    "kind": "reported",
@@ -2469,7 +2571,7 @@
    "ok": true,
    "err": null,
    "n": 0,
-   "last_ok": "2026-11-16T01:46:23Z",
+   "last_ok": "2026-11-16T01:48:17Z",
    "status": "current",
    "every": 43200,
    "kind": "context",
@@ -2663,7 +2765,7 @@
      "until": "2027-05-13T23:00:00Z"
     }
    ],
-   "fetched": "2026-11-16T01:46:24Z",
+   "fetched": "2026-11-16T01:48:18Z",
    "link": "https://opendata.paris.fr/explore/dataset/circulation_evenement/",
    "sha": "f79a3eade595aaba"
   },
@@ -2759,7 +2861,7 @@
      "n": 20
     }
    ],
-   "fetched": "2026-11-16T01:46:26Z",
+   "fetched": "2026-11-16T01:48:20Z",
    "themes": {
     "transport": {
      "fr": "Transports et mobilisation",
@@ -2802,7 +2904,7 @@
      "en": "Health"
     }
    },
-   "sha": "8640e564c73e70b2",
+   "sha": "2765d47f5ea13ee2",
    "rule": {
     "fr": "Titres de moins de 36 h contenant un mot-clé de crise ET une référence à Paris/Île-de-France (ou à la France). Aucune interprétation : le titre est affiché tel que publié, avec le mot déclencheur.",
     "en": "Headlines under 36 h old containing a crisis keyword AND a reference to Paris/Île-de-France (or France). No interpretation: the headline is shown as published, with the trigger word."
